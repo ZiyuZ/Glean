@@ -2,7 +2,8 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from pydantic import BaseModel
 from sqlmodel import Session
 
-from ..core.database import get_db_session
+from ..core.database import get_db_session, get_session
+from ..services.scanner import get_scan_status, scan_directory, stop_scan
 
 router = APIRouter()
 
@@ -12,6 +13,22 @@ class ScanResponse(BaseModel):
     files_scanned: int = 0
     files_added: int = 0
     files_updated: int = 0
+
+
+class ScanStatusResponse(BaseModel):
+    is_running: bool
+    files_scanned: int
+    files_added: int
+    files_updated: int
+    total_files: int
+    current_file: str
+    error: str | None = None
+
+
+async def scan_task(full_scan: bool) -> None:
+    """后台扫描任务"""
+    with get_session() as session:
+        await scan_directory(session, full_scan=full_scan)
 
 
 @router.post('')
@@ -30,21 +47,39 @@ async def trigger_scan(
     2. 对于新文件：计算 hash_id，解析章节，插入数据库
     3. 对于已存在文件：检查 file_size 和 file_mtime，如果变更则重新解析
     4. 对于已删除文件：从数据库中移除
+
+    注意：扫描在后台异步执行，可通过 GET /api/scan/status 查询进度
     """
-    # TODO: 实现扫描逻辑
-    # async def scan_task():
-    #     # 扫描逻辑
-    #     pass
-    #
-    # if full_scan:
-    #     background_tasks.add_task(scan_task, full=True)
-    # else:
-    #     background_tasks.add_task(scan_task, full=False)
-    #
-    # return ScanResponse(
-    #     message='Scan started',
-    #     files_scanned=0,
-    #     files_added=0,
-    #     files_updated=0
-    # )
-    raise HTTPException(status_code=501, detail='Not implemented yet')
+    status = get_scan_status()
+    if status['is_running']:
+        raise HTTPException(status_code=409, detail='Scan is already running')
+
+    # 启动后台任务
+    background_tasks.add_task(scan_task, full_scan)
+
+    return ScanResponse(
+        message='Scan started',
+        files_scanned=0,
+        files_added=0,
+        files_updated=0,
+    )
+
+
+@router.get('/status')
+async def get_status() -> ScanStatusResponse:
+    """
+    获取扫描状态
+
+    前端可以轮询此接口来获取扫描进度
+    """
+    status = get_scan_status()
+    return ScanStatusResponse(**status)
+
+
+@router.post('/stop')
+async def stop_scanning() -> dict:
+    """
+    停止正在进行的扫描
+    """
+    stop_scan()
+    return {'message': 'Scan stop requested'}

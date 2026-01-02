@@ -4,8 +4,10 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, func, select
 
+from ..core.config import settings
 from ..core.database import get_db_session
 from ..core.models import Book, Chapter
+from ..services.book_service import reparse_book as reparse_book_service
 
 router = APIRouter()
 
@@ -178,6 +180,26 @@ async def toggle_star(
     session.commit()
     session.refresh(book)
     return book
+
+
+@router.post('/{book_id}/reparse')
+async def reparse_book_endpoint(
+    book_id: int,
+    session: Session = Depends(get_db_session),
+) -> Book:
+    """
+    重新解析指定书籍
+
+    用于手动触发重新解析，适用于：
+    - 文件内容被修改
+    - 章节解析规则更新
+    - 编码检测失败需要重新检测
+    """
+    try:
+        book = reparse_book_service(session, book_id, settings.books_dir)
+        return book
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @router.delete('/{book_id}')
