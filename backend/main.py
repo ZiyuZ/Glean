@@ -6,9 +6,13 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from src.api import api_router
 from src.core.config import settings
+from src.core.database import init_db
 
 # 确保必要的目录存在
 settings.ensure_directories()
+
+# 初始化数据库（创建表）
+init_db()
 
 # 判断是否为生产环境（通过检查是否存在前端构建目录）
 FRONTEND_DIST = Path(__file__).parent.parent / 'frontend' / 'dist'

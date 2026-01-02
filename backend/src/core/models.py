@@ -12,11 +12,12 @@ class Book(SQLModel, table=True):
     # 文件元数据（用于增量扫描和编码缓存）
     file_size: int  # 文件大小（字节）
     file_mtime: float  # 文件最后修改时间（Unix 时间戳）
-    encoding: str | None = None  # 文件编码（如 "utf-8", "gbk"），避免重复检测
+    encoding: str  # 文件编码（如 "utf-8", "gb18030"），避免重复检测
 
     # 阅读进度
     chapter_index: int | None = None  # 当前阅读的章节索引（对应 Chapter.order_index）
     chapter_offset: int | None = None  # 在章节内的字节偏移量（相对于章节的 start_byte）
+    is_finished: bool = Field(default=False)  # 是否已读完
 
     # 关联章节（一对多）
     chapters: list['Chapter'] = Relationship(back_populates='book')
