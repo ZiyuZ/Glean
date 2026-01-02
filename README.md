@@ -21,7 +21,7 @@
 - **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + [PyDantic](https://pydantic.dev/) - 异步高性能 API
 - **Database**: [SQLite](https://www.sqlite.org/) + [SQLModel](https://sqlmodel.tiangolo.com/) - 轻量级存储元数据与进度
 - **Parser**: 基于正则表达式与字节偏移量的流式解析器
-- **Utility**: `chardet` (编码检测), `watchdog` (目录监听)
+- **Utility**: `charset-normalizer` (编码检测), `aiofiles` (异步文件操作)
 - **Package Manager**: `uv` - 快速 Python 包管理
 
 ### 前端 (Vue)
@@ -34,7 +34,7 @@
 
 ## 📂 项目结构
 
-```text
+```sh
 glean/
 ├── data/                   # 数据目录（根目录）
 │   ├── books/              # 存放书籍的物理目录
@@ -42,15 +42,18 @@ glean/
 ├── backend/                # Python 后端 (FastAPI)
 │   ├── main.py             # FastAPI 应用入口
 │   ├── pyproject.toml      # 项目配置和依赖 (uv)
+│   ├── README.md           # 后端详细文档
 │   └── src/
 │       ├── api/            # API 路由模块
-│       └── core/           # 核心模块（配置、模型）
+│       ├── core/           # 核心模块（配置、模型、数据库）
+│       └── services/       # 业务逻辑层（解析、扫描、书籍服务）
 ├── frontend/               # Vue 3 前端 (Vite)
 │   ├── src/
 │   │   ├── components/     # 阅读器、书架组件
 │   │   ├── views/          # 首页、发现页、阅读页
 │   │   └── store/          # Pinia 状态管理
-│   └── dist/              # 构建产物（生产环境）
+│   ├── README.md           # 前端详细文档
+│   └── dist/               # 构建产物（生产环境）
 ├── Dockerfile              # 多阶段构建（前端+后端）
 ├── compose.yml             # Docker Compose 配置
 ├── justfile                # 任务运行器配置
@@ -186,6 +189,7 @@ glean/
 ### 开发工具
 
 - `uv`: Python 包管理器和项目管理工具，替代 pip/poetry
+- `bun`: JavaScript 运行时和包管理器
 - `just`: 任务运行器，用于统一管理开发命令（见 `justfile`）
 - `ruff`: 代码格式化和 lint 工具（通过 `uv tool run ruff` 调用）
 
@@ -211,87 +215,27 @@ just install     # 安装所有依赖
 just check       # 代码检查（格式化 + 构建测试）
 ```
 
-### API 设计
+### 详细文档
 
-所有 API 使用 `/api` 前缀，路由按功能模块拆分：
+- **后端文档**：查看 [backend/README.md](backend/README.md)
+  - API 设计
+  - 数据库模型
+  - 服务层架构
+  - 开发指南
 
-- **books.py**: 书籍相关 API
-  - `GET /api/books` - 获取书架列表（含搜索、标星筛选）
-  - `GET /api/books/random` - 随机获取一本书
-  - `GET /api/books/{id}` - 获取书籍详情
-  - `PATCH /api/books/{id}/progress` - 同步阅读进度（章节索引 + 字节偏移量）
-  - `PATCH /api/books/{id}/star` - 标星/取消标星
-  - `DELETE /api/books/{id}` - 从物理磁盘删除文件
-
-- **chapters.py**: 章节相关 API
-  - `GET /api/chapters/books/{id}/chapters` - 获取章节目录
-  - `GET /api/chapters/books/{id}/content/{chapter_index}` - 获取特定章节的纯文本
-
-- **scan.py**: 扫描 API
-  - `POST /api/scan` - 手动触发全量/增量目录扫描
-
-- **files.py**: 文件浏览 API
-  - `GET /api/files?path=...` - 浏览文件系统目录
-
-完整 API 文档：启动服务后访问 `/docs`
-
-### 数据库模型设计
-
-**Book (书籍模型)** - `src/core/models.py`
-
-- `id`: 主键
-- `hash_id`: 文件内容哈希（用于去重和变更检测）
-- `title`: 书名
-- `path`: 文件路径
-- `is_starred`: 是否标星
-- `last_read_time`: 最后阅读时间
-- `file_size`: 文件大小（字节）
-- `file_mtime`: 文件最后修改时间（Unix 时间戳）
-- `encoding`: 文件编码（缓存，避免重复检测）
-- `chapter_index`: 当前阅读的章节索引
-- `chapter_offset`: 在章节内的字节偏移量
-- `chapters`: 关联的章节列表（一对多关系）
-
-**Chapter (章节模型)** - `src/core/models.py`
-
-- `id`: 主键
-- `book_id`: 所属书籍 ID（外键）
-- `title`: 章节标题
-- `order_index`: 章节序号
-- `start_byte`: 章节在文件中的起始字节偏移量
-- `end_byte`: 章节在文件中的结束字节偏移量
-- `book`: 关联的书籍（多对一关系）
-
-**设计要点：**
-
-- **单用户场景**：阅读进度直接存储在 `Book` 模型中，无需额外的用户表
-- **字节偏移量**：使用字节偏移量而非行号，支持多编码文件且性能更好
-- **文件元数据缓存**：`file_size` 和 `file_mtime` 用于快速判断文件是否变更，避免每次都计算哈希
-
-### 核心逻辑实现要点
-
-**章节自动切分逻辑**
-
-为了实现"点击即读"，后端不应在请求时才解析，而应在**扫描书籍**时完成索引。
-
-- **思路**：记录每个章节标题在 TXT 文件中的 **字节偏移量 (Byte Offset)**
-- **优点**：数据库只存 `(章名, 起始位, 结束位)`。读取时利用 `file.seek()` 直接跳到对应位置，性能极高，内存占用极小
-
-**发现页 (Random Discovery)**
-
-- **思路**：后端提供一个 `GET /books/random` 接口，从数据库中随机选一条记录返回
-
-**文件管理**
-
-- **物理删除**：接口调用 `Path.unlink()`。需注意权限控制，防止误删系统文件
+- **前端文档**：查看 [frontend/README.md](frontend/README.md)
+  - 页面设计
+  - 组件架构
+  - PWA 配置
+  - 开发指南
 
 ## ⚠️ 注意事项
 
-1. **路径安全 (Path Traversal)**：在处理物理文件删除或读取时，务必校验文件名，不要让用户通过 `../` 访问到你 `data/` 目录之外的文件。
-2. **大文件解析性能**：如果 TXT 超过 50MB，正则匹配会慢。建议使用流式读取（`readline`）来扫描章节标记，而不是一次性 `f.read()`。
-3. **多编码兼容**：中文 TXT 常见 GB18030 或者 GBK 编码。读取前先用 `chardet` 采样前 1024 字节判断编码，否则会出现乱码。
-4. **移动端体验**：Web 端阅读器最怕的是"浏览器顶栏/底栏"闪现。建议在前端使用 `fullscreen API` 提供沉浸式体验。
-5. **进度保存频率**：不要每次滚动都发请求。只有在**切换章节**或**每隔 30 秒**或**页面关闭前 (onbeforeunload)** 同步进度。
+1. **路径安全 (Path Traversal)**：在处理物理文件删除或读取时，务必校验文件名，防止路径遍历攻击
+2. **大文件处理**：当前实现会读取整个文件到内存，超大文件（>100MB）可能需要优化为流式处理
+3. **多编码兼容**：使用 `charset-normalizer` 检测编码，支持 GB18030、GBK 等中文编码
+4. **移动端体验**：使用 `fullscreen API` 提供沉浸式体验，避免浏览器顶栏/底栏闪现
+5. **进度保存频率**：只在切换章节、每隔 30 秒或页面关闭前同步进度，避免频繁请求
 
 ## 💡 为什么选择 Glean？
 
