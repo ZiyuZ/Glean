@@ -4,6 +4,8 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // 确保 base 路径正确，静态资源使用相对路径
+  base: '/',
   plugins: [vue(), VitePWA({
     strategies: 'injectManifest',
     srcDir: 'src',
@@ -34,4 +36,14 @@ export default defineConfig({
       type: 'module',
     },
   })],
+  server: {
+    port: 5173,
+    proxy: {
+      // 将所有 /api 开头的请求代理到后端
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
+    },
+  },
 })

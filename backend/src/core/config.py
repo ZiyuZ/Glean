@@ -5,9 +5,12 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 def _get_project_root() -> Path:
-    """获取项目根目录（backend 的父目录）"""
-    # 从 backend/src/core/config.py 向上找到项目根目录
-    return Path(__file__).parent.parent.parent.parent
+    """获取项目根目录（即 backend 目录的父目录；动态向上查找 backend 目录）"""
+    current = Path(__file__).resolve()
+    for parent in current.parents:
+        if parent.name == 'backend':
+            return parent.parent
+    raise RuntimeError('未找到 backend 目录，无法确定项目根目录。')
 
 
 class Settings(BaseSettings):
@@ -19,31 +22,18 @@ class Settings(BaseSettings):
         # 2. backend 目录的 .env（向后兼容）
         env_file=[
             str(_get_project_root() / '.env'),
-            '.env',  # 相对路径，从当前工作目录查找
         ],
         env_file_encoding='utf-8',
         case_sensitive=False,
         extra='ignore',
     )
 
-    # 数据目录配置
+    # 数据目录配置（唯一可配置的环境变量）
     # 默认使用项目根目录下的 data 文件夹
     # 在 Docker 中可以通过环境变量 DATA_DIR 覆盖
-    data_dir: Path = Field(
-        default=Path(__file__).parent.parent.parent.parent / 'data',
+    data_dir: Path | None = Field(
+        default=None,
         description='数据根目录路径',
-    )
-
-    # 书籍目录（相对于 data_dir 或绝对路径）
-    books_dir: Path = Field(
-        default=Path('books'),
-        description='书籍存放目录',
-    )
-
-    # 数据库文件路径（相对于 data_dir 或绝对路径）
-    database_path: Path = Field(
-        default=Path('database.db'),
-        description='SQLite 数据库文件路径',
     )
 
     def __init__(self, **kwargs):
@@ -53,25 +43,25 @@ class Settings(BaseSettings):
 
     def _resolve_paths(self) -> None:
         """解析路径，确保所有路径都是绝对路径"""
+        # 如果没有设置 data_dir，使用默认值（项目根目录下的 data）
+        if self.data_dir is None:
+            self.data_dir = _get_project_root() / 'data'
         # 如果 data_dir 是相对路径，则相对于项目根目录
-        if not self.data_dir.is_absolute():
-            # 从 backend/src/core/config.py 向上找到项目根目录
-            project_root = Path(__file__).parent.parent.parent.parent
+        elif not self.data_dir.is_absolute():
+            project_root = _get_project_root()
             self.data_dir = (project_root / self.data_dir).resolve()
         else:
-            self.data_dir = self.data_dir.resolve()
+            self.data_dir = Path(self.data_dir).resolve()
 
-        # 解析 books_dir
-        if not self.books_dir.is_absolute():
-            self.books_dir = (self.data_dir / self.books_dir).resolve()
-        else:
-            self.books_dir = self.books_dir.resolve()
+    @property
+    def books_dir(self) -> Path:
+        """书籍存放目录（自动基于 data_dir 计算）"""
+        return self.data_dir / 'books'
 
-        # 解析 database_path
-        if not self.database_path.is_absolute():
-            self.database_path = (self.data_dir / self.database_path).resolve()
-        else:
-            self.database_path = self.database_path.resolve()
+    @property
+    def database_path(self) -> Path:
+        """数据库文件路径（自动基于 data_dir 计算）"""
+        return self.data_dir / 'database.db'
 
     @property
     def database_url(self) -> str:

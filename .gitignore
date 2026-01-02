@@ -1,1 +1,10 @@
 data/
+.env
+.env.local
+*.db
+*.db-journal
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
