@@ -6,9 +6,10 @@
 
 ```text
 glean/
+├── data/                   # 数据目录（根目录）
+│   ├── books/             # 存放书籍的物理目录
+│   └── database.db        # SQLite 数据库文件
 ├── backend/                # Python 后端 (FastAPI)
-│   ├── data/               # 存放书籍的物理目录
-│   ├── database/           # SQLite 数据库文件
 │   ├── main.py             # FastAPI 应用入口
 │   ├── pyproject.toml      # 项目配置和依赖 (uv)
 │   ├── uv.lock             # 依赖锁定文件
@@ -21,6 +22,7 @@ glean/
 │       │   └── files.py    # 文件浏览 API
 │       └── core/           # 核心模块
 │           ├── __init__.py
+│           ├── config.py   # 配置管理（支持环境变量）
 │           └── models.py   # 数据库模型 (SQLModel)
 ├── frontend/               # Vue 前端 (Vite + Vue 3)
 │   ├── src/
@@ -134,7 +136,81 @@ glean/
 
 * **物理删除：** 接口调用 `Path.unlink()`。需注意权限控制，防止误删系统文件。
 
-## 5. 开发命令参考
+## 5. 配置管理
+
+### 环境变量配置
+
+应用使用 `pydantic-settings` 管理配置，支持通过环境变量覆盖默认值。
+
+**默认配置：**
+* 数据目录：`项目根目录/data`
+* 书籍目录：`data/books`
+* 数据库路径：`data/database.db`
+
+**环境变量：**
+* `DATA_DIR`: 数据根目录路径（绝对路径或相对于项目根目录）
+* `BOOKS_DIR`: 书籍存放目录（相对于 DATA_DIR 或绝对路径）
+* `DATABASE_PATH`: 数据库文件路径（相对于 DATA_DIR 或绝对路径）
+
+**`.env` 文件位置：**
+* **推荐位置**：项目根目录（`glean/.env`）- 这样前后端可以共享配置
+* **备选位置**：`backend/.env` - 如果只想在后端使用
+* 系统会按顺序查找这两个位置，找到第一个就使用
+* 优先级：环境变量 > 项目根目录 `.env` > `backend/.env` > 默认值
+
+**使用示例：**
+
+1. **开发环境（使用默认值）：**
+
+   ```bash
+   # 无需配置，直接使用默认路径
+   just dev-be
+   ```
+
+2. **通过 `.env` 文件配置（推荐）：**
+   在项目根目录创建 `.env` 文件：
+
+   ```env
+   DATA_DIR=./data
+   BOOKS_DIR=books
+   DATABASE_PATH=database.db
+   ```
+
+3. **通过环境变量配置：**
+
+   ```bash
+   # Windows PowerShell
+   $env:DATA_DIR="D:\my-books"
+   $env:BOOKS_DIR="novels"
+   $env:DATABASE_PATH="db.sqlite"
+   just dev-be
+   
+   # Linux/Mac
+   export DATA_DIR="/app/data"
+   export BOOKS_DIR="/app/data/books"
+   export DATABASE_PATH="/app/data/database.db"
+   just dev-be
+   ```
+
+4. **Docker Compose 配置：**
+
+   ```yaml
+   services:
+     backend:
+       environment:
+         - DATA_DIR=/app/data
+         - BOOKS_DIR=/app/data/books
+         - DATABASE_PATH=/app/data/database.db
+       volumes:
+         - ./data:/app/data
+   ```
+
+**注意事项：**
+* 配置在应用启动时自动解析并确保目录存在
+* 路径支持相对路径和绝对路径
+* 相对路径会基于项目根目录或 `DATA_DIR` 解析
+
+## 6. 开发命令参考
 
 项目使用 `just` 作为任务运行器，常用命令：
 
@@ -154,7 +230,7 @@ glean/
   * `just install` - 安装所有依赖
   * `just check` - 代码检查（格式化 + 构建测试）
 
-## 6. 注意事项 (坑位预警)
+## 7. 注意事项 (坑位预警)
 
 1. **路径安全 (Path Traversal)：** * 在处理物理文件删除或读取时，务必校验文件名，不要让用户通过 `../` 访问到你 `data/` 目录之外的文件。
 2. **大文件解析性能：**

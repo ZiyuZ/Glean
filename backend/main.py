@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api import api_router
+from src.core.config import settings
+
+# 确保必要的目录存在
+settings.ensure_directories()
 
 app = FastAPI(
     title='Glean (拾阅)',
