@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
 from sqlmodel import Session, select
@@ -38,7 +36,7 @@ async def get_chapter_content(
     """
     获取特定章节的纯文本内容
 
-    根据章节索引和字节偏移量，直接从文件中读取对应章节内容
+    直接从数据库读取章节内容（已清洗并转换为 UTF-8）
     返回纯文本格式，前端负责渲染
     """
     book = session.get(Book, book_id)
@@ -52,22 +50,9 @@ async def get_chapter_content(
     )
     chapter = session.exec(statement).first()
     if not chapter:
-        raise HTTPException(status_code=404, detail='Chapter not found')
+        raise HTTPException(
+            status_code=404, detail=f'Chapter not found: book_id={book_id}, chapter_index={chapter_index}'
+        )
 
-    # 使用字节偏移量读取章节内容
-    file_path = Path(book.path)
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail='Book file not found')
-
-    with open(file_path, 'rb') as f:
-        f.seek(chapter.start_byte)
-        content_bytes = f.read(chapter.end_byte - chapter.start_byte)
-
-    # 根据缓存的编码解码（encoding 在扫描时已确定，不会是 None）
-    try:
-        content = content_bytes.decode(book.encoding)
-    except UnicodeDecodeError:
-        # 如果解码失败，返回报错信息
-        raise HTTPException(status_code=500, detail='Failed to decode content')
-
-    return PlainTextResponse(content)
+    # 直接从数据库读取内容
+    return PlainTextResponse(chapter.content)

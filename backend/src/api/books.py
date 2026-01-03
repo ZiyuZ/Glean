@@ -19,7 +19,7 @@ def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
     判断逻辑：
     1. 必须有阅读进度（chapter_index 不为 None）
     2. 当前章节必须是最后一章
-    3. 当前章节的偏移量接近章节末尾（剩余 < 5% 或 < 200字节，取较大值）
+    3. 当前章节的偏移量接近章节末尾（剩余 < 5% 或 < 200字符，取较大值）
 
     返回：是否已读完
     """
@@ -38,10 +38,10 @@ def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
 
     # 如果当前章节是最后一章，检查偏移量
     if book.chapter_index == last_chapter_index:
-        chapter_size = last_chapter.end_byte - last_chapter.start_byte
+        chapter_size = len(last_chapter.content)  # 使用字符长度
         if book.chapter_offset is not None and chapter_size > 0:
             remaining = chapter_size - book.chapter_offset
-            # 判断标准：剩余 < 5% 或 < 200字节（取较大值，适应不同屏幕）
+            # 判断标准：剩余 < 5% 或 < 200字符（取较大值，适应不同屏幕）
             threshold = max(chapter_size * 0.05, 200)
             is_finished = remaining <= threshold
             book.is_finished = is_finished
@@ -116,7 +116,7 @@ async def update_progress(
     同步阅读进度
 
     - chapter_index: 当前阅读的章节索引
-    - chapter_offset: 在章节内的字节偏移量
+    - chapter_offset: 在章节内的字符偏移量
 
     注意：会自动判断并更新 is_finished 状态
     """

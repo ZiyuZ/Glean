@@ -66,7 +66,7 @@ async def scan_directory(session: Session, full_scan: bool = False) -> None:
         # 获取数据库中所有书籍的 hash_id（用于检测已删除的文件）
         existing_books = session.exec(select(Book)).all()
         existing_hash_ids = {book.hash_id for book in existing_books}
-        found_hash_ids = set()
+        found_hash_ids = set[str]()
 
         # 处理每个文件
         for file_path in txt_files:
@@ -96,6 +96,7 @@ async def scan_directory(session: Session, full_scan: bool = False) -> None:
                             continue
 
                 # 处理文件（在后台线程中执行，因为涉及文件 I/O）
+                # 全量扫描时强制重新解析
                 loop = asyncio.get_event_loop()
                 book, is_new = await loop.run_in_executor(
                     None,
@@ -103,6 +104,7 @@ async def scan_directory(session: Session, full_scan: bool = False) -> None:
                     session,
                     file_path,
                     books_dir,
+                    full_scan,  # 全量扫描时强制重新解析
                 )
 
                 found_hash_ids.add(book.hash_id)
