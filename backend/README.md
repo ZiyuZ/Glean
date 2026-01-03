@@ -159,18 +159,17 @@ backend/
 
 ## 配置管理
 
-使用 `pydantic-settings` 管理配置，支持环境变量和 `.env` 文件。
+使用 `pydantic-settings` 管理配置。
 
 **环境变量：**
 
-- `DATA_DIR`: 数据根目录路径（默认：`./data`）
+- `APP_ENV`：运行环境，容器镜像默认 `production`，本地默认 `development`。
+- `DATA_DIR`：数据根目录路径（默认：项目根目录下的 `data`，容器内默认 `/app/data`）。
 
 **自动计算的路径：**
 
 - 书籍目录：`${DATA_DIR}/books`
 - 数据库路径：`${DATA_DIR}/database.db`
-
-配置文件位置：项目根目录的 `.env` 文件。
 
 ## 开发指南
 

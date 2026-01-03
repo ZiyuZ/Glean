@@ -27,22 +27,15 @@
    cd glean
    ```
 
-2. **配置环境变量（可选）**
-
-   ```bash
-   cp env.example .env
-   # 编辑 .env 文件，设置 DATA_DIR（默认使用 ./data）
-   ```
-
-3. **启动服务**
+2. **启动服务**
 
    ```bash
    docker compose up -d
    ```
 
-4. **访问应用**
-   - 前端：<http://localhost:8000>
-   - API 文档：<http://localhost:8000/docs>
+3. **访问应用**
+   - 前端：<http://localhost:5959>
+   - API 文档：<http://localhost:5959/docs>
 
 ### 方式二：开发环境
 
@@ -81,39 +74,15 @@
 
 ### 环境变量
 
-应用使用 `pydantic-settings` 管理配置，支持通过环境变量或 `.env` 文件配置。
+应用使用 `pydantic-settings` 管理配置。
 
-**配置数据目录环境变量：**
-
-- `DATA_DIR`: 数据根目录路径（默认：`./data`）
+- `APP_ENV`：运行环境，Docker 镜像默认 `production`，本地默认 `development`。
+- `DATA_DIR`：数据根目录（默认：项目根目录下的 `data`，容器内默认 `/app/data`）。
 
 **自动计算路径：**
 
 - 书籍目录：`${DATA_DIR}/books`
 - 数据库路径：`${DATA_DIR}/database.db`
-
-**配置方式：**
-
-1. **使用 `.env` 文件（推荐）**
-
-   ```env
-   # 项目根目录创建 .env 文件
-   DATA_DIR=./data
-   ```
-
-2. **环境变量**
-
-   ```bash
-   export DATA_DIR=/path/to/data
-   ```
-
-3. **Docker Compose**
-
-   ```yaml
-   # compose.yml 会自动从 .env 读取，或使用默认值
-   environment:
-     - DATA_DIR=${DATA_DIR:-/app/data}
-   ```
 
 ## 🛠️ 技术栈
 
