@@ -20,7 +20,7 @@ if (import.meta.env.DEV)
 registerRoute(new NavigationRoute(
   createHandlerBoundToURL('index.html'),
   { allowlist },
-))
+));
 
-self.skipWaiting()
+(self as any).skipWaiting()
 clientsClaim()
