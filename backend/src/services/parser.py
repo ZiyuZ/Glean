@@ -140,7 +140,7 @@ def clean_content(content: str) -> str:
     content = content.translate(FULL_TO_HALF)
 
     # 3. 繁体转简体
-    converter = OpenCC('t2s.json')
+    converter = OpenCC('t2s')
     content = converter.convert(content)
 
     # 4. 清理多余换行
