@@ -156,6 +156,7 @@ onMounted(() => {
             <p>已扫描: {{ scanStatus.files_scanned }}</p>
             <p>已添加: {{ scanStatus.files_added }}</p>
             <p>已更新: {{ scanStatus.files_updated }}</p>
+            <p>待扫描: {{ scanStatus.total_files - scanStatus.files_scanned }}</p>
             <p v-if="scanStatus.current_file">
               当前: {{ scanStatus.current_file }}
             </p>
