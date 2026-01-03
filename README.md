@@ -16,60 +16,6 @@
 - 🎨 **个性化设置**：支持字体大小、行高、主题、亮度、边距等多项阅读配置。
 - 🚀 **单容器部署**：开发环境分离，生产环境单容器静态托管，部署简单。
 
-## 🛠️ 技术栈
-
-### 后端 (Python)
-
-- **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + [PyDantic](https://pydantic.dev/) - 异步高性能 API
-- **Database**: [SQLite](https://www.sqlite.org/) + [SQLModel](https://sqlmodel.tiangolo.com/) - 轻量级存储元数据与进度
-- **Parser**: 基于正则表达式与字节偏移量的流式解析器
-- **Utility**: `charset-normalizer` (编码检测), `aiofiles` (异步文件操作)
-- **Package Manager**: `uv` - 快速 Python 包管理
-
-### 前端 (Vue)
-
-- **Framework**: [Vue 3 (Vite)](https://cn.vuejs.org/) - 组合式 API，响应式系统
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) - 实用优先的 CSS 框架
-- **State Management**: [Pinia](https://pinia.vuejs.org/) - Vue 官方状态管理
-- **Router**: [Vue Router](https://router.vuejs.org/) - 官方路由管理器
-- **Icons**: [Lucide Vue Next](https://lucide.dev/) - 现代图标库
-- **Utilities**: [VueUse](https://vueuse.org/) - Vue 组合式工具集
-- **Package Manager**: `bun` - 快速 JavaScript 运行时和包管理器
-- **PWA**: 支持离线阅读已加载章节
-
-## 📂 项目结构
-
-```sh
-glean/
-├── data/                   # 数据目录（根目录）
-│   ├── books/              # 存放书籍的物理目录
-│   └── database.db         # 数据库文件
-├── backend/                # Python 后端 (FastAPI)
-│   ├── main.py             # FastAPI 应用入口
-│   ├── pyproject.toml      # 项目配置和依赖 (uv)
-│   ├── README.md           # 后端详细文档
-│   └── src/
-│       ├── api/            # API 路由模块
-│       ├── core/           # 核心模块（配置、模型、数据库）
-│       └── services/       # 业务逻辑层（解析、扫描、书籍服务）
-├── frontend/               # Vue 3 前端 (Vite)
-│   ├── src/
-│   │   ├── components/     # 组件
-│   │   │   ├── reader/     # 阅读器相关组件（Header, TOC, Settings, Content）
-│   │   │   └── BottomNav.vue # 底部导航
-│   │   ├── views/          # 页面视图（Bookshelf, Discovery, Settings, Reader）
-│   │   ├── stores/         # Pinia 状态管理
-│   │   ├── composables/    # 组合式函数（useReader）
-│   │   ├── api/            # API 客户端
-│   │   └── types/          # TypeScript 类型定义
-│   ├── README.md           # 前端详细文档
-│   └── dist/             # 构建产物（生产环境）
-├── Dockerfile              # 多阶段构建（前端+后端）
-├── compose.yml             # Docker Compose 配置
-├── justfile                # 任务运行器配置
-└── .env                    # 环境变量配置（可选）
-```
-
 ## 🚀 快速开始
 
 ### 方式一：Docker Compose（推荐）
@@ -169,6 +115,59 @@ glean/
      - DATA_DIR=${DATA_DIR:-/app/data}
    ```
 
+## 🛠️ 技术栈
+
+### 后端 (Python)
+
+- **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + [PyDantic](https://pydantic.dev/) - 异步高性能 API
+- **Database**: [SQLite](https://www.sqlite.org/) + [SQLModel](https://sqlmodel.tiangolo.com/) - 轻量级存储元数据与进度
+- **Parser**: 基于正则表达式与字符偏移量的流式解析器
+- **Package Manager**: `uv` - Python 包管理
+
+### 前端 (Vue)
+
+- **Framework**: [Vue 3 (Vite)](https://cn.vuejs.org/) - 组合式 API，响应式系统
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) - 实用优先的 CSS 框架
+- **State Management**: [Pinia](https://pinia.vuejs.org/) - Vue 官方状态管理
+- **Router**: [Vue Router](https://router.vuejs.org/) - 官方路由管理器
+- **Icons**: [Lucide Vue Next](https://lucide.dev/) - 现代图标库
+- **Utilities**: [VueUse](https://vueuse.org/) - Vue 组合式工具集
+- **Package Manager**: `bun` - 快速 JavaScript 运行时和包管理器
+- **PWA**: 支持离线阅读已加载章节
+
+## 📂 项目结构
+
+```sh
+glean/
+├── data/                   # 数据目录（根目录）
+│   ├── books/              # 存放书籍的物理目录
+│   └── database.db         # 数据库文件
+├── backend/                # Python 后端 (FastAPI)
+│   ├── main.py             # FastAPI 应用入口
+│   ├── pyproject.toml      # 项目配置和依赖 (uv)
+│   ├── README.md           # 后端详细文档
+│   └── src/
+│       ├── api/            # API 路由模块
+│       ├── core/           # 核心模块（配置、模型、数据库）
+│       └── services/       # 业务逻辑层（解析、扫描、书籍服务）
+├── frontend/               # Vue 3 前端 (Vite)
+│   ├── src/
+│   │   ├── components/     # 组件
+│   │   │   ├── reader/     # 阅读器相关组件（Header, TOC, Settings, Content）
+│   │   │   └── BottomNav.vue # 底部导航
+│   │   ├── views/          # 页面视图（Bookshelf, Discovery, Settings, Reader）
+│   │   ├── stores/         # Pinia 状态管理
+│   │   ├── composables/    # 组合式函数（useReader）
+│   │   ├── api/            # API 客户端
+│   │   └── types/          # TypeScript 类型定义
+│   ├── README.md           # 前端详细文档
+│   └── dist/             # 构建产物（生产环境）
+├── Dockerfile              # 多阶段构建（前端+后端）
+├── compose.yml             # Docker Compose 配置
+├── justfile                # 任务运行器配置
+└── .env                    # 环境变量配置（可选）
+```
+
 ## 🏗️ 架构设计
 
 ### 开发环境 vs 生产环境
@@ -188,7 +187,7 @@ glean/
 - SPA 路由支持：Catch-all 路由返回 `index.html`
 - 同源访问：前后端同源，无需 CORS
 
-### 多阶段构建流程
+### 构建流程
 
 1. **Stage 1 (frontend-builder)**：使用 `oven/bun:1` 构建前端
 2. **Stage 2 (runtime)**：使用 `ghcr.io/astral-sh/uv:python3.14-alpine` 运行后端
@@ -253,21 +252,7 @@ just check       # 代码检查（格式化 + 构建测试）
 - [x] 目录导航
 - [x] 触摸和点击交互
 - [x] 标星收藏功能
-
-### 🚧 待优化
-
-- [ ] 分页算法精度优化（当前可显示约 4/5 内容）
-- [ ] 大文件流式处理优化
-- [ ] 移动端性能优化
-
-## ⚠️ 注意事项
-
-1. **路径安全 (Path Traversal)**：在处理物理文件删除或读取时，务必校验文件名，防止路径遍历攻击
-2. **大文件处理**：当前实现会读取整个文件到内存，超大文件（>100MB）可能需要优化为流式处理
-3. **多编码兼容**：使用 `charset-normalizer` 检测编码，支持 GB18030、GBK 等中文编码
-4. **移动端体验**：使用 `fullscreen API` 提供沉浸式体验，避免浏览器顶栏/底栏闪现
-5. **进度保存频率**：只在切换章节、每隔 30 秒或页面关闭前同步进度，避免频繁请求
-6. **分页精度**：当前分页算法基于 DOM 测量，在部分情况下可能无法完全填满可视区域
+- [x] 分页算法精度优化（当前可显示约 4/5 内容）
 
 ## 💡 为什么选择 Glean？
 
