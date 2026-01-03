@@ -1,10 +1,5 @@
-/**
- * 阅读器相关的组合式函数
- * 使用 @vueuse/core 提供的工具
- */
-
-import { computed, type Ref } from 'vue'
-import { useScroll, useFullscreen, useLocalStorage } from '@vueuse/core'
+import { computed } from 'vue'
+import { useLocalStorage } from '@vueuse/core'
 
 /**
  * 阅读器配置
@@ -14,6 +9,8 @@ export interface ReaderConfig {
     lineHeight: number // 行高（倍数）
     theme: 'light' | 'dark' | 'sepia' | 'night' // 主题
     brightness: number // 亮度（0-100）
+    padding: number // 内容边距（px）
+    margin: number // 段落间距（px）
 }
 
 const defaultConfig: ReaderConfig = {
@@ -21,6 +18,8 @@ const defaultConfig: ReaderConfig = {
     lineHeight: 1.8,
     theme: 'light',
     brightness: 100,
+    padding: 64, // px-6 py-8 = 48px + 32px
+    margin: 16, // 段落间距
 }
 
 /**
@@ -57,48 +56,28 @@ export function useReaderConfig() {
         },
     })
 
+    const padding = computed({
+        get: () => config.value.padding,
+        set: (value) => {
+            config.value.padding = value
+        },
+    })
+
+    const margin = computed({
+        get: () => config.value.margin,
+        set: (value) => {
+            config.value.margin = value
+        },
+    })
+
     return {
         config,
         fontSize,
         lineHeight,
         theme,
         brightness,
-    }
-}
-
-/**
- * 使用滚动控制
- */
-export function useReaderScroll(containerRef: Ref<HTMLElement | null>) {
-    const { x, y, isScrolling, arrivedState, directions } = useScroll(containerRef)
-
-    const isAtTop = computed(() => arrivedState.top)
-    const isAtBottom = computed(() => arrivedState.bottom)
-    const isScrollingUp = computed(() => directions.top)
-    const isScrollingDown = computed(() => directions.bottom)
-
-    return {
-        scrollX: x,
-        scrollY: y,
-        isScrolling,
-        isAtTop,
-        isAtBottom,
-        isScrollingUp,
-        isScrollingDown,
-    }
-}
-
-/**
- * 使用全屏
- */
-export function useReaderFullscreen(targetRef?: Ref<HTMLElement | null>) {
-    const { isFullscreen, enter, exit, toggle } = useFullscreen(targetRef)
-
-    return {
-        isFullscreen,
-        enterFullscreen: enter,
-        exitFullscreen: exit,
-        toggleFullscreen: toggle,
+        padding,
+        margin,
     }
 }
 

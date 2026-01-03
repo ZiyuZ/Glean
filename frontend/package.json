@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
     "@vueuse/core": "^11.3.0",
     "ky": "^1.14.2",
+    "lucide-vue-next": "^0.344.0",
     "pinia": "^2.2.6",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.22",
@@ -21,6 +23,8 @@
     "@vite-pwa/assets-generator": "^1.0.2",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
     "typescript": "~5.9.3",
     "vite": "^7.1.9",
     "vite-plugin-pwa": "^1.1.0",

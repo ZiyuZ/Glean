@@ -2,6 +2,7 @@ import time
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel
 from sqlmodel import Session, func, select
 
 from ..core.config import settings
@@ -10,6 +11,19 @@ from ..core.models import Book, Chapter
 from ..services.book_service import reparse_book as reparse_book_service
 
 router = APIRouter()
+
+
+class UpdateProgressRequest(BaseModel):
+    chapter_index: int
+    chapter_offset: int
+
+
+class ToggleStarRequest(BaseModel):
+    starred: bool
+
+
+class MarkFinishedRequest(BaseModel):
+    finished: bool
 
 
 def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
@@ -111,8 +125,7 @@ async def get_book(
 @router.patch('/{book_id}/progress')
 async def update_progress(
     book_id: int,
-    chapter_index: int,
-    chapter_offset: int,
+    request: UpdateProgressRequest,
     session: Session = Depends(get_db_session),
 ) -> Book:
     """
@@ -127,8 +140,8 @@ async def update_progress(
     if not book:
         raise HTTPException(status_code=404, detail='Book not found')
 
-    book.chapter_index = chapter_index
-    book.chapter_offset = chapter_offset
+    book.chapter_index = request.chapter_index
+    book.chapter_offset = request.chapter_offset
     book.last_read_time = time.time()
 
     # 加载章节数据并检查完成状态
@@ -146,7 +159,7 @@ async def update_progress(
 @router.patch('/{book_id}/finish')
 async def mark_finished(
     book_id: int,
-    finished: bool,
+    request: MarkFinishedRequest,
     session: Session = Depends(get_db_session),
 ) -> Book:
     """
@@ -158,7 +171,7 @@ async def mark_finished(
     if not book:
         raise HTTPException(status_code=404, detail='Book not found')
 
-    book.is_finished = finished
+    book.is_finished = request.finished
     session.add(book)
     session.commit()
     session.refresh(book)
@@ -169,7 +182,7 @@ async def mark_finished(
 @router.patch('/{book_id}/star')
 async def toggle_star(
     book_id: int,
-    starred: bool,
+    request: ToggleStarRequest,
     session: Session = Depends(get_db_session),
 ) -> Book:
     """
@@ -178,7 +191,7 @@ async def toggle_star(
     book = session.get(Book, book_id)
     if not book:
         raise HTTPException(status_code=404, detail='Book not found')
-    book.is_starred = starred
+    book.is_starred = request.starred
     session.add(book)
     session.commit()
     session.refresh(book)
