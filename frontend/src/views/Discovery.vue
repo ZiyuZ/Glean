@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
-import { CheckCircle2, Clock, FileText, RefreshCw, Star } from 'lucide-vue-next'
+import { ArrowPathIcon, CheckCircleIcon, ClockIcon, DocumentTextIcon, StarIcon } from '@heroicons/vue/24/outline'
+import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBooksStore } from '@/stores/books'
@@ -92,7 +93,7 @@ function toggleStar(book: Book, event: Event) {
           :disabled="loading" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
           @click="loadRandomBooks"
         >
-          <RefreshCw :size="18" :class="{ 'animate-spin': loading }" />
+          <ArrowPathIcon class="size-[18px]" :class="{ 'animate-spin': loading }" />
           <span>换一批</span>
         </button>
       </div>
@@ -127,7 +128,7 @@ function toggleStar(book: Book, event: Event) {
                   : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700',
               ]" @click.stop="toggleStar(book, $event)"
             >
-              <Star :size="18" :fill="book.is_starred ? 'currentColor' : 'none'" />
+              <component :is="book.is_starred ? StarIconSolid : StarIcon" class="size-[18px]" />
             </button>
           </div>
 
@@ -135,13 +136,13 @@ function toggleStar(book: Book, event: Event) {
           <div class="space-y-2">
             <!-- File size -->
             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-              <FileText :size="14" class="flex-shrink-0" />
+              <DocumentTextIcon class="size-[14px] flex-shrink-0" />
               <span>{{ formatFileSize(book.file_size) }}</span>
             </div>
 
             <!-- Last read time -->
             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-              <Clock :size="14" class="flex-shrink-0" />
+              <ClockIcon class="size-[14px] flex-shrink-0" />
               <span>{{ formatDate(book.last_read_time) }}</span>
             </div>
 
@@ -151,14 +152,14 @@ function toggleStar(book: Book, event: Event) {
                 v-if="book.is_starred"
                 class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400"
               >
-                <Star :size="12" fill="currentColor" />
+                <StarIconSolid class="size-[12px]" />
                 已收藏
               </span>
               <span
                 v-if="book.is_finished"
                 class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
               >
-                <CheckCircle2 :size="12" />
+                <CheckCircleIcon class="size-[12px]" />
                 已读完
               </span>
               <span
