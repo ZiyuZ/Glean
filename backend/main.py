@@ -44,12 +44,12 @@ if IS_PRODUCTION:
 
     # 根路由：返回前端入口文件
     @app.get('/')
-    async def root():
+    async def root_prod():
         return FileResponse(str(FRONTEND_INDEX))
 
     # Catch-all 路由：所有非 API 请求返回 index.html（支持 SPA 路由）
     @app.get('/{full_path:path}')
-    async def serve_spa(request: Request, full_path: str):
+    async def serve_spa(_request: Request, full_path: str):
         # 排除 API 路由和静态资源（这些路由已经在上面处理了）
         if full_path.startswith('api/') or full_path.startswith('assets/'):
             raise HTTPException(status_code=404)
@@ -61,13 +61,8 @@ if IS_PRODUCTION:
 else:
     # 开发环境：根路由返回 API 信息
     @app.get('/')
-    async def root():
+    async def root_dev():
         return {'message': 'Glean API', 'version': '0.1.0'}
-
-
-@app.get('/health')
-async def health():
-    return {'status': 'ok'}
 
 
 if __name__ == '__main__':
