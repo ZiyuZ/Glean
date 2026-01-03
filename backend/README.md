@@ -5,8 +5,9 @@
 
 - **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + [Pydantic](https://pydantic.dev/) - 异步高性能 API
 - **Database**: [SQLite](https://www.sqlite.org/) + [SQLModel](https://sqlmodel.tiangolo.com/) - 轻量级存储元数据与进度
-- **Parser**: 基于正则表达式与字节偏移量的流式解析器
-- **Encoding Detection**: `charset-normalizer` - 编码检测
+- **Parser**: 基于正则表达式的章节解析器
+- **Encoding Detection**: `chardet` - 编码检测
+- **Text Processing**: `opencc` - 繁体转简体
 - **Package Manager**: `uv` - 快速 Python 包管理
 
 ## 项目结构
@@ -19,14 +20,13 @@ backend/
     ├── api/                # API 路由模块
     │   ├── books.py        # 书籍相关 API
     │   ├── chapters.py     # 章节相关 API
-    │   ├── scan.py         # 扫描相关 API
-    │   └── files.py        # 文件浏览 API
+    │   └── scan.py         # 扫描相关 API
     ├── core/               # 核心模块
     │   ├── models.py       # 数据库模型
     │   ├── config.py       # 配置管理
     │   └── database.py     # 数据库连接和会话
     └── services/           # 业务逻辑层
-        ├── parser.py       # 文件解析服务（编码检测、章节解析）
+        ├── parser.py       # 文件解析服务（编码检测、内容清洗、章节解析）
         ├── book_service.py # 书籍服务（创建/更新书籍）
         └── scanner.py      # 扫描服务（目录扫描）
 ```
@@ -43,9 +43,8 @@ backend/
 - `last_read_time`: 最后阅读时间（Unix 时间戳）
 - `file_size`: 文件大小（字节）
 - `file_mtime`: 文件最后修改时间（Unix 时间戳）
-- `encoding`: 文件编码（缓存，避免重复检测）
-- `chapter_index`: 当前阅读的章节索引
-- `chapter_offset`: 在章节内的字节偏移量
+- `chapter_index`: 当前阅读的章节索引（对应 Chapter.order_index）
+- `chapter_offset`: 在章节内的字符偏移量（用于恢复阅读位置）
 - `is_finished`: 是否已读完
 - `chapters`: 关联的章节列表（一对多关系）
 
@@ -55,8 +54,7 @@ backend/
 - `book_id`: 所属书籍 ID（外键）
 - `title`: 章节标题
 - `order_index`: 章节序号（从 0 开始）
-- `start_byte`: 章节在文件中的起始字节偏移量
-- `end_byte`: 章节在文件中的结束字节偏移量
+- `content`: 章节内容（UTF-8 编码的文本，不包含章节标题，已清洗）
 - `book`: 关联的书籍（多对一关系）
 
 ## API 文档
@@ -67,7 +65,8 @@ backend/
 
 - `GET /api/books` - 获取书架列表
   - 查询参数：`starred` (bool), `search` (str), `finished` (bool)
-- `GET /api/books/random` - 随机获取一本书
+- `GET /api/books/random` - 随机获取书籍
+  - 查询参数：`count` (int, 1-100，默认 1) - 返回的书籍数量
 - `GET /api/books/{id}` - 获取书籍详情
 - `PATCH /api/books/{id}/progress` - 同步阅读进度
   - 参数：`chapter_index` (int), `chapter_offset` (int)
@@ -77,10 +76,10 @@ backend/
 - `POST /api/books/{id}/reparse` - 重新解析指定书籍
 - `DELETE /api/books/{id}` - 从物理磁盘删除文件
 
-### 章节 API (`/api/chapters`)
+### 章节 API (`/api/books/{book_id}/chapters`)
 
-- `GET /api/chapters/books/{id}/chapters` - 获取章节目录
-- `GET /api/chapters/books/{id}/content/{chapter_index}` - 获取特定章节的纯文本内容
+- `GET /api/books/{book_id}/chapters` - 获取章节目录
+- `GET /api/books/{book_id}/chapters/{chapter_index}` - 获取特定章节的纯文本内容
 
 ### 扫描 API (`/api/scan`)
 
@@ -91,28 +90,36 @@ backend/
   - 返回：`is_running`, `files_scanned`, `files_added`, `files_updated`, `total_files`, `current_file`, `error`
 - `POST /api/scan/stop` - 停止正在进行的扫描
 
-### 文件浏览 API (`/api/files`)
-
-- `GET /api/files` - 浏览文件系统目录
-  - 查询参数：`path` (str, 相对路径)
-  - 返回：文件夹和文件列表
-
 ## 服务层设计
 
 ### Parser Service (`services/parser.py`)
 
 **编码检测** (`detect_encoding`)
 
-- 使用 `charset-normalizer` 检测文件编码
+- 使用 `chardet` 检测文件编码
 - 读取前 1024 字节进行检测（高效）
+- 支持 GB18030、GBK、UTF-8 等常见编码
+
+**文件标准化** (`normalize_file`)
+
+- 检测编码、解码、转换为 UTF-8 并保存
+- 只做编码转换，不清洗内容，保持原始内容不变
+
+**内容清洗** (`clean_content`)
+
+- 去除 HTML 标签
+- 全角转半角（数字、字母、引号）
+- 繁体转简体（使用 opencc）
+- 清理多余换行（统一换行符、合并连续换行、恢复被拆分的句子）
 
 **章节解析** (`parse_chapters`)
 
 - 使用正则表达式匹配常见章节标题格式：
-  - `第X章/节/回`（支持中文数字和阿拉伯数字）
-  - `Chapter X`
+  - `第X章/节/回`（支持中文数字和阿拉伯数字，确保在行首或前面没有汉字）
+  - `Chapter X`（必须在行首）
   - 数字开头（如 "1. 标题"）
-- 返回章节列表，包含标题、序号、字节偏移量
+- 解析时清洗章节内容
+- 返回章节列表，包含标题、序号、内容（已清洗）
 
 **文件哈希** (`calculate_file_hash`)
 
@@ -123,7 +130,8 @@ backend/
 
 **创建/更新书籍** (`create_or_update_book`)
 
-- 检测编码、计算哈希、解析章节
+- 标准化文件（转换为 UTF-8）
+- 计算哈希、解析章节
 - 根据 `hash_id` 判断是新书还是已存在
 - 根据 `file_size` 和 `file_mtime` 判断是否需要重新解析
 - 返回 `(book, is_new)` 元组
@@ -196,11 +204,15 @@ just lint
 
 ## 核心设计要点
 
-### 字节偏移量设计
+### 文件处理流程
 
-- 使用字节偏移量而非行号，支持多编码文件
-- 读取时使用 `file.seek()` 直接跳到对应位置，性能高
-- 内存占用小，适合大文件
+1. **标准化阶段**（扫描时）：
+   - 检测编码 → 解码 → 转换为 UTF-8 并保存
+   - 只做编码转换，内容不变
+
+2. **解析阶段**（扫描时）：
+   - 读取 UTF-8 文件 → 提取章节 → 清洗内容 → 存储到数据库
+   - 清洗包括：HTML 标签去除、全角转半角、繁体转简体、换行处理
 
 ### 增量扫描
 
@@ -210,17 +222,19 @@ just lint
 
 ### 完成状态判断
 
-- 自动判断：当前章节是最后一章，且偏移量接近末尾（剩余 < 5% 或 < 200字节）
+- 自动判断：当前章节是最后一章，且偏移量接近末尾（剩余 < 5% 或 < 200字符）
 - 手动标记：前端可调用 `/api/books/{id}/finish` 手动标记
 
-### 编码检测缓存
+### 章节内容存储
 
-- 编码信息存储在 `Book.encoding` 字段
-- 避免每次读取都重新检测，提高性能
+- 章节内容直接存储在数据库中（已清洗的 UTF-8 文本）
+- 读取时无需文件 I/O，性能更好
+- 支持复杂的编码和清洗逻辑，无需担心文件损坏
 
 ## 注意事项
 
 1. **路径安全**：文件路径校验，防止路径遍历攻击
 2. **大文件处理**：当前实现会读取整个文件到内存，超大文件（>100MB）可能需要优化
-3. **编码兼容**：使用 `charset-normalizer` 检测编码，支持 GB18030、GBK 等中文编码
+3. **编码兼容**：使用 `chardet` 检测编码，支持 GB18030、GBK 等中文编码
 4. **并发安全**：SQLite 使用 `check_same_thread=False` 支持多线程访问
+5. **文件修改**：扫描时会标准化文件（转换为 UTF-8），原始编码信息会丢失，但内容保持不变
