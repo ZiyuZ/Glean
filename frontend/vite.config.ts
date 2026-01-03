@@ -23,7 +23,7 @@ export default defineConfig({
       name: 'Glean 拾阅',
       short_name: 'Glean',
       description: 'Glean 拾阅',
-      theme_color: '#F6EAD2',
+      theme_color: '#FFFFFF',
     },
 
     injectManifest: {
@@ -44,6 +44,7 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    allowedHosts: ['glean.zirno.cc'],
     proxy: {
       // 将所有 /api 开头的请求代理到后端
       '/api': {
