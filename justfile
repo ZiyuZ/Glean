@@ -51,10 +51,9 @@ install-fe:
 # --- 组合命令 ---
 
 # 一键启动开发全家桶 (前后端同时启动)
-dev:
-    @echo "🚀 启动 FastAPI (dev模式) 和 Vite..."
-    just -j 2 dev-be dev-fe
-
+[parallel]
+dev: dev-be dev-fe
+    
 # 一键安装所有依赖
 install: install-be install-fe
 
