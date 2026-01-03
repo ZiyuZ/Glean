@@ -5,15 +5,13 @@ services:
       dockerfile: Dockerfile
     container_name: glean
     ports:
-      - "8000:8000"
+      - "5959:8000"
     volumes:
       # 挂载数据目录，持久化书籍和数据库
       # 使用环境变量 DATA_DIR 的值，如果没有则使用默认值 ./data
-      - ${DATA_DIR:-./data}:/app/data
+      - ./data:/app/data
     environment:
-      # 数据目录（容器内路径）
-      # 可以通过 .env 文件或环境变量覆盖
-      - DATA_DIR=${DATA_DIR:-/app/data}
+      - DATA_DIR=/app/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
