@@ -19,7 +19,7 @@ const contentStyle = computed(() => ({
 }))
 
 const containerStyle = computed(() => ({
-  padding: `${padding.value / 2}px ${padding.value / 4}px`,
+  padding: `${padding.value / 4}px ${padding.value / 4}px`,
 }))
 
 // 将内容按段落分割
@@ -94,12 +94,12 @@ const contentParagraphs = computed(() => {
 
 .reader-page-indicator {
   position: fixed;
-  right: 0.25rem;
-  top: 0.25rem;
-  font-size: 0.875rem;
+  right: 0.15rem;
+  top: 0.15rem;
+  font-size: 0.75rem;
   color: rgb(107, 114, 128);
   background-color: rgba(255, 255, 255, 0.2);
-  padding: 0.25rem 0.75rem;
+  padding: 0.15rem 0.75rem;
   z-index: 5;
   pointer-events: none;
 }

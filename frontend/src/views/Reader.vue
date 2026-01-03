@@ -71,7 +71,7 @@ async function paginateContent(content: string) {
   measure.style.visibility = 'hidden'
   measure.style.boxSizing = 'border-box'
   measure.style.width = `${Math.min(rect.width, 768)}px`
-  measure.style.padding = `${padding.value / 2}px ${padding.value / 4}px`
+  measure.style.padding = `${padding.value / 4}px ${padding.value / 4}px`
   measure.style.fontSize = `${fontSize.value}px`
   measure.style.lineHeight = `${lineHeight.value}`
   measure.style.whiteSpace = 'pre-wrap'
