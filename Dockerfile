@@ -44,8 +44,8 @@ EXPOSE 8000
 
 # 设置环境变量（默认值，可通过 docker-compose 覆盖）
 ENV PYTHONUNBUFFERED=1 \
-    DATA_DIR=/app/data
+    DATA_DIR=/app/data \
+    APP_ENV=production
 
 # 启动应用
 CMD ["uv", "run", "fastapi", "run", "main.py", "--host", "0.0.0.0", "--port", "8000"]
-

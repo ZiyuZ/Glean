@@ -14,9 +14,7 @@ settings.ensure_directories()
 # 初始化数据库（创建表）
 init_db()
 
-# 判断是否为生产环境（通过检查是否存在前端构建目录）
-FRONTEND_DIST = Path(__file__).parent.parent / 'frontend' / 'dist'
-IS_PRODUCTION = FRONTEND_DIST.exists() and (FRONTEND_DIST / 'index.html').exists()
+IS_PRODUCTION = settings.is_production
 
 app = FastAPI(
     title='Glean (拾阅)',
@@ -38,20 +36,16 @@ if not IS_PRODUCTION:
 # 注册 API 路由
 app.include_router(api_router)
 
-# 生产环境：挂载静态文件
+# 生产环境：挂载静态文件（如果存在）
 if IS_PRODUCTION:
-    # 挂载 Vite 构建的静态资源（assets）
-    assets_dir = FRONTEND_DIST / 'assets'
-    if assets_dir.exists():
-        app.mount('/assets', StaticFiles(directory=str(assets_dir)), name='assets')
+    FRONTEND_DIST = Path('/app/frontend/dist')
+    FRONTEND_INDEX = FRONTEND_DIST / 'index.html'
+    app.mount('/assets', StaticFiles(directory=str(FRONTEND_DIST / 'assets')), name='assets')
 
     # 根路由：返回前端入口文件
     @app.get('/')
     async def root():
-        index_path = FRONTEND_DIST / 'index.html'
-        if index_path.exists():
-            return FileResponse(str(index_path))
-        raise HTTPException(status_code=404, detail='Frontend not found')
+        return FileResponse(str(FRONTEND_INDEX))
 
     # Catch-all 路由：所有非 API 请求返回 index.html（支持 SPA 路由）
     @app.get('/{full_path:path}')
@@ -60,9 +54,8 @@ if IS_PRODUCTION:
         if full_path.startswith('api/') or full_path.startswith('assets/'):
             raise HTTPException(status_code=404)
         # 返回前端入口文件
-        index_path = FRONTEND_DIST / 'index.html'
-        if index_path.exists():
-            return FileResponse(str(index_path))
+        if FRONTEND_INDEX.exists():
+            return FileResponse(str(FRONTEND_INDEX))
 
         raise HTTPException(status_code=404, detail='Frontend not found')
 else:

@@ -5,12 +5,18 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 def _get_project_root() -> Path:
-    """获取项目根目录（即 backend 目录的父目录；动态向上查找 backend 目录）"""
-    current = Path(__file__).resolve()
-    for parent in current.parents:
-        if parent.name == 'backend':
-            return parent.parent
-    raise RuntimeError('未找到 backend 目录，无法确定项目根目录。')
+    """获取项目根目录"""
+    # 以当前文件相对路径定位 backend 目录，然后根据是否存在 frontend 目录来确定项目根
+    backend_dir = Path(__file__).resolve().parent.parent.parent  # backend/
+    # 若 backend 下就包含 frontend（容器内 /app/frontend），直接认为 backend 即项目根
+    if (backend_dir / 'frontend').exists():
+        return backend_dir
+    # 否则尝试使用父目录（本地开发时 frontend 与 backend 同级）
+    parent = backend_dir.parent
+    if parent != backend_dir and (parent / 'frontend').exists():
+        return parent
+
+    raise RuntimeError('无法确定项目根目录。')
 
 
 class Settings(BaseSettings):
@@ -26,6 +32,12 @@ class Settings(BaseSettings):
         env_file_encoding='utf-8',
         case_sensitive=False,
         extra='ignore',
+    )
+
+    # 运行环境
+    app_env: str = Field(
+        default='development',
+        description='应用运行环境：development / production',
     )
 
     # 数据目录配置（唯一可配置的环境变量）
@@ -67,6 +79,11 @@ class Settings(BaseSettings):
     def database_url(self) -> str:
         """返回 SQLite 数据库连接 URL"""
         return f'sqlite:///{self.database_path}'
+
+    @property
+    def is_production(self) -> bool:
+        """是否为生产环境"""
+        return self.app_env.lower() == 'production'
 
     def ensure_directories(self) -> None:
         """确保必要的目录存在"""
