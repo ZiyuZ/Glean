@@ -71,44 +71,56 @@ def clean_line_breaks(content: str) -> str:
     """
     清理多余的换行符
 
-    逻辑：
-    1. 如果一行以标点符号结尾，下一行应该换行
-    2. 如果一行很短（可能是标题），应该换行
-    3. 如果一行只有一个字符，不换行（可能是排版问题）
+    处理逻辑：
+    1. 统一换行符：将 \r\n, \r 统一转换为 \n
+    2. 合并连续换行：连续多个换行合并为最多两个换行（段落分隔）
+    3. 恢复被拆分的句子：如果行尾不是标点符号，且不太可能是标题，则合并下一行
+
+    这是因为网站按宽度拆分文本，导致原本一个句子被分成多行，需要恢复。
     """
-    # 使用 splitlines() 而不是 split()，保留换行符信息
-    lines = content.splitlines(keepends=False)
+    # 1. 统一换行符：\r\n -> \n, \r -> \n
+    content = content.replace('\r\n', '\n').replace('\r', '\n')
+
+    # 2. 合并连续的多个换行（最多保留两个，用于段落分隔）
+    content = re.sub(r'\n{2,}', '\n', content)
+
+    # 3. 按行处理，恢复被拆分的句子
+    lines = [line.strip() for line in content.split('\n')]
     if not lines:
         return content
 
-    new_lines = [lines[0]]
-    add_new_line = True
+    result_lines = []
+    i = 0
 
-    for line in lines[1:]:
-        if add_new_line:
-            new_lines.append(line)
-        else:
-            # 合并到上一行，添加空格分隔
-            new_lines[-1] += ' ' + line if line else line
+    while i < len(lines):
+        line = lines[i]
 
-        # 判断下一行是否应该换行
+        # 空行：保留（用于段落分隔）
         if not line:
-            # 空行，下一行应该换行
-            add_new_line = True
-        else:
-            # 如果当前行以标点符号结尾，下一行应该换行
-            add_new_line = line[-1] in END_PUNCTUATIONS
+            result_lines.append('')
+            i += 1
+            continue
 
-            # 如果当前行很短（可能是章节号或标题），应该换行
-            if len(line) < CHAPTER_NUMBER_LENGTH:
-                # 特殊情况：单字符不换行（可能是排版问题）
-                if len(line) != 1:
-                    new_lines[-1] += ' '
-                add_new_line = False
-            elif len(line) < NONE_TEXT_LENGTH:
-                add_new_line = True
+        # 检查当前行是否应该合并下一行
+        # 条件：行尾没有标点符号，且不太可能是标题行
+        end_with_punctuation = line[-1] in END_PUNCTUATIONS
+        is_likely_title = len(line) < NONE_TEXT_LENGTH
+        has_next_line = i + 1 < len(lines) and lines[i + 1]
 
-    return '\n\n'.join(new_lines)
+        # 如果应该合并，且下一行存在且非空
+        if not end_with_punctuation and not is_likely_title and has_next_line:
+            # 合并下一行到当前行
+            line += ' ' + lines[i + 1]
+            i += 1
+            # 继续检查合并后的行是否还需要继续合并
+            continue
+
+        # 不需要合并，直接添加
+        result_lines.append(line)
+        i += 1
+
+    # 重新组合，段落之间用两个换行分隔
+    return '\n\n'.join(result_lines)
 
 
 def clean_content(content: str) -> str:
@@ -156,8 +168,8 @@ def normalize_file(file_path: Path) -> None:
 
     # 转换为 UTF-8 并保存（覆盖原文件，但内容不变，只是编码转换）
     file_path.write_text(content, encoding='utf-8')
-
-    logger.info(f'Normalized file {file_path}: {encoding} -> utf-8')
+    if encoding != 'utf-8':
+        logger.warning(f'Normalized file {file_path}: {encoding} -> utf-8')
 
 
 def parse_chapters(file_path: Path) -> list[dict]:
@@ -173,17 +185,17 @@ def parse_chapters(file_path: Path) -> list[dict]:
     """
     chapters = []
 
+    # 读取文件（已经是 UTF-8）
+    content = file_path.read_text(encoding='utf-8')
+
     # 常见的章节标题正则模式
     patterns = [
         # 第X章/节/回（支持中文数字和阿拉伯数字）
-        r'第[一二三四五六七八九十百千万\d]+[章节回]',
-        # Chapter X 或 Chapter X: Title
-        r'Chapter\s+\d+',
-        # 第X章（纯数字）
-        r'第\d+章',
-        # 第X节
-        r'第\d+节',
-        # 数字开头（如 "1. 标题" 或 "一、标题"）
+        # 使用负向后顾断言：前面不是汉字（\u4e00-\u9fff），或者是行首
+        r'(?<![\u4e00-\u9fff])第[一二三四五六七八九十百千万\d]+[章节回]',
+        # Chapter X 或 Chapter X: Title - 必须在行首
+        r'^Chapter\s+\d+',
+        # 数字开头（如 "1. 标题" 或 "一、标题"）- 必须在行首
         r'^\d+[\.、]',
         r'^[一二三四五六七八九十]+[、.]',
     ]
@@ -192,10 +204,6 @@ def parse_chapters(file_path: Path) -> list[dict]:
     combined_pattern = '|'.join(f'({pattern})' for pattern in patterns)
     chapter_regex = re.compile(combined_pattern, re.IGNORECASE | re.MULTILINE)
 
-    # 读取文件（已经是 UTF-8）
-    content = file_path.read_text(encoding='utf-8')
-
-    # 查找所有章节标题的位置
     matches = list(chapter_regex.finditer(content))
 
     if not matches:

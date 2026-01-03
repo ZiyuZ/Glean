@@ -1,8 +1,7 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel
-from sqlmodel import Session
 
-from ..core.database import get_db_session, get_session
+from ..core.database import get_session
 from ..services.scanner import get_scan_status, scan_directory, stop_scan
 
 router = APIRouter()
@@ -35,7 +34,6 @@ async def scan_task(full_scan: bool) -> None:
 async def trigger_scan(
     background_tasks: BackgroundTasks,
     full_scan: bool = False,
-    session: Session = Depends(get_db_session),
 ) -> ScanResponse:
     """
     手动触发目录扫描
