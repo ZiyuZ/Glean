@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useReaderConfig } from '@/composables/useReader'
 import * as api from '@/api'
 
-const { fontSize, lineHeight, theme, brightness } = useReaderConfig()
 const scanStatus = ref<any>(null)
 const scanning = ref(false)
 
@@ -55,72 +53,6 @@ onMounted(() => {
 
     <!-- Settings Content -->
     <main class="px-4 py-4 space-y-6">
-      <!-- Reading Settings -->
-      <section class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          阅读设置
-        </h2>
-
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              字体大小: {{ fontSize }}px
-            </label>
-            <input
-              v-model.number="fontSize"
-              type="range"
-              min="12"
-              max="32"
-              step="1"
-              class="w-full"
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              行高: {{ lineHeight.toFixed(1) }}
-            </label>
-            <input
-              v-model.number="lineHeight"
-              type="range"
-              min="1.2"
-              max="2.5"
-              step="0.1"
-              class="w-full"
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              主题
-            </label>
-            <select
-              v-model="theme"
-              class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            >
-              <option value="light">明亮</option>
-              <option value="sepia">护眼</option>
-              <option value="dark">深色</option>
-              <option value="night">夜间</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              亮度: {{ brightness }}%
-            </label>
-            <input
-              v-model.number="brightness"
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              class="w-full"
-            />
-          </div>
-        </div>
-      </section>
-
       <!-- Scan Settings -->
       <section class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm">
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">

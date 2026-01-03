@@ -98,7 +98,7 @@ const contentParagraphs = computed(() => {
   top: 0.25rem;
   font-size: 0.875rem;
   color: rgb(107, 114, 128);
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.2);
   padding: 0.25rem 0.75rem;
   z-index: 5;
   pointer-events: none;
