@@ -27,7 +27,7 @@ if not IS_PRODUCTION:
     # 开发环境：允许前端开发服务器跨域访问
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=['http://localhost:5173'],
+        allow_origins=['*'],
         allow_credentials=True,
         allow_methods=['*'],
         allow_headers=['*'],

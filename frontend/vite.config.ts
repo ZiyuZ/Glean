@@ -24,6 +24,9 @@ export default defineConfig({
       short_name: 'Glean',
       description: 'Glean 拾阅',
       theme_color: '#FFFFFF',
+      display: 'standalone',
+      start_url: '/',
+      scope: '/',
     },
 
     injectManifest: {
@@ -31,7 +34,7 @@ export default defineConfig({
     },
 
     devOptions: {
-      enabled: false,
+      enabled: true,
       navigateFallback: 'index.html',
       suppressWarnings: true,
       type: 'module',

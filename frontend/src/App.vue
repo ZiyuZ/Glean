@@ -9,14 +9,23 @@ const showNav = computed(() => !route.meta.hideNav)
 </script>
 
 <template>
-  <router-view />
-  <BottomNav v-if="showNav" />
+  <router-view class="safe-top" />
+  <BottomNav v-if="showNav" class="safe-bottom" />
 </template>
 
 <style>
 /* 全局样式 */
 * {
   box-sizing: border-box;
+}
+/* 处理顶部的刘海/状态栏 */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* 处理 iOS 底部的“小横条”（Home Indicator） */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 body {

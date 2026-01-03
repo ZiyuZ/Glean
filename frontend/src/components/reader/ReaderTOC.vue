@@ -4,7 +4,6 @@ import type { Chapter } from '@/types/api'
 defineProps<{
   chapters: Chapter[]
   currentChapterIndex: number | null
-  showSettings: boolean
   hasBook: boolean
 }>()
 
@@ -15,12 +14,9 @@ const emit = defineEmits<{
 
 <template>
   <Transition name="slide-down">
-    <div
-      v-if="true" data-toc-panel class="reader-toc" :class="{ 'reader-toc--with-header': showSettings || !hasBook }"
-      @click.stop
-    >
+    <div v-if="true" data-toc-panel class="reader-toc" @click.stop>
       <div class="px-4 py-3">
-        <h2 class="text-lg font-semibold mb-3">
+        <h2 class="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-50">
           目录
         </h2>
         <div class="space-y-1">
@@ -42,23 +38,9 @@ const emit = defineEmits<{
 
 <style scoped>
 .reader-toc {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 30;
-  background-color: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid rgb(229, 231, 235);
-  max-height: 80vh;
+  /* Positioning handled by parent */
+  width: 100%;
+  height: 100%;
   overflow-y: auto;
-}
-
-.dark .reader-toc {
-  background-color: rgba(17, 24, 39, 0.95);
-  border-bottom-color: rgb(31, 41, 55);
-}
-
-.reader-toc--with-header {
-  margin-top: 60px;
 }
 </style>

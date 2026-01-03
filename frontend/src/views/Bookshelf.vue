@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
-import { CheckCircle2, Star, Trash2 } from 'lucide-vue-next'
+import { CheckCircleIcon, StarIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBooksStore } from '@/stores/books'
@@ -89,7 +90,7 @@ function toggleFilter(type: 'starred' | 'finished') {
                 : 'bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
             ]" @click="toggleFilter('starred')"
           >
-            <Star :size="14" :fill="booksStore.starredFilter === true ? 'currentColor' : 'none'" />
+            <component :is="booksStore.starredFilter === true ? StarIconSolid : StarIcon" class="w-[14px] h-[14px]" />
             已收藏
           </button>
           <button
@@ -99,7 +100,7 @@ function toggleFilter(type: 'starred' | 'finished') {
                 : 'bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
             ]" @click="toggleFilter('finished')"
           >
-            <CheckCircle2 :size="14" />
+            <CheckCircleIcon class="w-[14px] h-[14px]" />
             未读完
           </button>
         </div>
@@ -142,8 +143,8 @@ function toggleFilter(type: 'starred' | 'finished') {
                 {{ formatDate(book.last_read_time) }}
               </p>
               <div class="flex items-center gap-2 mt-2">
-                <Star v-if="book.is_starred" :size="16" class="text-yellow-500" fill="currentColor" title="已收藏" />
-                <CheckCircle2 v-if="book.is_finished" :size="16" class="text-green-500" title="已读完" />
+                <StarIconSolid v-if="book.is_starred" class="w-[16px] h-[16px] text-yellow-500" title="已收藏" />
+                <CheckCircleIcon v-if="book.is_finished" class="w-[16px] h-[16px] text-green-500" title="已读完" />
               </div>
             </div>
             <div class="flex items-center gap-2 ml-4">
@@ -154,13 +155,13 @@ function toggleFilter(type: 'starred' | 'finished') {
                     : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700',
                 ]" @click.stop="toggleStar(book, $event)"
               >
-                <Star :size="20" :fill="book.is_starred ? 'currentColor' : 'none'" />
+                <component :is="book.is_starred ? StarIconSolid : StarIcon" class="w-[20px] h-[20px]" />
               </button>
               <button
                 class="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                 @click.stop="deleteBook(book, $event)"
               >
-                <Trash2 :size="20" />
+                <TrashIcon class="w-[20px] h-[20px]" />
               </button>
             </div>
           </div>

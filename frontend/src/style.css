@@ -12,6 +12,12 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  /* manipulation 表示只允许滚动和捏合缩放，禁用双击缩放 */
+  /* 这也会移除移动端浏览器著名的 300ms 点击延迟 */
+  touch-action: manipulation;
+  /* pan-x 和 pan-y 允许水平和垂直滚动 */
+  /* pinch-zoom 是默认允许的，通过不写它，或者显式指定只允许平移来禁用缩放 */
+  touch-action: pan-x pan-y;
 }
 
 #app {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ArrowLeft, List } from 'lucide-vue-next'
+import { ArrowLeftIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
+import { useHead } from '@unhead/vue'
 
 defineProps<{
   title: string
@@ -10,31 +11,38 @@ const emit = defineEmits<{
   back: []
   toggleTOC: []
 }>()
+
+useHead({
+  meta: [
+    {
+      name: 'theme-color',
+      content: '#fff',
+    },
+  ],
+})
 </script>
 
 <template>
-  <Transition name="slide-down">
-    <header class="reader-header">
-      <div class="flex items-center justify-between">
-        <button
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2"
-          @click.stop="emit('back')"
-        >
-          <ArrowLeft :size="20" />
-          <span>返回</span>
-        </button>
-        <h1 class="text-lg font-semibold truncate flex-1 mx-4">
-          {{ title || '加载中...' }}
-        </h1>
-        <button
-          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          @click.stop="emit('toggleTOC')"
-        >
-          <List :size="20" />
-        </button>
-      </div>
-    </header>
-  </Transition>
+  <header class="reader-header">
+    <div class="flex items-center justify-between">
+      <button
+        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2"
+        @click.stop="emit('back')"
+      >
+        <ArrowLeftIcon class="w-[20px] h-[20px]" />
+        <span>返回</span>
+      </button>
+      <h1 class="text-lg font-semibold truncate flex-1 mx-4">
+        {{ title || '加载中...' }}
+      </h1>
+      <button
+        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        @click.stop="emit('toggleTOC')"
+      >
+        <ListBulletIcon class="w-[20px] h-[20px]" />
+      </button>
+    </div>
+  </header>
 </template>
 
 <style scoped>

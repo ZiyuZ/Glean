@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BookOpen, Search, Settings } from 'lucide-vue-next'
+import { BookOpenIcon, Cog6ToothIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -7,9 +7,9 @@ const route = useRoute()
 const router = useRouter()
 
 const navItems = [
-  { path: '/', name: '书架', icon: BookOpen },
-  { path: '/discovery', name: '发现', icon: Search },
-  { path: '/settings', name: '设置', icon: Settings },
+  { path: '/', name: '书架', icon: BookOpenIcon },
+  { path: '/discovery', name: '发现', icon: MagnifyingGlassIcon },
+  { path: '/settings', name: '设置', icon: Cog6ToothIcon },
 ]
 
 const currentPath = computed(() => route.path)
@@ -31,7 +31,7 @@ function navigate(path: string) {
             : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200',
         ]" @click="navigate(item.path)"
       >
-        <component :is="item.icon" :size="24" class="mb-1" />
+        <component :is="item.icon" class="w-[24px] h-[24px] mb-1" />
         <span class="text-xs font-medium">{{ item.name }}</span>
       </button>
     </div>

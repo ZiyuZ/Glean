@@ -9,8 +9,10 @@ export interface ReaderConfig {
   lineHeight: number // 行高（倍数）
   theme: 'light' | 'dark' | 'sepia' | 'night' // 主题
   brightness: number // 亮度（0-100）
-  padding: number // 内容边距（px）
+  paddingX: number // 水平边距
+  paddingY: number // 垂直边距
   margin: number // 段落间距（px）
+  enableAnimation: boolean // 是否开启翻页动画
 }
 
 const defaultConfig: ReaderConfig = {
@@ -18,8 +20,10 @@ const defaultConfig: ReaderConfig = {
   lineHeight: 1.8,
   theme: 'light',
   brightness: 100,
-  padding: 64, // px-6 py-8 = 48px + 32px
+  paddingX: 12,
+  paddingY: 10,
   margin: 16, // 段落间距
+  enableAnimation: true,
 }
 
 /**
@@ -56,18 +60,25 @@ export function useReaderConfig() {
     },
   })
 
-  const padding = computed({
-    get: () => config.value.padding,
-    set: (value) => {
-      config.value.padding = value
-    },
+  /* Split Padding */
+  const paddingX = computed({
+    get: () => config.value.paddingX ?? 2,
+    set: v => config.value.paddingX = v,
+  })
+
+  const paddingY = computed({
+    get: () => config.value.paddingY ?? 10,
+    set: v => config.value.paddingY = v,
+  })
+
+  const enableAnimation = computed({
+    get: () => config.value.enableAnimation ?? true,
+    set: v => config.value.enableAnimation = v,
   })
 
   const margin = computed({
-    get: () => config.value.margin,
-    set: (value) => {
-      config.value.margin = value
-    },
+    get: () => config.value.margin ?? 16,
+    set: v => config.value.margin = v,
   })
 
   return {
@@ -76,7 +87,9 @@ export function useReaderConfig() {
     lineHeight,
     theme,
     brightness,
-    padding,
+    paddingX,
+    paddingY,
     margin,
+    enableAnimation,
   }
 }
