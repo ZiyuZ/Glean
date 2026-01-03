@@ -78,17 +78,20 @@ async def list_books(
 
 
 @router.get('/random')
-async def get_random_book(
+async def get_random_books(
+    count: int = Query(1, ge=1, le=100, description='返回的随机书籍数量'),
     session: Session = Depends(get_db_session),
-) -> Book:
+) -> list[Book]:
     """
-    随机获取一本书籍（发现功能）
+    随机获取指定数量的书籍（发现功能）
+
+    - count: 返回的书籍数量（1-100，默认 1）
     """
-    statement = select(Book).order_by(func.random())
-    book = session.exec(statement).first()
-    if not book:
+    statement = select(Book).order_by(func.random()).limit(count)
+    books = session.exec(statement).all()
+    if not books:
         raise HTTPException(status_code=404, detail='No books found')
-    return book
+    return list(books)
 
 
 @router.get('/{book_id}')
