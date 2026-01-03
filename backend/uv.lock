@@ -157,7 +157,7 @@ dependencies = [
     { name = "chardet" },
     { name = "fastapi", extra = ["standard-no-fastapi-cloud-cli"] },
     { name = "loguru" },
-    { name = "opencc" },
+    { name = "opencc-purepy" },
     { name = "pydantic-settings" },
     { name = "sqlmodel" },
 ]
@@ -168,7 +168,7 @@ requires-dist = [
     { name = "chardet", specifier = ">=5.2.0" },
     { name = "fastapi", extras = ["standard-no-fastapi-cloud-cli"], specifier = ">=0.128.0" },
     { name = "loguru", specifier = ">=0.7.3" },
-    { name = "opencc", specifier = ">=1.1.9" },
+    { name = "opencc-purepy", specifier = ">=1.1.0" },
     { name = "pydantic-settings", specifier = ">=2.0.0" },
     { name = "sqlmodel", specifier = ">=0.0.31" },
 ]
@@ -334,10 +334,13 @@ wheels = [
 ]
 
 [[package]]
-name = "opencc"
-version = "1.1.9"
+name = "opencc-purepy"
+version = "1.1.0"
 source = { registry = "https://mirrors.aliyun.com/pypi/simple" }
-sdist = { url = "https://mirrors.aliyun.com/pypi/packages/e6/a2/0e86df1284143c389a3a6e33b159394da34b500a62b2b9c918949a2e6438/opencc-1.1.9.tar.gz", hash = "sha256:8ad72283732951303390fae33a1ceda98ac9b03368a8f2912edc934d74077e4a" }
+sdist = { url = "https://mirrors.aliyun.com/pypi/packages/84/99/147a5c95b8ed2c4161a6d2bf78f4406fd1a46c6b44407983d76bad099822/opencc_purepy-1.1.0.tar.gz", hash = "sha256:c0e59480b2fa5936986b423e38264831587be9af4a86d6c68553cc45f93d8915" }
+wheels = [
+    { url = "https://mirrors.aliyun.com/pypi/packages/60/26/45a2783fffa5c914f1da5f4f7e8a550fb0370e782b3d796a219789688156/opencc_purepy-1.1.0-py3-none-any.whl", hash = "sha256:4ecbcccd0c4a79c802eb9ef9b2ceee3dd5ccbd881bbed6aa6d634990f06a7c58" },
+]
 
 [[package]]
 name = "pydantic"

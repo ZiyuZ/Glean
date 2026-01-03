@@ -39,13 +39,16 @@ export const useReaderStore = defineStore('reader', () => {
       chapters.value = await api.listChapters(bookId)
 
       // 恢复阅读位置
-      if (currentBook.value.chapter_index !== null) {
+      if (currentBook.value && currentBook.value.chapter_index !== null) {
         currentChapterIndex.value = currentBook.value.chapter_index
         await loadChapter(currentBook.value.chapter_index)
       } else if (chapters.value.length > 0) {
         // 如果没有阅读记录，从第一章开始
-        currentChapterIndex.value = chapters.value[0].order_index
-        await loadChapter(currentChapterIndex.value)
+        const firstChapter = chapters.value[0]
+        if (firstChapter) {
+          currentChapterIndex.value = firstChapter.order_index
+          await loadChapter(currentChapterIndex.value)
+        }
       }
     } catch (err) {
       console.error('Failed to load book:', err)

@@ -9,7 +9,7 @@ dependencies = [
     "chardet>=5.2.0",
     "fastapi[standard-no-fastapi-cloud-cli]>=0.128.0",
     "loguru>=0.7.3",
-    "opencc>=1.1.9",
+    "opencc-purepy>=1.1.0",
     "pydantic-settings>=2.0.0",
     "sqlmodel>=0.0.31",
 ]

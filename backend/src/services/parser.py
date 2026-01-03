@@ -6,9 +6,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import override
 
-import opencc
 from chardet import detect
 from loguru import logger
+from opencc_purepy import OpenCC
 
 # 清洗相关常量
 END_PUNCTUATIONS = '。？！；）》〉】』」﹄〕…—～﹏￥'  # 可能作为行末标点符号
@@ -140,7 +140,7 @@ def clean_content(content: str) -> str:
     content = content.translate(FULL_TO_HALF)
 
     # 3. 繁体转简体
-    converter = opencc.OpenCC('t2s.json')
+    converter = OpenCC('t2s.json')
     content = converter.convert(content)
 
     # 4. 清理多余换行
