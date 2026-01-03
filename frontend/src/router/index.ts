@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Bookshelf from '@/views/Bookshelf.vue'
 import Discovery from '@/views/Discovery.vue'
-import Settings from '@/views/Settings.vue'
+import Reader2 from '@/views/Reader2.vue'
 import Reader from '@/views/Reader.vue'
+import Settings from '@/views/Settings.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,4 +41,3 @@ router.beforeEach((to, _from, next) => {
 })
 
 export default router
-

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { computed, ref } from 'vue'
 
 // periodic sync is disabled, change the value to enable it, the period is in milliseconds
 // You can remove onRegisteredSW callback and registerPeriodicSync function
@@ -12,7 +12,8 @@ const swActivated = ref(false)
  * This function will register a periodic sync check every hour, you can modify the interval as needed.
  */
 function registerPeriodicSync(swUrl: string, r: ServiceWorkerRegistration) {
-  if (period <= 0) return
+  if (period <= 0)
+    return
 
   setInterval(async () => {
     if ('onLine' in navigator && !navigator.onLine)
@@ -34,7 +35,8 @@ function registerPeriodicSync(swUrl: string, r: ServiceWorkerRegistration) {
 const { needRefresh, updateServiceWorker } = useRegisterSW({
   immediate: true,
   onRegisteredSW(swUrl, r) {
-    if (period <= 0) return
+    if (period <= 0)
+      return
     if (r?.active?.state === 'activated') {
       swActivated.value = true
       registerPeriodicSync(swUrl, r)
@@ -62,21 +64,27 @@ function close() {
 </script>
 
 <template>
-  <div v-if="needRefresh"
+  <div
+    v-if="needRefresh"
     class="fixed right-0 bottom-0 m-4 p-3 border border-gray-300/30 rounded z-10 text-left shadow-md grid bg-white"
-    aria-labelledby="toast-message" role="alert">
+    aria-labelledby="toast-message" role="alert"
+  >
     <div class="mb-2">
       <span id="toast-message">
         {{ title }}
       </span>
     </div>
     <div class="flex">
-      <button type="button" class="block border border-gray-300/30 outline-none mr-1.5 rounded-sm py-0.5 px-2.5"
-        @click="updateServiceWorker()">
+      <button
+        type="button" class="block border border-gray-300/30 outline-none mr-1.5 rounded-sm py-0.5 px-2.5"
+        @click="updateServiceWorker()"
+      >
         Reload
       </button>
-      <button type="button" class="border border-gray-300/30 outline-none mr-1.5 rounded-sm py-0.5 px-2.5"
-        @click="close">
+      <button
+        type="button" class="border border-gray-300/30 outline-none mr-1.5 rounded-sm py-0.5 px-2.5"
+        @click="close"
+      >
         Close
       </button>
     </div>

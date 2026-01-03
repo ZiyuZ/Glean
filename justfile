@@ -8,7 +8,7 @@ default:
 
 # 使用 ruff 自动修复代码格式
 [group('backend')]
-lint:
+lint-be:
     cd backend && uv tool run ruff format && uv tool run ruff check --fix
 
 # 启动开发服务器 (带热重载)
@@ -27,6 +27,11 @@ install-be:
     cd backend && uv sync
 
 # --- 前端命令 (Bun + Vite) ---
+
+# 使用 eslint 自动修复代码格式
+[group('frontend')]
+lint-fe:
+    cd frontend && bun run lint
 
 # 启动前端开发环境
 [group('frontend')]
@@ -50,13 +55,16 @@ install-fe:
 
 # --- 组合命令 ---
 
-# 一键启动开发全家桶 (前后端同时启动)
+# 前后端同时启动
 [parallel]
 dev: dev-be dev-fe
+
+# 格式化前后端代码
+lint: lint-be lint-fe
     
-# 一键安装所有依赖
+# 安装前后端依赖
 install: install-be install-fe
 
-# 提代码前的准备：格式化后端代码并尝试构建前端
+# 提代码前的准备：格式化前后端代码并尝试构建前端
 check: lint
     cd frontend && bun run build

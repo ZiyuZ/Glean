@@ -1,0 +1,11 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+
+[*.{js,ts,vue,json,html}]
+indent_size = 2
+
+[*.py]
+indent_size = 4

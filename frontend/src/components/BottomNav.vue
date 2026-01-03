@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { BookOpen, Search, Settings } from 'lucide-vue-next'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { BookOpen, Search, Settings } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()
@@ -25,15 +25,11 @@ function navigate(path: string) {
   >
     <div class="flex justify-around items-center h-16 px-4">
       <button
-        v-for="item in navItems"
-        :key="item.path"
-        @click="navigate(item.path)"
-        :class="[
-          'flex flex-col items-center justify-center flex-1 h-full transition-colors',
+        v-for="item in navItems" :key="item.path" class="flex flex-col items-center justify-center flex-1 h-full transition-colors" :class="[
           currentPath === item.path
             ? 'text-blue-600 dark:text-blue-400'
             : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200',
-        ]"
+        ]" @click="navigate(item.path)"
       >
         <component :is="item.icon" :size="24" class="mb-1" />
         <span class="text-xs font-medium">{{ item.name }}</span>
@@ -41,4 +37,3 @@ function navigate(path: string) {
     </div>
   </nav>
 </template>
-

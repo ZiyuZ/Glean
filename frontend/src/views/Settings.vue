@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import * as api from '@/api'
 
 const scanStatus = ref<any>(null)
@@ -10,9 +10,11 @@ async function triggerScan(fullScan: boolean = false) {
   try {
     await api.triggerScan(fullScan)
     await checkScanStatus()
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Failed to trigger scan:', err)
-  } finally {
+  }
+  finally {
     scanning.value = false
   }
 }
@@ -20,7 +22,8 @@ async function triggerScan(fullScan: boolean = false) {
 async function checkScanStatus() {
   try {
     scanStatus.value = await api.getScanStatus()
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Failed to get scan status:', err)
   }
 }
@@ -29,7 +32,8 @@ async function stopScan() {
   try {
     await api.stopScan()
     await checkScanStatus()
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Failed to stop scan:', err)
   }
 }
@@ -45,9 +49,13 @@ onMounted(() => {
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900/95 dark:border-gray-800">
+    <header
+      class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900/95 dark:border-gray-800"
+    >
       <div class="px-4 py-3">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">设置</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+          设置
+        </h1>
       </div>
     </header>
 
@@ -61,25 +69,22 @@ onMounted(() => {
 
         <div class="space-y-3">
           <button
+            :disabled="scanning || scanStatus?.is_running" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
             @click="triggerScan(false)"
-            :disabled="scanning || scanStatus?.is_running"
-            class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
           >
             {{ scanning ? '扫描中...' : '增量扫描' }}
           </button>
 
           <button
+            :disabled="scanning || scanStatus?.is_running" class="w-full py-3 px-4 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
             @click="triggerScan(true)"
-            :disabled="scanning || scanStatus?.is_running"
-            class="w-full py-3 px-4 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
           >
             全量扫描
           </button>
 
           <button
-            v-if="scanStatus?.is_running"
+            v-if="scanStatus?.is_running" class="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors"
             @click="stopScan"
-            class="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors"
           >
             停止扫描
           </button>
@@ -98,4 +103,3 @@ onMounted(() => {
     </main>
   </div>
 </template>
-

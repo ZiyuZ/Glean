@@ -14,13 +14,11 @@ const emit = defineEmits<{
 
 <template>
   <Transition name="slide-down">
-    <header
-      class="reader-header"
-    >
+    <header class="reader-header">
       <div class="flex items-center justify-between">
         <button
-          @click.stop="emit('back')"
           class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2"
+          @click.stop="emit('back')"
         >
           <ArrowLeft :size="20" />
           <span>返回</span>
@@ -29,8 +27,8 @@ const emit = defineEmits<{
           {{ title || '加载中...' }}
         </h1>
         <button
-          @click.stop="emit('toggleTOC')"
           class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          @click.stop="emit('toggleTOC')"
         >
           <List :size="20" />
         </button>
@@ -56,4 +54,3 @@ const emit = defineEmits<{
   border-bottom-color: rgb(31, 41, 55);
 }
 </style>
-

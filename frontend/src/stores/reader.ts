@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
 import type { Book, Chapter } from '@/types/api'
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
 import * as api from '@/api'
 import { useBooksStore } from './books'
 
@@ -13,21 +13,24 @@ export const useReaderStore = defineStore('reader', () => {
 
   // 当前章节
   const currentChapter = computed(() => {
-    if (currentChapterIndex.value === null) return null
+    if (currentChapterIndex.value === null)
+      return null
     return chapters.value.find(
-      (ch) => ch.order_index === currentChapterIndex.value
+      ch => ch.order_index === currentChapterIndex.value,
     ) || null
   })
 
   // 是否有上一章
   const hasPreviousChapter = computed(() => {
-    if (currentChapterIndex.value === null) return false
+    if (currentChapterIndex.value === null)
+      return false
     return currentChapterIndex.value > 0
   })
 
   // 是否有下一章
   const hasNextChapter = computed(() => {
-    if (currentChapterIndex.value === null) return false
+    if (currentChapterIndex.value === null)
+      return false
     return currentChapterIndex.value < chapters.value.length - 1
   })
 
@@ -42,7 +45,8 @@ export const useReaderStore = defineStore('reader', () => {
       if (currentBook.value && currentBook.value.chapter_index !== null) {
         currentChapterIndex.value = currentBook.value.chapter_index
         await loadChapter(currentBook.value.chapter_index)
-      } else if (chapters.value.length > 0) {
+      }
+      else if (chapters.value.length > 0) {
         // 如果没有阅读记录，从第一章开始
         const firstChapter = chapters.value[0]
         if (firstChapter) {
@@ -50,23 +54,26 @@ export const useReaderStore = defineStore('reader', () => {
           await loadChapter(currentChapterIndex.value)
         }
       }
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Failed to load book:', err)
       throw err
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
 
   // 加载章节内容
   async function loadChapter(chapterIndex: number) {
-    if (!currentBook.value) return
+    if (!currentBook.value)
+      return
 
     loading.value = true
     try {
       currentContent.value = await api.getChapterContent(
         currentBook.value.id!,
-        chapterIndex
+        chapterIndex,
       )
       currentChapterIndex.value = chapterIndex
 
@@ -77,17 +84,20 @@ export const useReaderStore = defineStore('reader', () => {
           // 静默失败
         })
       }
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Failed to load chapter:', err)
       throw err
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
 
   // 上一章
   async function previousChapter() {
-    if (!hasPreviousChapter.value || !currentBook.value) return
+    if (!hasPreviousChapter.value || !currentBook.value)
+      return
 
     const prevIndex = currentChapterIndex.value! - 1
     await loadChapter(prevIndex)
@@ -95,7 +105,8 @@ export const useReaderStore = defineStore('reader', () => {
 
   // 下一章
   async function nextChapter() {
-    if (!hasNextChapter.value || !currentBook.value) return
+    if (!hasNextChapter.value || !currentBook.value)
+      return
 
     const nextIndex = currentChapterIndex.value! + 1
     await loadChapter(nextIndex)
@@ -103,13 +114,14 @@ export const useReaderStore = defineStore('reader', () => {
 
   // 保存进度
   async function saveProgress(offset: number) {
-    if (!currentBook.value || currentChapterIndex.value === null) return
+    if (!currentBook.value || currentChapterIndex.value === null)
+      return
 
     const booksStore = useBooksStore()
     await booksStore.updateProgress(
       currentBook.value.id!,
       currentChapterIndex.value,
-      offset
+      offset,
     )
   }
 
@@ -138,4 +150,3 @@ export const useReaderStore = defineStore('reader', () => {
     reset,
   }
 })
-

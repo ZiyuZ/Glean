@@ -47,14 +47,16 @@ frontend/
 
 ```typescript
 // vite.config.ts
-server: {
-  proxy: {
-    '/api': {
-      target: 'http://127.0.0.1:8000',
-      changeOrigin: true,
+export default defineConfig({
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+      },
     },
   },
-}
+})
 ```
 
 ## 页面与路由设计

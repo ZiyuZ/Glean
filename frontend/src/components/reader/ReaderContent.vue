@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useReaderConfig } from '@/composables/useReader'
 
 const props = defineProps<{
@@ -8,18 +8,29 @@ const props = defineProps<{
   currentPage: number
   totalPages: number
   showSettings: boolean
+  columnWidth: number
+  columnGap: number
+}>()
+
+const emit = defineEmits<{
+  scroll: [event: Event]
 }>()
 
 const { fontSize, lineHeight, padding, margin } = useReaderConfig()
+const scrollEl = ref<HTMLElement | null>(null)
+defineExpose({ scrollEl })
 
 const contentStyle = computed(() => ({
-  fontSize: `${fontSize.value}px`,
-  lineHeight: lineHeight.value,
+  'fontSize': `${fontSize.value}px`,
+  'lineHeight': lineHeight.value,
   '--paragraph-margin': `${margin.value}px`,
 }))
 
 const containerStyle = computed(() => ({
   padding: `${padding.value / 4}px ${padding.value / 4}px`,
+  columnWidth: props.columnWidth ? `${props.columnWidth}px` : '100vw',
+  columnGap: `${props.columnGap || 0}px`,
+  height: '100%',
 }))
 
 // 将内容按段落分割
@@ -27,7 +38,7 @@ const contentParagraphs = computed(() => {
   const marker = '<NO_INDENT>'
   return props.content
     .split('\n\n')
-    .filter((p) => p.trim())
+    .filter(p => p.trim())
     .map((p) => {
       const noIndent = p.startsWith(marker)
       const text = noIndent ? p.slice(marker.length) : p
@@ -45,47 +56,48 @@ const contentParagraphs = computed(() => {
 
     <!-- Page Content -->
     <div
-      class="flex-1 max-w-3xl mx-auto w-full overflow-hidden"
-      :style="containerStyle"
+      ref="scrollEl" class="reader-columns flex-1 w-full h-full" :style="containerStyle"
+      @scroll="emit('scroll', $event)"
     >
-      <div 
-        class="reader-content-text"
-        :style="contentStyle"
+      <p
+        v-for="(paragraph, index) in contentParagraphs" :key="index" class="reader-paragraph"
+        :class="{ 'no-indent': paragraph.noIndent }" :style="contentStyle"
       >
-        <p 
-          v-for="(paragraph, index) in contentParagraphs" 
-          :key="index"
-          class="reader-paragraph"
-          :class="{ 'no-indent': paragraph.noIndent }"
-        >
-          {{ paragraph.text }}
-        </p>
-      </div>
+        {{ paragraph.text }}
+      </p>
     </div>
 
     <!-- Page Indicator -->
-    <div
-      v-if="!showSettings && totalPages > 1"
-      class="reader-page-indicator"
-    >
+    <div v-if="!showSettings && totalPages > 1" class="reader-page-indicator">
       {{ currentPage + 1 }} / {{ totalPages }}
     </div>
   </div>
 </template>
 
 <style scoped>
-.reader-content-text {
-  white-space: pre-wrap;
-  height: 100%;
-  word-break: break-word;
-  text-align: justify;
-  letter-spacing: 0.5px;
-  overflow: hidden;
+.reader-columns {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: normal;
+  column-fill: auto;
+  column-count: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
+  /* 让浏览器按列排版为横向分页 */
+}
+
+.reader-columns>* {
+  break-inside: avoid;
+  scroll-snap-align: start;
 }
 
 .reader-paragraph {
   margin-bottom: var(--paragraph-margin, 16px);
-  text-indent: 2em; /* 段首缩进两个字符 */
+  text-indent: 2em;
+  /* 段首缩进两个字符 */
+  text-align: justify;
+  letter-spacing: 0.5px;
 }
 
 .reader-paragraph.no-indent {
@@ -109,4 +121,3 @@ const contentParagraphs = computed(() => {
   background-color: rgba(31, 41, 55, 0.8);
 }
 </style>
-
