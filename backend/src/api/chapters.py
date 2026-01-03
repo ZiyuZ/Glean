@@ -8,7 +8,7 @@ from ..core.models import Book, Chapter
 router = APIRouter()
 
 
-@router.get('/books/{book_id}/chapters')
+@router.get('/{book_id}/chapters')
 async def list_chapters(
     book_id: int,
     session: Session = Depends(get_db_session),
@@ -27,7 +27,7 @@ async def list_chapters(
     return list(chapters)
 
 
-@router.get('/books/{book_id}/content/{chapter_index}')
+@router.get('/{book_id}/chapters/{chapter_index}')
 async def get_chapter_content(
     book_id: int,
     chapter_index: int,
