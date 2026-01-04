@@ -1,0 +1,31 @@
+{
+    "exclude": [
+        "**/.venv",
+        "**/__pycache__",
+        "**/node_modules",
+        "frontend/"
+    ],
+    "executionEnvironments": [
+        {
+            "root": "backend/src"
+        }
+    ],
+    "include": [
+        "backend/src"
+    ],
+    "reportAny": false,
+    "reportArgumentType": false,
+    "reportCallInDefaultInitializer": false,
+    "reportCallIssue": false,
+    "reportExplicitAny": false,
+    "reportMissingTypeStubs": false,
+    "reportPrivateImportUsage": false,
+    "reportUnknownArgumentType": false,
+    "reportUnknownLambdaType": false,
+    "reportUnknownMemberType": false,
+    "reportUnknownVariableType": false,
+    "reportUnnecessaryIsInstance": false,
+    "reportUnusedCallResult": false,
+    "reportUnusedImport": false,
+    "typeCheckingMode": "strict"
+}

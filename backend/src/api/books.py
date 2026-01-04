@@ -222,7 +222,7 @@ async def reparse_book_endpoint(
 async def delete_book(
     book_id: int,
     session: Session = Depends(get_db_session),
-) -> dict:
+) -> dict[str, str]:
     """
     从物理磁盘删除文件
 
