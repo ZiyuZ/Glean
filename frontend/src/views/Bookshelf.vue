@@ -2,6 +2,7 @@
 import type { Book } from '@/types/api'
 import { CheckCircleIcon, StarIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
+import { useDebounceFn } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBooksStore } from '@/stores/books'
@@ -11,9 +12,26 @@ const booksStore = useBooksStore()
 
 const showMenu = ref<number | null>(null)
 
+// 初始加载：默认显示“未读完” (started=true, finished=false)
+// 在 store 初始化时或此处设置
+// 目前 store 默认 started=true, finished=undefined
+// 我们调整为默认: started=true, finished=false
+
 onMounted(() => {
+  // 初始化默认状态：未读完
+  if (booksStore.finishedFilter === undefined) {
+    booksStore.finishedFilter = false
+  }
   booksStore.fetchBooks()
 })
+
+const debouncedSearch = useDebounceFn(() => {
+  booksStore.fetchBooks()
+}, 300)
+
+function onSearchInput() {
+  debouncedSearch()
+}
 
 function formatDate(timestamp: number | null): string {
   if (!timestamp)
@@ -23,22 +41,19 @@ function formatDate(timestamp: number | null): string {
   const diff = now.getTime() - date.getTime()
 
   const minutes = Math.floor(diff / (1000 * 60))
+  const hours = Math.floor(diff / (1000 * 60 * 60))
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
   if (minutes < 1)
     return '刚刚'
   if (minutes < 60)
     return `${minutes}分钟前`
-
-  const hours = Math.floor(diff / (1000 * 60 * 60))
   if (hours < 24)
     return `${hours}小时前`
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   if (days === 1)
     return '昨天'
   if (days < 30)
     return `${days}天前`
-
   return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
 }
 
@@ -53,30 +68,39 @@ function toggleStar(book: Book, event: Event) {
 
 async function deleteBook(book: Book, event: Event) {
   event.stopPropagation()
-  // if (confirm(`确定要删除《${book.title}》吗？`)) {
   await booksStore.deleteBook(book.id!)
-  // }
   showMenu.value = null
 }
 
-function toggleFilter(type: 'starred' | 'finished') {
-  if (type === 'starred') {
-    booksStore.starredFilter
-      = booksStore.starredFilter === undefined
-        ? true
-        : booksStore.starredFilter === true
-          ? undefined
-          : true
+function toggleStarredFilter() {
+  booksStore.starredFilter = booksStore.starredFilter === true ? undefined : true
+  booksStore.fetchBooks()
+}
+
+// 状态筛选：'reading' (未读完) | 'finished' (已读完) | 'all' (全部已开始)
+function setStatusFilter(status: 'reading' | 'finished' | 'all') {
+  if (status === 'reading') {
+    booksStore.startedFilter = true
+    booksStore.finishedFilter = false
+  }
+  else if (status === 'finished') {
+    booksStore.startedFilter = true
+    booksStore.finishedFilter = true
   }
   else {
-    booksStore.finishedFilter
-      = booksStore.finishedFilter === undefined
-        ? false
-        : booksStore.finishedFilter === false
-          ? undefined
-          : false
+    // All (Started)
+    booksStore.startedFilter = true
+    booksStore.finishedFilter = undefined
   }
   booksStore.fetchBooks()
+}
+
+// 计算当前激活的状态
+const currentStatus = ref<'reading' | 'finished' | 'all'>('reading')
+// 监听 store 变化同步状态 (简单起见，setter 同步更新 currentStatus)
+function updateStatus(status: 'reading' | 'finished' | 'all') {
+  currentStatus.value = status
+  setStatusFilter(status)
 }
 </script>
 
@@ -90,32 +114,78 @@ function toggleFilter(type: 'starred' | 'finished') {
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
           我的书架
         </h1>
-        <div class="flex gap-2 mt-3">
+
+        <!-- Search -->
+        <div class="mt-3 relative">
+          <input
+            v-model="booksStore.searchQuery"
+            type="text"
+            placeholder="搜索书名..."
+            class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+            @input="onSearchInput"
+          >
+          <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex items-center gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
+          <!-- Status Group -->
+          <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <button
+              class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
+              :class="[
+                currentStatus === 'reading'
+                  ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
+              ]"
+              @click="updateStatus('reading')"
+            >
+              未读完
+            </button>
+            <button
+              class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
+              :class="[
+                currentStatus === 'finished'
+                  ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
+              ]"
+              @click="updateStatus('finished')"
+            >
+              已读完
+            </button>
+            <button
+              class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
+              :class="[
+                currentStatus === 'all'
+                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
+              ]"
+              @click="updateStatus('all')"
+            >
+              全部
+            </button>
+          </div>
+
+          <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1" />
+
+          <!-- Starred Toggle -->
           <button
-            class="px-3 py-1.5 rounded-full text-sm font-medium transition-colors flex items-center gap-1" :class="[
+            class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 border border-transparent"
+            :class="[
               booksStore.starredFilter === true
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
-            ]" @click="toggleFilter('starred')"
+                ? 'bg-yellow-50 text-yellow-600 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-500 dark:border-yellow-900/50'
+                : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700',
+            ]"
+            @click="toggleStarredFilter"
           >
-            <component :is="booksStore.starredFilter === true ? StarIconSolid : StarIcon" class="w-[14px] h-[14px]" />
-            已收藏
-          </button>
-          <button
-            class="px-3 py-1.5 rounded-full text-sm font-medium transition-colors flex items-center gap-1" :class="[
-              booksStore.finishedFilter === false
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
-            ]" @click="toggleFilter('finished')"
-          >
-            <CheckCircleIcon class="w-[14px] h-[14px]" />
-            未读完
+            <component :is="booksStore.starredFilter === true ? StarIconSolid : StarIcon" class="w-4 h-4" />
+            收藏
           </button>
         </div>
-        <input
-          v-model="booksStore.searchQuery" type="text" placeholder="搜索书名..." class="w-full mt-3 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          @input="booksStore.fetchBooks()"
-        >
       </div>
     </header>
 
