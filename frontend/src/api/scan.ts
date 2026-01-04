@@ -34,3 +34,10 @@ export async function getScanStatus(): Promise<ScanStatusResponse> {
 export async function stopScan(): Promise<StopScanResponse> {
   return apiClient.post('scan/stop').json<StopScanResponse>()
 }
+
+/**
+ * 清空数据库
+ */
+export async function clearDatabase(): Promise<{ message: string }> {
+  return apiClient.post('scan/clear').json<{ message: string }>()
+}

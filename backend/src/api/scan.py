@@ -1,7 +1,9 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel
+from sqlmodel import delete
 
 from ..core.database import get_session
+from ..core.models import Book, Chapter
 from ..services.scanner import get_scan_status, scan_directory, stop_scan
 
 router = APIRouter()
@@ -75,9 +77,28 @@ async def get_status() -> ScanStatusResponse:
 
 
 @router.post('/stop')
-async def stop_scanning() -> dict:
+async def stop_scanning() -> dict[str, str]:
     """
     停止正在进行的扫描
     """
     stop_scan()
     return {'message': 'Scan stop requested'}
+
+
+@router.post('/clear')
+async def clear_database() -> dict[str, str]:
+    """
+    清空数据库
+
+    警告：这将删除所有书籍、章节和阅读进度！
+    """
+    status = get_scan_status()
+    if status['is_running']:
+        raise HTTPException(status_code=409, detail='Scan is running')
+
+    with get_session() as session:
+        session.exec(delete(Chapter))
+        session.exec(delete(Book))
+        session.commit()
+
+    return {'message': 'Database cleared successfully'}

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { Toaster } from 'vue-sonner'
 import BottomNav from '@/components/BottomNav.vue'
 
 const route = useRoute()
@@ -9,6 +10,7 @@ const showNav = computed(() => !route.meta.hideNav)
 </script>
 
 <template>
+  <Toaster position="top-center" />
   <router-view class="safe-top" />
   <BottomNav v-if="showNav" class="safe-bottom" />
 </template>
