@@ -76,28 +76,28 @@ function toggleStar(book: Book, event: Event) {
     <header
       class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900/95 dark:border-gray-800"
     >
-      <div class="px-4 py-3">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-          发现
-        </h1>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          从书库中随机发现好书
-        </p>
+      <div class="px-4 py-3 flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            发现
+          </h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            从书库中随机发现好书
+          </p>
+        </div>
+        <button
+          :disabled="loading"
+          class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-50 transition-colors"
+          title="换一批"
+          @click="loadRandomBooks"
+        >
+          <ArrowPathIcon class="w-6 h-6" :class="{ 'animate-spin': loading }" />
+        </button>
       </div>
     </header>
 
     <!-- Random Books -->
     <main class="px-4 py-4">
-      <div class="mb-6">
-        <button
-          :disabled="loading" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
-          @click="loadRandomBooks"
-        >
-          <ArrowPathIcon class="size-[18px]" :class="{ 'animate-spin': loading }" />
-          <span>换一批</span>
-        </button>
-      </div>
-
       <div v-if="loading" class="text-center py-12">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
         <p class="mt-2 text-gray-600 dark:text-gray-400">

@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
-import { CheckCircleIcon, StarIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { ExclamationTriangleIcon, StarIcon } from '@heroicons/vue/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { useDebounceFn } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
+import BookItem from '@/components/BookItem.vue'
 import { useBooksStore } from '@/stores/books'
 
 const router = useRouter()
 const booksStore = useBooksStore()
+
+const isDeleteModalOpen = ref(false)
+const bookToDelete = ref<Book | null>(null)
 
 // 初始加载：默认显示“未读完” (started=true, finished=false)
 // 在 store 初始化时或此处设置
@@ -31,42 +37,37 @@ function onSearchInput() {
   debouncedSearch()
 }
 
-function formatDate(timestamp: number | null): string {
-  if (!timestamp)
-    return '未读'
-  const date = new Date(timestamp * 1000)
-  const now = new Date()
-  const diff = now.getTime() - date.getTime()
-
-  const minutes = Math.floor(diff / (1000 * 60))
-  const hours = Math.floor(diff / (1000 * 60 * 60))
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-
-  if (minutes < 1)
-    return '刚刚'
-  if (minutes < 60)
-    return `${minutes}分钟前`
-  if (hours < 24)
-    return `${hours}小时前`
-  if (days === 1)
-    return '昨天'
-  if (days < 30)
-    return `${days}天前`
-  return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
-}
-
 function openBook(book: Book) {
   router.push(`/reader/${book.id}`)
 }
 
-function toggleStar(book: Book, event: Event) {
-  event.stopPropagation()
+function toggleStar(book: Book) {
   booksStore.toggleStar(book.id!, !book.is_starred)
 }
 
-async function deleteBook(book: Book, event: Event) {
-  event.stopPropagation()
-  await booksStore.deleteBook(book.id!)
+function confirmDelete(book: Book) {
+  // Prevent card click
+  // event.stopPropagation() is handled by the MenuButton usually, but good to be safe if called elsewhere
+  bookToDelete.value = book
+  isDeleteModalOpen.value = true
+}
+
+async function doDelete() {
+  if (!bookToDelete.value)
+    return
+
+  try {
+    await booksStore.deleteBook(bookToDelete.value.id!)
+    toast.success('书籍已删除')
+  }
+  catch (e) {
+    console.error(e)
+    toast.error('删除失败')
+  }
+  finally {
+    isDeleteModalOpen.value = false
+    bookToDelete.value = null
+  }
 }
 
 function toggleStarredFilter() {
@@ -205,43 +206,79 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
       </div>
 
       <div v-else class="space-y-3">
-        <div
-          v-for="book in booksStore.filteredBooks" :key="book.id" class="relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-          @click="openBook(book)"
-        >
-          <div class="flex items-start justify-between">
-            <div class="flex-1 min-w-0">
-              <h2 class="text-lg font-semibold text-gray-900 dark:text-white truncate">
-                {{ book.title }}
-              </h2>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {{ formatDate(book.last_read_time) }}
-              </p>
-              <div class="flex items-center gap-2 mt-2">
-                <StarIconSolid v-if="book.is_starred" class="w-[16px] h-[16px] text-yellow-500" title="已收藏" />
-                <CheckCircleIcon v-if="book.is_finished" class="w-[16px] h-[16px] text-green-500" title="已读完" />
-              </div>
-            </div>
-            <div class="flex items-center gap-2 ml-4">
-              <button
-                class="p-2 rounded-lg transition-colors" :class="[
-                  book.is_starred
-                    ? 'text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
-                    : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700',
-                ]" @click.stop="toggleStar(book, $event)"
-              >
-                <component :is="book.is_starred ? StarIconSolid : StarIcon" class="w-[20px] h-[20px]" />
-              </button>
-              <button
-                class="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                @click.stop="deleteBook(book, $event)"
-              >
-                <TrashIcon class="w-[20px] h-[20px]" />
-              </button>
-            </div>
-          </div>
-        </div>
+        <BookItem
+          v-for="book in booksStore.filteredBooks"
+          :key="book.id"
+          :book="book"
+          @open="openBook"
+          @toggle-star="toggleStar"
+          @delete="confirmDelete"
+        />
       </div>
     </main>
+    <!-- Delete Confirmation Modal -->
+    <TransitionRoot as="template" :show="isDeleteModalOpen">
+      <Dialog as="div" class="relative z-50" @close="isDeleteModalOpen = false">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <TransitionChild
+              as="template"
+              enter="ease-out duration-300"
+              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enter-to="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leave-from="opacity-100 translate-y-0 sm:scale-100"
+              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <div class="sm:flex sm:items-start">
+                  <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+                  </div>
+                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+                      删除书籍
+                    </DialogTitle>
+                    <div class="mt-2">
+                      <p class="text-sm text-gray-500 dark:text-gray-400">
+                        确定要删除 "<strong>{{ bookToDelete?.title }}</strong>" 吗？此操作无法撤销。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                  <button
+                    type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    @click="doDelete"
+                  >
+                    删除
+                  </button>
+                  <button
+                    type="button"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto"
+                    @click="isDeleteModalOpen = false"
+                  >
+                    取消
+                  </button>
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>
