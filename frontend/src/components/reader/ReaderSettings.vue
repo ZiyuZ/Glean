@@ -34,14 +34,14 @@ const settingRanges = {
 </script>
 
 <template>
-  <Transition name="slide-up">
-    <div v-if="true" data-settings-panel class="reader-settings no-scrollbar" @click.stop>
-      <div class="mb-5">
-        <p class="text-lg font-bold text-gray-900 dark:text-gray-50">
-          阅读设置
-        </p>
-      </div>
-
+  <div data-settings-panel class="reader-settings no-scrollbar">
+    <div class="mx-4 my-3">
+      <p class="text-lg font-bold text-gray-900 dark:text-gray-50">
+        阅读设置
+      </p>
+    </div>
+    <div class="h-px my-0 bg-gray-300 dark:bg-gray-500/60" />
+    <div class="px-4">
       <div class="divide-y divide-gray-100 dark:divide-gray-700/60">
         <!-- Font Size -->
         <div class="grid grid-cols-[100px,1fr] items-center gap-4 py-4">
@@ -172,7 +172,7 @@ const settingRanges = {
         </div>
       </div>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <style scoped>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ArrowLeftIcon, Cog6ToothIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
 import { useHead } from '@unhead/vue'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
@@ -286,23 +287,86 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
       </div>
     </div>
 
-    <!-- Drawers -->
-    <div v-if="showTOC" class="absolute inset-0 z-50 bg-black/50" @click="showTOC = false">
-      <div class="absolute left-0 right-0 bottom-0 top-16 bg-white dark:bg-gray-900 rounded-t-xl overflow-hidden flex flex-col" @click.stop>
-        <ReaderTOC
-          :chapters="readerStore.chapters"
-          :current-chapter-index="readerStore.currentChapterIndex"
-          :has-book="!!readerStore.currentBook"
-          @jump-to-chapter="(i) => { loadChapter(i); showTOC = false }"
-        />
-      </div>
-    </div>
+    <!-- Drawers using Headless UI Dialog -->
 
-    <div v-if="showSettings" class="absolute inset-0 z-50" @click="showSettings = false">
-      <div class="absolute bottom-0 w-full bg-white dark:bg-gray-800 p-4 rounded-t-xl shadow-lg" @click.stop>
-        <ReaderSettings />
-      </div>
-    </div>
+    <!-- TOC Drawer -->
+    <TransitionRoot as="template" :show="showTOC">
+      <Dialog as="div" class="relative z-50" @close="showTOC = false">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-black/50 transition-opacity" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 overflow-hidden z-10">
+          <div class="absolute inset-0 overflow-hidden">
+            <div class="pointer-events-none fixed inset-x-0 bottom-0 flex max-h-[85vh]">
+              <TransitionChild
+                as="template"
+                enter="transform transition ease-in-out duration-300"
+                enter-from="translate-y-full"
+                enter-to="translate-y-0"
+                leave="transform transition ease-in-out duration-300"
+                leave-from="translate-y-0"
+                leave-to="translate-y-full"
+              >
+                <DialogPanel class="pointer-events-auto w-full bg-white dark:bg-gray-900 rounded-t-xl shadow-xl flex flex-col">
+                  <ReaderTOC
+                    :chapters="readerStore.chapters"
+                    :current-chapter-index="readerStore.currentChapterIndex"
+                    :has-book="!!readerStore.currentBook"
+                    @jump-to-chapter="(i) => { loadChapter(i); showTOC = false }"
+                  />
+                </DialogPanel>
+              </TransitionChild>
+            </div>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <!-- Settings Drawer -->
+    <TransitionRoot as="template" :show="showSettings">
+      <Dialog as="div" class="relative z-50" @close="showSettings = false">
+        <TransitionChild
+          as="template"
+          enter="ease-out duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="ease-in duration-200"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-black/25 transition-opacity" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 overflow-hidden z-10">
+          <div class="absolute inset-0 overflow-hidden">
+            <div class="pointer-events-none fixed inset-x-0 bottom-0 flex max-h-[75vh]">
+              <TransitionChild
+                as="template"
+                enter="transform transition ease-in-out duration-300"
+                enter-from="translate-y-full"
+                enter-to="translate-y-0"
+                leave="transform transition ease-in-out duration-300"
+                leave-from="translate-y-0"
+                leave-to="translate-y-full"
+              >
+                <DialogPanel class="pointer-events-auto w-full bg-white dark:bg-gray-800 rounded-t-xl shadow-xl">
+                  <ReaderSettings />
+                </DialogPanel>
+              </TransitionChild>
+            </div>
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
   </div>
 </template>
 

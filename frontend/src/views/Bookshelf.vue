@@ -10,8 +10,6 @@ import { useBooksStore } from '@/stores/books'
 const router = useRouter()
 const booksStore = useBooksStore()
 
-const showMenu = ref<number | null>(null)
-
 // 初始加载：默认显示“未读完” (started=true, finished=false)
 // 在 store 初始化时或此处设置
 // 目前 store 默认 started=true, finished=undefined
@@ -69,7 +67,6 @@ function toggleStar(book: Book, event: Event) {
 async function deleteBook(book: Book, event: Event) {
   event.stopPropagation()
   await booksStore.deleteBook(book.id!)
-  showMenu.value = null
 }
 
 function toggleStarredFilter() {
