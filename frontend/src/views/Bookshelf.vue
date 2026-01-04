@@ -21,16 +21,24 @@ function formatDate(timestamp: number | null): string {
   const date = new Date(timestamp * 1000)
   const now = new Date()
   const diff = now.getTime() - date.getTime()
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
-  if (days === 0)
-    return '今天'
+  const minutes = Math.floor(diff / (1000 * 60))
+
+  if (minutes < 1)
+    return '刚刚'
+  if (minutes < 60)
+    return `${minutes}分钟前`
+
+  const hours = Math.floor(diff / (1000 * 60 * 60))
+  if (hours < 24)
+    return `${hours}小时前`
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   if (days === 1)
     return '昨天'
-  if (days < 7)
-    return `${days}天前`
   if (days < 30)
-    return `${Math.floor(days / 7)}周前`
+    return `${days}天前`
+
   return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
 }
 

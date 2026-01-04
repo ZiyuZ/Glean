@@ -8,23 +8,13 @@ import type {
   RandomBooksParams,
   UpdateProgressParams,
 } from '../types/api'
-import { apiClient } from './client'
+import { apiClient, toSearchParams } from './client'
 
 /**
  * 获取书架列表
  */
 export async function listBooks(params?: ListBooksParams): Promise<Book[]> {
-  const searchParams = new URLSearchParams()
-  if (params?.starred !== undefined) {
-    searchParams.append('starred', String(params.starred))
-  }
-  if (params?.search) {
-    searchParams.append('search', params.search)
-  }
-  if (params?.finished !== undefined) {
-    searchParams.append('finished', String(params.finished))
-  }
-
+  const searchParams = params ? toSearchParams(params) : undefined
   return apiClient.get('books', { searchParams }).json<Book[]>()
 }
 
@@ -34,11 +24,7 @@ export async function listBooks(params?: ListBooksParams): Promise<Book[]> {
 export async function getRandomBooks(
   params?: RandomBooksParams,
 ): Promise<Book[]> {
-  const searchParams = new URLSearchParams()
-  if (params?.count) {
-    searchParams.append('count', String(params.count))
-  }
-
+  const searchParams = params ? toSearchParams(params) : undefined
   return apiClient.get('books/random', { searchParams }).json<Book[]>()
 }
 

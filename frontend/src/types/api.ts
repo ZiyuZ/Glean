@@ -77,6 +77,7 @@ export interface ListBooksParams {
   starred?: boolean
   search?: string
   finished?: boolean
+  started?: boolean
 }
 
 /**

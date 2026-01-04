@@ -4,6 +4,7 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlmodel import Session, func, select
+from sqlmodel.sql.expression import col
 
 from ..core.config import settings
 from ..core.database import get_db_session
@@ -70,6 +71,7 @@ async def list_books(
     starred: bool | None = Query(None, description='筛选标星书籍'),
     search: str | None = Query(None, description='搜索书名'),
     finished: bool | None = Query(None, description='筛选已读完/未读完的书籍'),
+    started: bool | None = Query(None, description='筛选是否已开始阅读'),
     session: Session = Depends(get_db_session),
 ) -> list[Book]:
     """
@@ -78,15 +80,21 @@ async def list_books(
     - 支持按标星状态筛选
     - 支持按书名搜索
     - 支持按是否读完筛选
+    - 支持按是否开始阅读筛选
     - 返回书籍列表（前端可根据 chapter_index、chapter_offset、chapters 计算进度）
     """
     statement = select(Book)
     if starred is not None:
         statement = statement.where(Book.is_starred == starred)
     if search:
-        statement = statement.where(Book.title.contains(search))
+        statement = statement.where(col(Book.title).contains(search))
     if finished is not None:
         statement = statement.where(Book.is_finished == finished)
+    if started is not None:
+        if started:
+            statement = statement.where(Book.chapter_index != None)  # noqa: E711
+        else:
+            statement = statement.where(Book.chapter_index == None)  # noqa: E711
     books = session.exec(statement).all()
     return list(books)
 

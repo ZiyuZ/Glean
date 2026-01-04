@@ -11,12 +11,19 @@ export const useBooksStore = defineStore('books', () => {
   // 筛选条件
   const starredFilter = ref<boolean | undefined>(undefined)
   const finishedFilter = ref<boolean | undefined>(undefined)
+  const startedFilter = ref<boolean | undefined>(true) // 默认只显示已开始阅读的书籍
   const searchQuery = ref('')
 
-  // 筛选后的书籍列表（只显示有进度的书籍）
+  // 筛选后的书籍列表
   const filteredBooks = computed(() => {
-    // 只显示有阅读进度的书籍（chapter_index !== null）
-    let result = books.value.filter(book => book.chapter_index !== null)
+    // 默认按照最后阅读时间倒序排序
+    const sortedBooks = [...books.value].sort((a, b) => {
+      const timeA = a.last_read_time || 0
+      const timeB = b.last_read_time || 0
+      return timeB - timeA
+    })
+
+    let result = sortedBooks
 
     if (starredFilter.value !== undefined) {
       result = result.filter(book => book.is_starred === starredFilter.value)
@@ -44,6 +51,7 @@ export const useBooksStore = defineStore('books', () => {
       books.value = await api.listBooks({
         starred: starredFilter.value,
         finished: finishedFilter.value,
+        started: startedFilter.value,
         search: searchQuery.value || undefined,
       })
     }
@@ -127,6 +135,7 @@ export const useBooksStore = defineStore('books', () => {
     error,
     starredFilter,
     finishedFilter,
+    startedFilter,
     searchQuery,
     filteredBooks,
     fetchBooks,

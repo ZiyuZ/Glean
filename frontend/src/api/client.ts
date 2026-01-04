@@ -43,3 +43,16 @@ export const apiClient = ky.create({
     ],
   },
 })
+
+/**
+ * 将对象转换为 URLSearchParams，自动过滤 undefined 和 null
+ */
+export function toSearchParams(params: Record<string, any>): URLSearchParams {
+  const searchParams = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null) {
+      searchParams.append(key, String(value))
+    }
+  }
+  return searchParams
+}
