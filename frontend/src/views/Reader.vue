@@ -153,6 +153,18 @@ async function init() {
   try {
     await readerStore.loadBook(bookId)
     await updateMetrics()
+
+    // Restore page progress
+    if (readerStore.currentBook?.chapter_offset && readerStore.currentContent) {
+      const contentLength = readerStore.currentContent.length
+      if (contentLength > 0) {
+        // Calculate progress ratio from offset
+        const progress = readerStore.currentBook.chapter_offset / contentLength
+        // Map to page number
+        const page = Math.round(progress * totalPages.value)
+        currentPage.value = Math.min(Math.max(0, page), totalPages.value - 1)
+      }
+    }
   }
   catch (e) {
     console.error(e)
@@ -161,8 +173,16 @@ async function init() {
 
 async function saveProgress() {
   if (readerStore.currentBook && readerStore.currentChapterIndex !== null) {
-    // Save simple chapter index for now, later offset
-    await readerStore.saveProgress(0)
+    let offset = 0
+    // Estimate char offset based on current page
+    if (readerStore.currentContent && totalPages.value > 1) {
+      const contentLength = readerStore.currentContent.length
+      // Calculate start of page ratio
+      const progress = currentPage.value / totalPages.value
+      offset = Math.floor(progress * contentLength)
+    }
+
+    await readerStore.saveProgress(offset)
   }
 }
 
