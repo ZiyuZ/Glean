@@ -9,6 +9,7 @@ from sqlmodel.sql.expression import col
 from ..core.config import settings
 from ..core.database import get_db_session
 from ..core.models import Book, Chapter
+from ..core.schemas import MessageResponse
 from ..services.book_service import reparse_book as reparse_book_service
 
 router = APIRouter()
@@ -231,7 +232,7 @@ async def delete_book(
     book_id: int,
     physical: bool = Query(True, description='是否物理删除文件'),
     session: Session = Depends(get_db_session),
-) -> dict[str, str]:
+) -> MessageResponse:
     """
     删除书籍
 
@@ -245,7 +246,7 @@ async def delete_book(
     """
     book = session.get(Book, book_id)
     if not book:
-        raise HTTPException(status_code=404, detail='Book not found')
+        raise HTTPException(status_code=404, detail='书籍未找到')
 
     if not physical:
         # 逻辑删除：仅重置阅读进度（移出书架）
@@ -256,7 +257,7 @@ async def delete_book(
         session.add(book)
         session.commit()
         session.refresh(book)
-        return {'message': 'Book removed from bookshelf'}
+        return MessageResponse(message='已移出书架')
 
     # 物理删除：删除文件 + 数据库记录
     # 1. 删除物理文件
@@ -280,4 +281,4 @@ async def delete_book(
     # 3. 删除书籍记录
     session.delete(book)
     session.commit()
-    return {'message': 'Book deleted successfully'}
+    return MessageResponse(message='书籍已彻底删除')

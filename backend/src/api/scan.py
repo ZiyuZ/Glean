@@ -5,6 +5,7 @@ from sqlmodel import delete
 
 from ..core.database import get_session
 from ..core.models import Book, Chapter
+from ..core.schemas import MessageResponse
 from ..services.scanner import get_scan_status, scan_directory, stop_scan
 
 router = APIRouter()
@@ -53,13 +54,13 @@ async def trigger_scan(
     """
     status = get_scan_status()
     if status['is_running']:
-        raise HTTPException(status_code=409, detail='Scan is already running')
+        raise HTTPException(status_code=409, detail='扫描任务已在运行中')
     logger.info('Starting scan...')
     # 启动后台任务
     background_tasks.add_task(scan_task, full_scan)
 
     return ScanResponse(
-        message='Scan started',
+        message='扫描任务已启动',
         files_scanned=0,
         files_added=0,
         files_updated=0,
@@ -78,16 +79,16 @@ async def get_status() -> ScanStatusResponse:
 
 
 @router.post('/stop')
-async def stop_scanning() -> dict[str, str]:
+async def stop_scanning() -> MessageResponse:
     """
     停止正在进行的扫描
     """
     stop_scan()
-    return {'message': 'Scan stop requested'}
+    return MessageResponse(message='已请求停止扫描')
 
 
 @router.post('/clear')
-async def clear_database() -> dict[str, str]:
+async def clear_database() -> MessageResponse:
     """
     清空数据库
 
@@ -96,11 +97,11 @@ async def clear_database() -> dict[str, str]:
     logger.warning('Clearing database...')
     status = get_scan_status()
     if status['is_running']:
-        raise HTTPException(status_code=409, detail='Scan is running')
+        raise HTTPException(status_code=409, detail='扫描正在运行中，无法清空数据库')
 
     with get_session() as session:
         session.exec(delete(Chapter))
         session.exec(delete(Book))
         session.commit()
 
-    return {'message': 'Database cleared successfully'}
+    return MessageResponse(message='数据库已清空')

@@ -4,7 +4,7 @@
  */
 
 import ky from 'ky'
-
+import { toast } from 'vue-sonner'
 /**
  * 创建 API 客户端实例
  *
@@ -23,6 +23,22 @@ export const apiClient = ky.create({
     statusCodes: [408, 413, 429, 500, 502, 503, 504],
   },
   hooks: {
+    afterResponse: [
+      async (request, _options, response) => {
+        if (response.ok && request.method !== 'GET') {
+          try {
+            const data = await response.clone().json()
+            if (data && typeof data.message === 'string') {
+              toast.success(data.message)
+            }
+          }
+          catch {
+            // 忽略非 JSON 响应或解析错误
+          }
+        }
+        return response
+      },
+    ],
     beforeError: [
       async (error) => {
         const { response } = error
@@ -32,6 +48,7 @@ export const apiClient = ky.create({
             // FastAPI 错误响应格式：{"detail": "error message"}
             if (body.detail) {
               error.message = body.detail
+              toast.error(body.detail)
             }
           }
           catch {

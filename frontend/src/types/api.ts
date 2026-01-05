@@ -81,6 +81,13 @@ export interface ListBooksParams {
 }
 
 /**
+ * 通用消息响应
+ */
+export interface MessageResponse {
+  message: string
+}
+
+/**
  * 随机书籍查询参数
  */
 export interface RandomBooksParams {

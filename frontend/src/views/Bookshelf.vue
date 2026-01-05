@@ -54,7 +54,6 @@ async function doDelete() {
   try {
     const isPhysical = deleteType.value === 'physical'
     await booksStore.deleteBook(bookToDelete.value.id!, isPhysical)
-    toast.success(isPhysical ? '书籍文件已彻底删除' : '已移出书架')
   }
   catch (e) {
     console.error(e)

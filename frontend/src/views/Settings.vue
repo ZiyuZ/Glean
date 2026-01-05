@@ -13,7 +13,6 @@ async function triggerScan(fullScan: boolean = false) {
   scanning.value = true
   try {
     await api.triggerScan(fullScan)
-    toast.info('扫描任务已启动')
     await waitScanUntilFinished()
   }
   catch (err) {
@@ -51,7 +50,6 @@ async function waitScanUntilFinished() {
 async function stopScan() {
   try {
     await api.stopScan()
-    toast.info('已请求停止扫描')
     await checkScanStatus()
   }
   catch (err) {
@@ -68,7 +66,6 @@ async function clearDatabase() {
   isClearModalOpen.value = false
   try {
     await api.clearDatabase()
-    toast.success('数据库已清空')
     await checkScanStatus()
   }
   catch (err) {
