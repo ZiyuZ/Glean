@@ -27,7 +27,7 @@ const filteredBooks = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 flex flex-col">
+  <div class="h-full flex flex-col overflow-hidden">
     <!-- Header -->
     <AppHeader title="书库">
       <template #actions>
@@ -63,7 +63,7 @@ const filteredBooks = computed(() => {
     </AppHeader>
 
     <!-- Main Content -->
-    <main class="px-4 py-4 max-w-5xl mx-auto flex flex-1 w-full">
+    <main class="px-4 py-4 max-w-5xl mx-auto flex flex-1 w-full min-h-0">
       <FileTree class="flex-1 w-full" :books="filteredBooks" />
     </main>
 

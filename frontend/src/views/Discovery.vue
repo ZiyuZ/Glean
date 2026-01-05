@@ -72,7 +72,7 @@ function toggleStar(book: Book, event: Event) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+  <div class="h-full overflow-y-auto">
     <!-- Header -->
     <AppHeader title="发现" subtitle="从书库中随机发现好书">
       <template #actions>

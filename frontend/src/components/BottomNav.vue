@@ -21,7 +21,7 @@ function navigate(path: string) {
 
 <template>
   <nav
-    class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200 dark:bg-gray-900/95 dark:border-gray-800"
+    class="w-full bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-800"
   >
     <div class="flex justify-around items-center h-16 px-4">
       <button

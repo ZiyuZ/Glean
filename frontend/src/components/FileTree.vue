@@ -110,8 +110,8 @@ function onNodeSelect(node: TreeNode) {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-2">
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col h-full">
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-2 flex-shrink-0">
       <FolderIcon class="w-5 h-5 text-gray-500" />
       <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
         文件目录
@@ -121,7 +121,7 @@ function onNodeSelect(node: TreeNode) {
       </span>
     </div>
 
-    <div class="p-2 min-h-[300px] max-h-[calc(100vh-240px)] overflow-y-auto">
+    <div class="p-2 flex-1 overflow-y-auto min-h-0">
       <div v-if="nodes.length === 0" class="text-center py-12 text-gray-400 text-sm">
         书库为空，请先扫描
       </div>

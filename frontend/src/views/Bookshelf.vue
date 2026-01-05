@@ -102,7 +102,7 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+  <div class="h-full overflow-y-auto">
     <!-- Header -->
     <AppHeader title="我的书架">
       <template #bottom>
