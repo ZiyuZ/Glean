@@ -6,15 +6,15 @@ def _generate_chapter_regex() -> re.Pattern[str]:
     获取章节标题匹配的正则表达式（宽松模式）
     """
     patterns = [
-        # 中文章节
-        r'第[一二三四五六七八九十百千万\d ]+[章节回]',
-        # 纯数字匹配要求前面没有直接和汉字相连, 并且不超过5位数字
-        r'(?<![\u4e00-\u9fff]|[A-Za-z])\d+',
+        # 中文章节, 中文数字数量不超过7个(一千七百二十一), 数字数量不超过4个 (最大9999章)
+        r'第([一二三四五六七八九十百千万]{1,7}|\d{1,4})[章节回]',
+        # 纯数字匹配要求前面没有直接和汉字相连, 并且不超过4位数字
+        r'(?<![\u4e00-\u9fff]|[A-Za-z])\d{1,4}',
         # 分卷阅读
-        r'分卷阅读[一二三四五六七八九十百千万\d ]+',
+        r'分卷阅读([一二三四五六七八九十百千万]{1,7}|\d{1,4})',
         r'章节目录'
         # 英文 Chapter
-        r'^Chapter\s+\d+',
+        r'^Chapter\s+\d{1,4}',
     ]
     combined_pattern = '|'.join(f'({pattern})' for pattern in patterns)
     return re.compile(combined_pattern, re.IGNORECASE | re.MULTILINE)
@@ -37,9 +37,6 @@ def is_line_chapter_title(line: str) -> bool:
     # 1. 长度校验
     # 如果标题行太长（超过 30 字），极有可能不是标题而是正文
     if len(line) > 30:
-        return False
-    # 如果文字包含数字且数字数量超过 5 个, 一般也是正文
-    if len(re.findall(r'\d', line)) > 5:
         return False
 
     # 2. 标点符号校验 (结尾不应该是逗号、顿号、冒号，且一般不包括句号)
