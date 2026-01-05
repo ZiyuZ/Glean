@@ -1,6 +1,6 @@
 [project]
 name = "glean"
-version = "0.1.0"
+version = "0.2.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
@@ -58,6 +58,4 @@ reportPrivateImportUsage = false
 reportUnusedImport = false
 
 [dependency-groups]
-dev = [
-    "pytest>=9.0.2",
-]
+dev = ["pytest>=9.0.2"]

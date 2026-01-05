@@ -9,6 +9,8 @@ from src.core.config import settings
 from src.core.database import init_db
 from src.core.log import setup_logging
 
+__version__ = '0.2.0'
+
 # 设置日志
 setup_logging()
 
@@ -23,7 +25,7 @@ IS_PRODUCTION = settings.is_production
 app = FastAPI(
     title='Glean (拾阅)',
     description='轻量级的、自托管的个人小说云阅工具',
-    version='0.1.0',
+    version=__version__,
 )
 
 # CORS 配置
@@ -74,7 +76,7 @@ else:
     # 开发环境：根路由返回 API 信息
     @app.get('/')
     async def root_dev():
-        return {'message': 'Glean API', 'version': '0.1.0'}
+        return {'message': 'Glean API', 'version': __version__}
 
 
 if __name__ == '__main__':
