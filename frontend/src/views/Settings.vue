@@ -14,14 +14,13 @@ async function triggerScan(fullScan: boolean = false) {
   try {
     await api.triggerScan(fullScan)
     toast.info('扫描任务已启动')
-    await checkScanStatus()
+    await waitScanUntilFinished()
   }
   catch (err) {
     console.error('Failed to trigger scan:', err)
     toast.error('启动扫描失败')
   }
   finally {
-    toast.success('扫描任务已完成')
     scanning.value = false
   }
 }
@@ -29,9 +28,23 @@ async function triggerScan(fullScan: boolean = false) {
 async function checkScanStatus() {
   try {
     scanStatus.value = await api.getScanStatus()
+    if (scanning.value && !scanStatus.value.is_running) {
+      toast.success('扫描任务已完成')
+      return true
+    }
+    return false
   }
   catch (err) {
     console.error('Failed to get scan status:', err)
+  }
+}
+
+async function waitScanUntilFinished() {
+  while (scanning.value) {
+    if (await checkScanStatus()) {
+      break
+    }
+    await new Promise(resolve => setTimeout(resolve, 1000))
   }
 }
 
@@ -54,8 +67,8 @@ function confirmClearDatabase() {
 async function clearDatabase() {
   isClearModalOpen.value = false
   try {
-    const res = await api.clearDatabase()
-    toast.success(res.message || '数据库已清空')
+    await api.clearDatabase()
+    toast.success('数据库已清空')
     await checkScanStatus()
   }
   catch (err) {
@@ -98,14 +111,14 @@ onMounted(() => {
             :disabled="scanning || scanStatus?.is_running" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
             @click="triggerScan(false)"
           >
-            {{ scanning ? '扫描中...' : '增量扫描' }}
+            {{ scanStatus?.is_running ? '扫描中...' : '增量扫描' }}
           </button>
 
           <button
             :disabled="scanning || scanStatus?.is_running" class="w-full py-3 px-4 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
             @click="triggerScan(true)"
           >
-            全量扫描
+            {{ scanStatus?.is_running ? '扫描中...' : '全量扫描' }}
           </button>
 
           <button
@@ -116,10 +129,10 @@ onMounted(() => {
           </button>
 
           <div v-if="scanStatus" class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-            <p>已扫描: {{ scanStatus.files_scanned }}</p>
+            <p>已处理: {{ scanStatus.files_scanned }}</p>
             <p>已添加: {{ scanStatus.files_added }}</p>
             <p>已更新: {{ scanStatus.files_updated }}</p>
-            <p>待扫描: {{ scanStatus.total_files - scanStatus.files_scanned }}</p>
+            <p>待处理: {{ scanStatus.total_files - scanStatus.files_scanned }}</p>
             <p v-if="scanStatus.current_file">
               当前: {{ scanStatus.current_file }}
             </p>
