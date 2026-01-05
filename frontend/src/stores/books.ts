@@ -118,9 +118,9 @@ export const useBooksStore = defineStore('books', () => {
   }
 
   // 删除书籍
-  async function deleteBook(bookId: number) {
+  async function deleteBook(bookId: number, physical = false) {
     try {
-      await api.deleteBook(bookId)
+      await api.deleteBook(bookId, physical)
       books.value = books.value.filter(b => b.id !== bookId)
     }
     catch (err) {

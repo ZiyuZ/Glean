@@ -85,8 +85,12 @@ export async function reparseBook(bookId: number): Promise<Book> {
 }
 
 /**
- * 从物理磁盘删除文件
+ * 删除书籍
+ * @param bookId 书籍 ID
+ * @param physical 是否物理删除文件（默认 false）
  */
-export async function deleteBook(bookId: number): Promise<{ message: string }> {
-  return apiClient.delete(`books/${bookId}`).json<{ message: string }>()
+export async function deleteBook(bookId: number, physical = false): Promise<{ message: string }> {
+  return apiClient.delete(`books/${bookId}`, {
+    searchParams: { physical },
+  }).json<{ message: string }>()
 }

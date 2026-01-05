@@ -229,23 +229,55 @@ async def reparse_book_endpoint(
 @router.delete('/{book_id}')
 async def delete_book(
     book_id: int,
+    physical: bool = Query(True, description='是否物理删除文件'),
     session: Session = Depends(get_db_session),
 ) -> dict[str, str]:
     """
-    从物理磁盘删除文件
+    删除书籍
 
-    注意：此操作会同时删除数据库记录和物理文件
+    - physical=True: 同时删除数据库记录和物理文件
+    - physical=False: 仅删除数据库记录（从书架移除）
+    删除书籍或从书架移除
+
+    - physical=True: 物理删除书籍文件和所有数据库记录（书籍及章节）。
+    - physical=False: 逻辑删除，仅重置书籍的阅读进度（chapter_index, chapter_offset,
+      is_finished, last_read_time），使其从“已开始阅读”状态中移除，但保留书籍记录和文件。
     """
     book = session.get(Book, book_id)
     if not book:
         raise HTTPException(status_code=404, detail='Book not found')
 
-    # 删除物理文件
-    file_path = Path(book.path)
-    if file_path.exists():
-        file_path.unlink()
+    if not physical:
+        # 逻辑删除：仅重置阅读进度（移出书架）
+        book.chapter_index = None
+        book.chapter_offset = None
+        book.is_finished = False
+        book.last_read_time = None
+        session.add(book)
+        session.commit()
+        session.refresh(book)
+        return {'message': 'Book removed from bookshelf'}
 
-    # 删除数据库记录（级联删除章节）
+    # 物理删除：删除文件 + 数据库记录
+    # 1. 删除物理文件
+    file_path = Path(book.path)
+    # 如果是相对路径，尝试拼接
+    if not file_path.is_absolute():
+        file_path = settings.books_dir / file_path
+
+    if file_path.exists():
+        try:
+            file_path.unlink()
+        except OSError as e:
+            # 文件删除失败（如被占用），但仍继续删除数据库记录？
+            print(f'Error deleting file {file_path}: {e}')
+
+    # 2. 删除关联章节 (避免 IntegrityError)
+    chapters = session.exec(select(Chapter).where(Chapter.book_id == book.id)).all()
+    for chapter in chapters:
+        session.delete(chapter)
+
+    # 3. 删除书籍记录
     session.delete(book)
     session.commit()
     return {'message': 'Book deleted successfully'}

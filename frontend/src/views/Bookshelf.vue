@@ -15,11 +15,7 @@ const booksStore = useBooksStore()
 
 const isDeleteModalOpen = ref(false)
 const bookToDelete = ref<Book | null>(null)
-
-// 初始加载：默认显示“未读完” (started=true, finished=false)
-// 在 store 初始化时或此处设置
-// 目前 store 默认 started=true, finished=undefined
-// 我们调整为默认: started=true, finished=false
+const deleteType = ref<'soft' | 'physical'>('physical')
 
 onMounted(() => {
   // 初始化默认状态：未读完
@@ -45,10 +41,9 @@ function toggleStar(book: Book) {
   booksStore.toggleStar(book.id!, !book.is_starred)
 }
 
-function confirmDelete(book: Book) {
-  // Prevent card click
-  // event.stopPropagation() is handled by the MenuButton usually, but good to be safe if called elsewhere
+function confirmDelete(book: Book, type: 'soft' | 'physical' = 'physical') {
   bookToDelete.value = book
+  deleteType.value = type
   isDeleteModalOpen.value = true
 }
 
@@ -57,12 +52,13 @@ async function doDelete() {
     return
 
   try {
-    await booksStore.deleteBook(bookToDelete.value.id!)
-    toast.success('书籍已删除')
+    const isPhysical = deleteType.value === 'physical'
+    await booksStore.deleteBook(bookToDelete.value.id!, isPhysical)
+    toast.success(isPhysical ? '书籍文件已彻底删除' : '已移出书架')
   }
   catch (e) {
     console.error(e)
-    toast.error('删除失败')
+    toast.error('操作失败')
   }
   finally {
     isDeleteModalOpen.value = false
@@ -212,7 +208,8 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
           :book="book"
           @open="openBook"
           @toggle-star="toggleStar"
-          @delete="confirmDelete"
+          @remove="confirmDelete($event, 'soft')"
+          @delete="confirmDelete($event, 'physical')"
         />
       </div>
     </main>
@@ -244,16 +241,25 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
             >
               <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div class="sm:flex sm:items-start">
-                  <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+                  <div
+                    class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10"
+                    :class="deleteType === 'physical' ? 'bg-red-100' : 'bg-blue-100'"
+                  >
+                    <ExclamationTriangleIcon
+                      class="h-6 w-6"
+                      :class="deleteType === 'physical' ? 'text-red-600' : 'text-blue-600'"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                      删除书籍
+                      {{ deleteType === 'physical' ? '彻底删除书籍' : '移出书架' }}
                     </DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500 dark:text-gray-400">
-                        确定要删除 "<strong>{{ bookToDelete?.title }}</strong>" 吗？此操作无法撤销。
+                        确定要{{ deleteType === 'physical' ? '彻底删除' : '移出' }} "<strong>{{ bookToDelete?.title }}</strong>" 吗？
+                        <span v-if="deleteType === 'physical'" class="text-red-500 font-medium block mt-1">此操作将删除物理文件，无法撤销！</span>
+                        <span v-else class="block mt-1">文件将保留在服务器上，后续可重新导入。</span>
                       </p>
                     </div>
                   </div>
@@ -261,10 +267,11 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
                 <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                   <button
                     type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto transition-colors"
+                    :class="deleteType === 'physical' ? 'bg-red-600 hover:bg-red-500' : 'bg-blue-600 hover:bg-blue-500'"
                     @click="doDelete"
                   >
-                    删除
+                    {{ deleteType === 'physical' ? '彻底删除' : '移出' }}
                   </button>
                   <button
                     type="button"

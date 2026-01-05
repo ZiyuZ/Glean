@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { CheckCircleIcon, EllipsisHorizontalIcon, StarIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { CheckCircleIcon, EllipsisHorizontalIcon, MinusCircleIcon, StarIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 
 defineProps<{
@@ -11,6 +11,7 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'open', book: Book): void
   (e: 'toggleStar', book: Book): void
+  (e: 'remove', book: Book): void
   (e: 'delete', book: Book): void
 }>()
 
@@ -90,12 +91,24 @@ function formatDate(timestamp: number | null): string {
                   <button
                     class="group flex w-full items-center rounded-lg px-2 py-2 text-sm"
                     :class="[
-                      active ? 'bg-red-50 text-red-600 dark:bg-red-900/20' : 'text-gray-700 dark:text-gray-200',
+                      active ? 'bg-gray-100 dark:bg-gray-700' : 'text-gray-700 dark:text-gray-200',
+                    ]"
+                    @click="emit('remove', book)"
+                  >
+                    <MinusCircleIcon class="mr-2 h-4 w-4" aria-hidden="true" />
+                    移出书架
+                  </button>
+                </MenuItem>
+                <MenuItem v-slot="{ active }">
+                  <button
+                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm text-red-600 dark:text-red-400"
+                    :class="[
+                      active ? 'bg-red-50 dark:bg-red-900/20' : '',
                     ]"
                     @click="emit('delete', book)"
                   >
                     <TrashIcon class="mr-2 h-4 w-4" aria-hidden="true" />
-                    删除
+                    彻底删除
                   </button>
                 </MenuItem>
               </div>
