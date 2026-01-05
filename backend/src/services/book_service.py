@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from loguru import logger
 from sqlmodel import Session, select
 
 from ..core.models import Book, Chapter
@@ -58,6 +59,7 @@ def create_or_update_book(
 
         if needs_reparse:
             # 需要重新解析
+            logger.info(f'Reparsing book: {relative_path}')
             book.hash_id = hash_id
             book.file_size = file_size
             book.file_mtime = file_mtime
@@ -75,15 +77,17 @@ def create_or_update_book(
                     book_id=book.id,
                     title=chapter_data['title'],
                     order_index=chapter_data['order_index'],
-                    content=chapter_data['content'],
+                    content='\n\n'.join(chapter_data['content']),
                 )
                 session.add(chapter)
 
             session.add(book)
             session.commit()
             session.refresh(book)
+            logger.info(f'Updated existing book: {relative_path}')
     else:
         # 创建新书籍
+        logger.info(f'Creating new book: {relative_path}')
         is_new = True
 
         # 解析章节（文件已经是 UTF-8）
@@ -109,12 +113,13 @@ def create_or_update_book(
                 book_id=book.id,
                 title=chapter_data['title'],
                 order_index=chapter_data['order_index'],
-                content=chapter_data['content'],
+                content='\n\n'.join(chapter_data['content']),
             )
             session.add(chapter)
 
         session.commit()
         session.refresh(book)
+        logger.info(f'Created new book: {relative_path}')
 
     return book, is_new
 

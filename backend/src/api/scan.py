@@ -1,4 +1,5 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
+from loguru import logger
 from pydantic import BaseModel
 from sqlmodel import delete
 
@@ -53,7 +54,7 @@ async def trigger_scan(
     status = get_scan_status()
     if status['is_running']:
         raise HTTPException(status_code=409, detail='Scan is already running')
-
+    logger.info('Starting scan...')
     # 启动后台任务
     background_tasks.add_task(scan_task, full_scan)
 
@@ -92,6 +93,7 @@ async def clear_database() -> dict[str, str]:
 
     警告：这将删除所有书籍、章节和阅读进度！
     """
+    logger.warning('Clearing database...')
     status = get_scan_status()
     if status['is_running']:
         raise HTTPException(status_code=409, detail='Scan is running')

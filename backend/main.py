@@ -7,6 +7,10 @@ from fastapi.staticfiles import StaticFiles
 from src.api import api_router
 from src.core.config import settings
 from src.core.database import init_db
+from src.core.log import setup_logging
+
+# 设置日志
+setup_logging()
 
 # 确保必要的目录存在
 settings.ensure_directories()
