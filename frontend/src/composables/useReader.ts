@@ -72,7 +72,7 @@ export function useReaderConfig() {
   })
 
   const enableAnimation = computed({
-    get: () => config.value.enableAnimation ?? true,
+    get: () => config.value.enableAnimation ?? false,
     set: v => config.value.enableAnimation = v,
   })
 

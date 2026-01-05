@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ArrowLeftIcon, Cog6ToothIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
+import { ArrowLeftIcon, ChevronLeftIcon, ChevronRightIcon, Cog6ToothIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
 import { useHead } from '@unhead/vue'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -22,6 +22,7 @@ const totalPages = ref(1)
 const isMenuOpen = ref(false)
 const showTOC = ref(false)
 const showSettings = ref(false)
+const isDragging = ref(false)
 
 // --- Theme & Styles ---
 const themeColors = computed(() => {
@@ -75,7 +76,7 @@ const contentTextStyle = computed(() => ({
 
   // Transformation for Paging
   transform: `translateX(-${currentPage.value * 100}vw)`,
-  transition: enableAnimation.value ? 'transform 0.3s ease-out' : 'none',
+  transition: (enableAnimation.value && !isDragging.value) ? 'transform 0.3s ease-out' : 'none',
 }))
 
 // --- Content Processing ---
@@ -248,17 +249,34 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
 
     <!-- Footer -->
     <transition name="fade">
-      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm p-4" @click.stop>
-        <div class="flex justify-between text-xs text-gray-500 mb-2">
-          <span>{{ readerStore.currentChapter?.title }}</span>
-          <span>{{ currentPage + 1 }} / {{ totalPages }}</span>
-        </div>
-        <!-- Progress Bar -->
-        <div class="h-1 bg-gray-200 rounded overflow-hidden">
-          <div
-            class="h-full bg-blue-500 transition-all duration-300"
-            :style="{ width: `${((currentPage + 1) / totalPages) * 100}%` }"
-          />
+      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm px-4 py-6" @click.stop>
+        <div class="flex items-center gap-3">
+          <!-- Prev Page Button -->
+          <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="prevPage">
+            <ChevronLeftIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          </button>
+
+          <span class="text-s text-gray-500 font-medium tabular-nums min-w-[1.5rem] text-right">{{ currentPage + 1 }}</span>
+
+          <input
+            v-model.number="currentPage"
+            type="range"
+            min="0"
+            :max="totalPages - 1"
+            step="1"
+            class="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mx-2 accent-blue-600 dark:bg-gray-700 focus:outline-none"
+            @mousedown="isDragging = true"
+            @touchstart="isDragging = true"
+            @mouseup="isDragging = false"
+            @touchend="isDragging = false"
+          >
+
+          <span class="text-s text-gray-500 font-medium tabular-nums min-w-[1.5rem]">{{ totalPages }}</span>
+
+          <!-- Next Page Button -->
+          <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="nextPage">
+            <ChevronRightIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          </button>
         </div>
       </div>
     </transition>
