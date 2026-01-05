@@ -6,7 +6,7 @@ from sqlmodel import delete
 from ..core.database import get_session
 from ..core.models import Book, Chapter
 from ..core.schemas import MessageResponse
-from ..services.scanner import get_scan_status, scan_directory, stop_scan
+from ..services.scanner import ScanStatus, get_scan_status, scan_directory, stop_scan
 
 router = APIRouter()
 
@@ -16,16 +16,6 @@ class ScanResponse(BaseModel):
     files_scanned: int = 0
     files_added: int = 0
     files_updated: int = 0
-
-
-class ScanStatusResponse(BaseModel):
-    is_running: bool
-    files_scanned: int
-    files_added: int
-    files_updated: int
-    total_files: int
-    current_file: str
-    error: str | None = None
 
 
 async def scan_task(full_scan: bool) -> None:
@@ -53,7 +43,7 @@ async def trigger_scan(
     注意：扫描在后台异步执行，可通过 GET /api/scan/status 查询进度
     """
     status = get_scan_status()
-    if status['is_running']:
+    if status.is_running:
         raise HTTPException(status_code=409, detail='扫描任务已在运行中')
     logger.info('Starting scan...')
     # 启动后台任务
@@ -68,14 +58,13 @@ async def trigger_scan(
 
 
 @router.get('/status')
-async def get_status() -> ScanStatusResponse:
+async def get_status() -> ScanStatus:
     """
     获取扫描状态
 
     前端可以轮询此接口来获取扫描进度
     """
-    status = get_scan_status()
-    return ScanStatusResponse(**status)
+    return get_scan_status()
 
 
 @router.post('/stop')
@@ -96,7 +85,7 @@ async def clear_database() -> MessageResponse:
     """
     logger.warning('Clearing database...')
     status = get_scan_status()
-    if status['is_running']:
+    if status.is_running:
         raise HTTPException(status_code=409, detail='扫描正在运行中，无法清空数据库')
 
     with get_session() as session:
