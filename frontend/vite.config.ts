@@ -8,11 +8,8 @@ export default defineConfig({
   // 确保 base 路径正确，静态资源使用相对路径
   base: '/',
   plugins: [vue(), VitePWA({
-    strategies: 'injectManifest',
-    srcDir: 'src',
-    filename: 'sw.ts',
     registerType: 'autoUpdate',
-    injectRegister: false,
+    injectRegister: 'auto',
 
     pwaAssets: {
       disabled: false,
@@ -29,10 +26,6 @@ export default defineConfig({
       scope: '/',
     },
 
-    injectManifest: {
-      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-    },
-
     devOptions: {
       enabled: true,
       navigateFallback: 'index.html',
@@ -47,7 +40,7 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    allowedHosts: ['glean.zirno.cc'],
+    allowedHosts: true,
     proxy: {
       // 将所有 /api 开头的请求代理到后端
       '/api': {

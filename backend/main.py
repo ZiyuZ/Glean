@@ -52,12 +52,20 @@ if IS_PRODUCTION:
         return FileResponse(str(FRONTEND_INDEX))
 
     # Catch-all 路由：所有非 API 请求返回 index.html（支持 SPA 路由）
+    # Catch-all 路由：所有非 API 请求返回 index.html（支持 SPA 路由）
     @app.get('/{full_path:path}')
     async def serve_spa(_request: Request, full_path: str):
-        # 排除 API 路由和静态资源（这些路由已经在上面处理了）
-        if full_path.startswith('api/') or full_path.startswith('assets/'):
+        # 排除 API 请求
+        if full_path.startswith('api/'):
             raise HTTPException(status_code=404)
-        # 返回前端入口文件
+
+        # 检查是否请求根目录下的静态文件 (如 manifest.webmanifest, favicon.ico, sw.js 等)
+        # 注意: /assets 已经被上面的 app.mount 处理了
+        file_path = FRONTEND_DIST / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(str(file_path))
+
+        # SPA 路由 fallback -> index.html
         if FRONTEND_INDEX.exists():
             return FileResponse(str(FRONTEND_INDEX))
 
