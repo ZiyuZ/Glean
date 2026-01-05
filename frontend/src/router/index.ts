@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Bookshelf from '@/views/Bookshelf.vue'
 import Discovery from '@/views/Discovery.vue'
-import Management from '@/views/Management.vue'
+import Library from '@/views/Library.vue'
 import Reader from '@/views/Reader.vue'
 
 const router = createRouter({
@@ -20,10 +20,10 @@ const router = createRouter({
       meta: { title: '发现' },
     },
     {
-      path: '/management',
-      name: 'management',
-      component: Management,
-      meta: { title: '管理' },
+      path: '/library',
+      name: 'library',
+      component: Library,
+      meta: { title: '书库' },
     },
     {
       path: '/reader/:bookId',

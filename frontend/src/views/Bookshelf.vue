@@ -23,6 +23,9 @@ onMounted(() => {
   if (booksStore.finishedFilter === undefined) {
     booksStore.finishedFilter = false
   }
+  if (booksStore.startedFilter === undefined) {
+    booksStore.startedFilter = true
+  }
   booksStore.fetchBooks()
 })
 

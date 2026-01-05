@@ -11,7 +11,7 @@ export const useBooksStore = defineStore('books', () => {
   // 筛选条件
   const starredFilter = ref<boolean | undefined>(undefined)
   const finishedFilter = ref<boolean | undefined>(undefined)
-  const startedFilter = ref<boolean | undefined>(true) // 默认只显示已开始阅读的书籍
+  const startedFilter = ref<boolean | undefined>(undefined) // 默认显示所有书籍
   const searchQuery = ref('')
 
   // 筛选后的书籍列表
