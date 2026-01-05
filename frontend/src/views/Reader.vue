@@ -36,11 +36,21 @@ const themeColors = computed(() => {
 })
 
 useHead({
-  title: readerStore.currentBook?.title,
+  title: computed(() => readerStore.currentBook?.title),
   meta: [
     {
       name: 'theme-color',
-      content: themeColors.value.bg,
+      content: computed(() => {
+        if (isMenuOpen.value) {
+          // When menu is open, status bar matches the header color
+          // We assume dark/night themes use dark header, others use white
+          if (theme.value === 'dark' || theme.value === 'night')
+            return '#111827' // gray-900
+          return '#ffffff'
+        }
+        // When menu is closed, status bar matches the paper color (immersive)
+        return themeColors.value.bg
+      }),
     },
   ],
 })
@@ -69,8 +79,9 @@ const contentTextStyle = computed(() => ({
   // Relative to next page viewport (0), it starts at X.
   // This maintains perfect alignment.
   columnGap: `${paddingX.value * 2}px`,
-  paddingTop: `${paddingY.value}px`,
-  paddingBottom: `${paddingY.value}px`,
+  // Use calc to combine user preference with safe area
+  paddingTop: `calc(${paddingY.value}px + env(safe-area-inset-top))`,
+  paddingBottom: `calc(${paddingY.value}px + env(safe-area-inset-bottom))`,
   paddingLeft: `${paddingX.value}px`,
   paddingRight: `${paddingX.value}px`,
 
@@ -249,54 +260,59 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
 
     <!-- Header -->
     <transition name="fade">
-      <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pt-[env(safe-area-inset-top)] p-4 flex justify-between items-center" @click.stop>
-        <div class="flex items-center gap-4 text-gray-700 dark:text-gray-200 mt-2">
-          <button @click="router.back()">
-            <ArrowLeftIcon class="w-6 h-6" />
-          </button>
-          <span class="font-medium truncate max-w-[200px]">{{ readerStore.currentBook?.title }}</span>
-        </div>
-        <div class="flex gap-4 mt-2">
-          <button @click="showTOC = true; isMenuOpen = false">
-            <ListBulletIcon class="w-6 h-6" />
-          </button>
-          <button @click="showSettings = true; isMenuOpen = false">
-            <Cog6ToothIcon class="w-6 h-6" />
-          </button>
+      <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pt-[env(safe-area-inset-top)]" @click.stop>
+        <div class="p-3 flex justify-between items-center h-14">
+          <div class="flex items-center gap-3 text-gray-700 dark:text-gray-200 overflow-hidden">
+            <button class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors" @click="router.back()">
+              <ArrowLeftIcon class="w-6 h-6" />
+            </button>
+            <span class="font-medium truncate flex-1">{{ readerStore.currentBook?.title }}</span>
+          </div>
+          <div class="flex gap-1 flex-shrink-0">
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors" @click="showTOC = true; isMenuOpen = false">
+              <ListBulletIcon class="w-6 h-6" />
+            </button>
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors" @click="showSettings = true; isMenuOpen = false">
+              <Cog6ToothIcon class="w-6 h-6" />
+            </button>
+          </div>
         </div>
       </div>
     </transition>
 
     <!-- Footer -->
     <transition name="fade">
-      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)] px-4 py-6" @click.stop>
-        <div class="flex items-center gap-3 mb-2">
-          <!-- Prev Page Button -->
-          <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="prevPage">
-            <ChevronLeftIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
-          </button>
+      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)]" @click.stop>
+        <div class="px-2 py-2">
+          <div class="flex items-center gap-1">
+            <!-- Prev Page Button -->
+            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="prevPage">
+              <ChevronLeftIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            </button>
 
-          <span class="text-s text-gray-500 font-medium tabular-nums min-w-[1.5rem] text-right">{{ currentPage + 1 }}</span>
+            <span class="text-xs text-gray-500 font-medium tabular-nums min-w-[1.5rem] text-right">{{ currentPage + 1 }}</span>
 
-          <input
-            v-model.number="currentPage"
-            type="range"
-            min="0"
-            :max="totalPages - 1"
-            step="1"
-            class="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mx-2 accent-blue-600 dark:bg-gray-700 focus:outline-none"
-            @mousedown="isDragging = true"
-            @touchstart="isDragging = true"
-            @mouseup="isDragging = false"
-            @touchend="isDragging = false"
-          >
+            <input
+              v-model.number="currentPage"
+              type="range"
+              min="0"
+              :max="totalPages - 1"
+              step="1"
+              dir="ltr"
+              class="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mx-2 accent-blue-600 dark:bg-gray-700 focus:outline-none"
+              @mousedown="isDragging = true"
+              @touchstart="isDragging = true"
+              @mouseup="isDragging = false"
+              @touchend="isDragging = false"
+            >
 
-          <span class="text-s text-gray-500 font-medium tabular-nums min-w-[1.5rem]">{{ totalPages }}</span>
+            <span class="text-xs text-gray-500 font-medium tabular-nums min-w-[1.5rem]">{{ totalPages }}</span>
 
-          <!-- Next Page Button -->
-          <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="nextPage">
-            <ChevronRightIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
-          </button>
+            <!-- Next Page Button -->
+            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="nextPage">
+              <ChevronRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            </button>
+          </div>
         </div>
       </div>
     </transition>

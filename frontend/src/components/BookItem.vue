@@ -47,7 +47,7 @@ function formatDate(timestamp: number | null): string {
   >
     <div class="flex items-start justify-between">
       <div class="flex-1 min-w-0">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white truncate">
+        <h2 class="text-md font-semibold text-gray-900 dark:text-white truncate">
           {{ book.title }}
         </h2>
         <div class="flex items-center gap-2 mt-1 h-4">

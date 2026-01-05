@@ -11,7 +11,9 @@ const showNav = computed(() => !route.meta.hideNav)
 
 <template>
   <Toaster position="top-center" />
-  <div class="h-screen w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 safe-top safe-bottom">
+  <div
+    class="h-screen w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+  >
     <div class="flex-1 min-h-0 w-full relative">
       <router-view />
     </div>
@@ -24,16 +26,6 @@ const showNav = computed(() => !route.meta.hideNav)
 * {
   box-sizing: border-box;
 }
-/* 处理顶部的刘海/状态栏 */
-.safe-top {
-  padding-top: env(safe-area-inset-top, 0px);
-}
-
-/* 处理 iOS 底部的“小横条”（Home Indicator） */
-.safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;

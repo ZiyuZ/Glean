@@ -21,7 +21,7 @@ function navigate(path: string) {
 
 <template>
   <nav
-    class="w-full bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-800"
+    class="w-full bg-white border-t border-gray-200 dark:bg-gray-900 dark:border-gray-800 pb-[env(safe-area-inset-bottom)]"
   >
     <div class="flex justify-around items-center h-16 px-4">
       <button
