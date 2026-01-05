@@ -14,21 +14,25 @@
 
 ```sh
 backend/
-├── main.py                 # FastAPI 应用入口
-├── pyproject.toml          # 项目配置和依赖
+├── main.py                  # FastAPI 应用入口
+├── pyproject.toml           # 项目配置和依赖
 └── src/
-    ├── api/                # API 路由模块
-    │   ├── books.py        # 书籍相关 API
-    │   ├── chapters.py     # 章节相关 API
-    │   └── scan.py         # 扫描相关 API
-    ├── core/               # 核心模块
-    │   ├── models.py       # 数据库模型
-    │   ├── config.py       # 配置管理
-    │   └── database.py     # 数据库连接和会话
-    └── services/           # 业务逻辑层
-        ├── parser.py       # 文件解析服务（编码检测、内容清洗、章节解析）
-        ├── book_service.py # 书籍服务（创建/更新书籍）
-        └── scanner.py      # 扫描服务（目录扫描）
+    ├── api/                 # API 路由模块
+    │   ├── books.py         # 书籍相关 API
+    │   ├── chapters.py      # 章节相关 API
+    │   └── scan.py          # 扫描相关 API
+    ├── core/                # 核心模块
+    │   ├── models.py        # 数据库模型
+    │   ├── config.py        # 配置管理
+    │   └── database.py      # 数据库连接和会话
+    └── services/            # 业务逻辑层
+        ├── parser/          # 章节解析模块包
+        │   ├── core.py      # 核心解析
+        │   ├── validator.py # 校验逻辑
+        │   ├── cleaner.py   # 清洗逻辑
+        │   └── utils.py     # 工具函数
+        ├── book_service.py  # 书籍服务（创建/更新书籍）
+        └── scanner.py       # 扫描服务（目录扫描）
 ```
 
 ## 数据库模型
@@ -93,36 +97,38 @@ backend/
 
 ## 服务层设计
 
-### Parser Service (`services/parser.py`)
+### Parser Service (`services/parser/`)
 
-**编码检测** (`detect_encoding`)
+**模块结构**
+
+- `core.py`: 核心解析逻辑 (`parse_chapters`)
+- `validator.py`: 校验逻辑 (`is_line_chapter_title`)
+- `cleaner.py`: 清洗逻辑 (`clean_content`)
+- `utils.py`: 工具函数 (`detect_encoding`, `calculate_file_hash`)
+
+**编码检测** (`utils.detect_encoding`)
 
 - 使用 `chardet` 检测文件编码
 - 读取前 1024 字节进行检测（高效）
 - 支持 GB18030、GBK、UTF-8 等常见编码
 
-**文件标准化** (`normalize_file`)
-
-- 检测编码、解码、转换为 UTF-8 并保存
-- 只做编码转换，不清洗内容，保持原始内容不变
-
-**内容清洗** (`clean_content`)
+**内容清洗** (`cleaner.clean_content`)
 
 - 去除 HTML 标签
 - 全角转半角（数字、字母、引号）
 - 繁体转简体（使用 opencc）
 - 清理多余换行（统一换行符、合并连续换行、恢复被拆分的句子）
 
-**章节解析** (`parse_chapters`)
+**章节解析** (`core.parse_chapters`)
 
-- 使用正则表达式匹配常见章节标题格式：
-  - `第X章/节/回`（支持中文数字和阿拉伯数字，确保在行首或前面没有汉字）
-  - `Chapter X`（必须在行首）
-  - 数字开头（如 "1. 标题"）
-- 解析时清洗章节内容
-- 返回章节列表，包含标题、序号、内容（已清洗）
+- **自动编码处理**：自动检测编码并读取文件，支持 fallback 机制
+- **基于行扫描**：
+  - 遍历每一行，使用正则和校验逻辑判断是否为章节标题
+  - 自动合并空章节（处理标题误判）
+  - 支持中英文常见章节格式
+- **返回结果**：包含标题、序号、内容（已清洗）的结构化数据
 
-**文件哈希** (`calculate_file_hash`)
+**文件哈希** (`utils.calculate_file_hash`)
 
 - 使用 MD5 计算文件内容哈希
 - 用于检测文件是否被修改
@@ -131,8 +137,7 @@ backend/
 
 **创建/更新书籍** (`create_or_update_book`)
 
-- 标准化文件（转换为 UTF-8）
-- 计算哈希、解析章节
+- 计算哈希、解析章节（读取原文件，不修改文件）
 - 根据 `hash_id` 判断是新书还是已存在
 - 根据 `file_size` 和 `file_mtime` 判断是否需要重新解析
 - 返回 `(book, is_new)` 元组
@@ -206,13 +211,13 @@ just lint
 
 ### 文件处理流程
 
-1. **标准化阶段**（扫描时）：
-   - 检测编码 → 解码 → 转换为 UTF-8 并保存
-   - 只做编码转换，内容不变
+1. **扫描阶段**：
+   - 遍历文件 -> 计算元数据（大小、修改时间） -> 计算哈希
+   - 检查数据库中是否存在或是否变更
 
-2. **解析阶段**（扫描时）：
-   - 读取 UTF-8 文件 → 提取章节 → 清洗内容 → 存储到数据库
-   - 清洗包括：HTML 标签去除、全角转半角、繁体转简体、换行处理
+2. **解析阶段**：
+   - 检测原文件编码 -> 读取文件 -> 提取章节 -> 清洗内容 -> 存储到数据库
+   - **不修改原文件**：解析过程完全在内存中进行，保持原文件完整性
 
 ### 增量扫描
 
@@ -223,18 +228,10 @@ just lint
 ### 完成状态判断
 
 - 自动判断：当前章节是最后一章，且偏移量接近末尾（剩余 < 5% 或 < 200字符）
-- 手动标记：前端可调用 `/api/books/{id}/finish` 手动标记
+- 手动标记：前端调用 `/api/books/{id}/finish` 手动标记
 
 ### 章节内容存储
 
-- 章节内容直接存储在数据库中（已清洗的 UTF-8 文本）
+- 章节内容直接存储在数据库中（已清洗的文本）
 - 读取时无需文件 I/O，性能更好
 - 支持复杂的编码和清洗逻辑，无需担心文件损坏
-
-## 注意事项
-
-1. **路径安全**：文件路径校验，防止路径遍历攻击
-2. **大文件处理**：当前实现会读取整个文件到内存，超大文件（>100MB）可能需要优化
-3. **编码兼容**：使用 `chardet` 检测编码，支持 GB18030、GBK 等中文编码
-4. **并发安全**：SQLite 使用 `check_same_thread=False` 支持多线程访问
-5. **文件修改**：扫描时会标准化文件（转换为 UTF-8），原始编码信息会丢失，但内容保持不变

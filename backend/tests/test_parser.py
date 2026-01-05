@@ -30,6 +30,7 @@ def test_chapter_regex_cases():
         Case('仙逆 1 开始', True, 'Book name prefix with space (number)'),
         Case('Chapter 1 Title', True, 'English Chapter'),
         Case('1. Introduction', True, 'Number dot'),
+        Case('###第五章 厨师的专业素质###', True, 'Symbol prefix/suffix'),
         # Negative Cases (Should NOT Match)
         Case('我们在第二节课后下楼，去学校门口买点东西。', False, 'False positive: Lesson'),
         Case('这是我第一回来吃这家店，味道比想象中好。', False, 'False positive: Time coming'),
@@ -42,10 +43,8 @@ def test_chapter_regex_cases():
             'Line Too Long',
         ),
         Case('这章很缓慢地码了5个小时，因为一直恶心想吐，难道怀孕了？', False, 'False positive: Lesson'),
-        Case('"十七。"', False, 'Digit Chapter'),
-        Case('T2……', False, 'Digit Chapter'),
-        Case('1张月票换一章更新！', False, 'Keyword'),
-        Case('3et专业手机电影下载', False, 'Keyword'),
+        Case('"十七。"', False, 'Digit text'),
+        Case('T2……', False, 'Digit text'),
     ]
 
     for case in test_cases:

@@ -30,29 +30,6 @@ def detect_encoding(file_path: Path) -> str:
     return encoding.lower()
 
 
-def normalize_file(file_path: Path) -> None:
-    """
-    标准化文件：检测编码、解码、转换为 UTF-8 并保存
-
-    只做编码转换，不清洗内容，保持原始内容不变
-    """
-    # 检测编码
-    encoding = detect_encoding(file_path)
-
-    # 读取并解码
-    try:
-        content_bytes = file_path.read_bytes()
-        content = content_bytes.decode(encoding, errors='replace')
-    except UnicodeDecodeError as e:
-        logger.error(f'Failed to decode {file_path} with encoding {encoding}: {e}')
-        raise
-
-    # 转换为 UTF-8 并保存（覆盖原文件，但内容不变，只是编码转换）
-    file_path.write_text(content, encoding='utf-8')
-    if encoding != 'utf-8':
-        logger.warning(f'Normalized file {file_path}: {encoding} -> utf-8')
-
-
 def calculate_file_hash(file_path: Path) -> str:
     """
     计算文件内容的 MD5 哈希值

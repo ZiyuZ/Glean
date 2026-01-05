@@ -36,7 +36,7 @@ async def get_chapter_content(
     """
     获取特定章节的纯文本内容
 
-    直接从数据库读取章节内容（已清洗并转换为 UTF-8）
+    直接从数据库读取章节内容
     返回纯文本格式，前端负责渲染
     """
     book = session.get(Book, book_id)

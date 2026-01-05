@@ -6,7 +6,7 @@ from loguru import logger
 from sqlmodel import Session, select
 
 from ..core.models import Book, Chapter
-from .parser import calculate_file_hash, normalize_file, parse_chapters
+from .parser import calculate_file_hash, parse_chapters
 
 
 def create_or_update_book(
@@ -38,10 +38,7 @@ def create_or_update_book(
     # 检查书籍是否已存在（优先通过 path 查找，因为 path 更稳定）
     existing_book = session.exec(select(Book).where(Book.path == str(relative_path))).first()
 
-    # 标准化文件：检测编码、解码、清洗、转换为 UTF-8 并保存
-    normalize_file(file_path)
-
-    # 标准化后获取文件元数据和哈希（因为文件已被修改）
+    # 获取文件元数据和哈希
     stat = file_path.stat()
     file_size = stat.st_size
     file_mtime = stat.st_mtime
@@ -70,7 +67,7 @@ def create_or_update_book(
             for chapter in old_chapters:
                 session.delete(chapter)
 
-            # 解析新章节（文件已经是 UTF-8）
+            # 解析新章节
             chapters_data = parse_chapters(file_path)
             for chapter_data in chapters_data:
                 chapter = Chapter(
@@ -90,7 +87,7 @@ def create_or_update_book(
         logger.info(f'Creating new book: {relative_path}')
         is_new = True
 
-        # 解析章节（文件已经是 UTF-8）
+        # 解析章节
         chapters_data = parse_chapters(file_path)
 
         # 提取书名（使用文件名，去掉扩展名）

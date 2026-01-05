@@ -5,6 +5,7 @@ from typing import TypedDict
 from loguru import logger
 
 from .cleaner import clean_content
+from .utils import detect_encoding
 from .validator import is_line_chapter_title
 
 
@@ -18,8 +19,15 @@ def parse_chapters(file_path: Path) -> list[ChapterDict]:
     """
     基于行扫描的章节解析逻辑
     """
-    # 1. 读取并清洗
-    raw_content = file_path.read_text(encoding='utf-8')
+    # 1. 读取并清洗 (自动检测编码)
+    encoding = detect_encoding(file_path)
+    try:
+        raw_content = file_path.read_text(encoding=encoding)
+    except UnicodeDecodeError:
+        # Fallback to gb18030 if detection failed or was wrong
+        logger.warning(f'Failed to read {file_path} with {encoding}, retrying with gb18030')
+        raw_content = file_path.read_text(encoding='gb18030', errors='strict')
+
     content = clean_content(raw_content)
 
     # 2. 拆分为非空行

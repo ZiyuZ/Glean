@@ -9,7 +9,10 @@ def _generate_chapter_regex() -> re.Pattern[str]:
         # 中文章节
         r'第[一二三四五六七八九十百千万\d ]+[章节回]',
         # 纯数字匹配要求前面没有直接和汉字相连, 并且不超过5位数字
-        r'(?<![\u4e00-\u9fff]|[A-Za-z])\d{1,5}',
+        r'(?<![\u4e00-\u9fff]|[A-Za-z])\d+',
+        # 分卷阅读
+        r'分卷阅读[一二三四五六七八九十百千万\d ]+',
+        r'章节目录'
         # 英文 Chapter
         r'^Chapter\s+\d+',
     ]
@@ -34,6 +37,9 @@ def is_line_chapter_title(line: str) -> bool:
     # 1. 长度校验
     # 如果标题行太长（超过 30 字），极有可能不是标题而是正文
     if len(line) > 30:
+        return False
+    # 如果文字包含数字且数字数量超过 5 个, 一般也是正文
+    if len(re.findall(r'\d', line)) > 5:
         return False
 
     # 2. 标点符号校验 (结尾不应该是句号逗号)
@@ -69,33 +75,5 @@ def is_line_chapter_title(line: str) -> bool:
         # 如果长度太长一般也是正文
         if len(suffix) > 20:
             return False
-    # 5. 语义校验
-    # 过滤掉包含特定关键词的行，这些行通常是作者的话、求票或系统信息
-    invalid_keywords = (
-        '月票',
-        '更新',
-        '推荐票',
-        '打赏',
-        '订阅',
-        '收藏',
-        '加更',
-        '完本',
-        '感言',
-        '上架',
-        '章节目录',
-        '目录',
-        '求票',
-        '谢谢',
-        '感谢',
-        '读者',
-        '粉丝',
-        '投个票',
-        '投张',
-        '投点',
-        'QQ群',
-        '下载',
-    )
-    if any(word in line for word in invalid_keywords):
-        return False
 
     return True
