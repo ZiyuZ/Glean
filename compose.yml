@@ -10,6 +10,8 @@ services:
       # 挂载数据目录，持久化书籍和数据库
       # 使用环境变量 DATA_DIR 的值，如果没有则使用默认值 ./data
       - ./data:/app/data
+      # 自定义挂载书籍目录
+      # - ./books:/app/data/books
     environment:
       - DATA_DIR=/app/data
     restart: unless-stopped

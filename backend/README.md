@@ -181,14 +181,14 @@ backend/
 
 ### 安装依赖
 
-```bash
+```sh
 cd backend
 uv sync
 ```
 
 ### 运行开发服务器
 
-```bash
+```sh
 uv run fastapi dev main.py
 # 或使用 just
 just dev-be
@@ -196,7 +196,7 @@ just dev-be
 
 ### 代码格式化
 
-```bash
+```sh
 uv tool run ruff format .
 uv tool run ruff check --fix .
 # 或使用 just
