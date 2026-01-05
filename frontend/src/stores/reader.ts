@@ -10,6 +10,7 @@ export const useReaderStore = defineStore('reader', () => {
   const currentChapterIndex = ref<number | null>(null)
   const currentContent = ref<string>('')
   const loading = ref(false)
+  const contentCache = ref<Map<number, string>>(new Map())
 
   // 当前章节
   const currentChapter = computed(() => {
@@ -69,21 +70,27 @@ export const useReaderStore = defineStore('reader', () => {
     if (!currentBook.value)
       return
 
+    // Check cache first
+    if (contentCache.value.has(chapterIndex)) {
+      currentContent.value = contentCache.value.get(chapterIndex)!
+      currentChapterIndex.value = chapterIndex
+      // Preload neighbors even if cache hit
+      preloadNeighbors(chapterIndex)
+      return
+    }
+
     loading.value = true
     try {
-      currentContent.value = await api.getChapterContent(
+      const content = await api.getChapterContent(
         currentBook.value.id!,
         chapterIndex,
       )
+      currentContent.value = content
+      contentCache.value.set(chapterIndex, content)
       currentChapterIndex.value = chapterIndex
 
-      // 预加载下一章
-      if (hasNextChapter.value) {
-        const nextIndex = chapterIndex + 1
-        api.getChapterContent(currentBook.value.id!, nextIndex).catch(() => {
-          // 静默失败
-        })
-      }
+      // Preload neighbors
+      preloadNeighbors(chapterIndex)
     }
     catch (err) {
       console.error('Failed to load chapter:', err)
@@ -91,6 +98,43 @@ export const useReaderStore = defineStore('reader', () => {
     }
     finally {
       loading.value = false
+    }
+  }
+
+  function preloadNeighbors(currentIndex: number) {
+    if (!currentBook.value)
+      return
+
+    const bookId = currentBook.value.id!
+    const targets = [
+      currentIndex - 1, // Prev
+      currentIndex + 1, // Next 1
+      currentIndex + 2, // Next 2
+    ]
+
+    targets.forEach((index) => {
+      // Validate index range
+      if (index >= 0 && index < chapters.value.length) {
+        // If not in cache, fetch it
+        if (!contentCache.value.has(index)) {
+          api.getChapterContent(bookId, index)
+            .then((content) => {
+              contentCache.value.set(index, content)
+            })
+            .catch(() => {
+              // Ignore preload errors
+            })
+        }
+      }
+    })
+
+    // Prune cache if it gets too big (> 20)
+    if (contentCache.value.size > 20) {
+      for (const key of contentCache.value.keys()) {
+        if (Math.abs(key - currentIndex) > 10) {
+          contentCache.value.delete(key)
+        }
+      }
     }
   }
 
@@ -131,6 +175,7 @@ export const useReaderStore = defineStore('reader', () => {
     chapters.value = []
     currentChapterIndex.value = null
     currentContent.value = ''
+    contentCache.value.clear()
   }
 
   return {

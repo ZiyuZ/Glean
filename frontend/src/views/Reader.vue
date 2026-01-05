@@ -229,14 +229,14 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
 
     <!-- Header -->
     <transition name="fade">
-      <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm p-4 flex justify-between items-center" @click.stop>
-        <div class="flex items-center gap-4 text-gray-700 dark:text-gray-200">
+      <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pt-[env(safe-area-inset-top)] p-4 flex justify-between items-center" @click.stop>
+        <div class="flex items-center gap-4 text-gray-700 dark:text-gray-200 mt-2">
           <button @click="router.back()">
             <ArrowLeftIcon class="w-6 h-6" />
           </button>
           <span class="font-medium truncate max-w-[200px]">{{ readerStore.currentBook?.title }}</span>
         </div>
-        <div class="flex gap-4">
+        <div class="flex gap-4 mt-2">
           <button @click="showTOC = true; isMenuOpen = false">
             <ListBulletIcon class="w-6 h-6" />
           </button>
@@ -249,8 +249,8 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
 
     <!-- Footer -->
     <transition name="fade">
-      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm px-4 py-6" @click.stop>
-        <div class="flex items-center gap-3">
+      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)] px-4 py-6" @click.stop>
+        <div class="flex items-center gap-3 mb-2">
           <!-- Prev Page Button -->
           <button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="prevPage">
             <ChevronLeftIcon class="w-5 h-5 text-gray-600 dark:text-gray-300" />
