@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BookOpenIcon, Cog6ToothIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { BookOpenIcon, CircleStackIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -9,7 +9,7 @@ const router = useRouter()
 const navItems = [
   { path: '/', name: '书架', icon: BookOpenIcon },
   { path: '/discovery', name: '发现', icon: MagnifyingGlassIcon },
-  { path: '/settings', name: '设置', icon: Cog6ToothIcon },
+  { path: '/management', name: '管理', icon: CircleStackIcon },
 ]
 
 const currentPath = computed(() => route.path)

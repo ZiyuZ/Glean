@@ -4,6 +4,7 @@ import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import * as api from '@/api'
+import AppHeader from '@/components/AppHeader.vue'
 
 const scanStatus = ref<any>(null)
 const scanning = ref(false)
@@ -85,15 +86,9 @@ onMounted(() => {
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
     <!-- Header -->
-    <header
-      class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900/95 dark:border-gray-800"
-    >
-      <div class="px-4 py-3">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-          设置
-        </h1>
-      </div>
-    </header>
+    <AppHeader title="设置" />
+
+    <!-- Settings Content -->
 
     <!-- Settings Content -->
     <main class="px-4 py-4 space-y-6">
@@ -112,10 +107,11 @@ onMounted(() => {
           </button>
 
           <button
+            v-if="!scanStatus?.is_running"
             :disabled="scanning || scanStatus?.is_running" class="w-full py-3 px-4 bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors"
             @click="triggerScan(true)"
           >
-            {{ scanStatus?.is_running ? '扫描中...' : '全量扫描' }}
+            全量扫描
           </button>
 
           <button
@@ -130,8 +126,8 @@ onMounted(() => {
             <p>已添加: {{ scanStatus.files_added }}</p>
             <p>已更新: {{ scanStatus.files_updated }}</p>
             <p>待处理: {{ scanStatus.total_files - scanStatus.files_scanned }}</p>
-            <p v-if="scanStatus.current_file">
-              当前: {{ scanStatus.current_file }}
+            <p>
+              当前: {{ scanStatus.current_file || '未开始' }}
             </p>
           </div>
 

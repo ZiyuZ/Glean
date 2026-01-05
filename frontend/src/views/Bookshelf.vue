@@ -7,6 +7,7 @@ import { useDebounceFn } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
+import AppHeader from '@/components/AppHeader.vue'
 import BookItem from '@/components/BookItem.vue'
 import { useBooksStore } from '@/stores/books'
 
@@ -100,14 +101,8 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
     <!-- Header -->
-    <header
-      class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900/95 dark:border-gray-800"
-    >
-      <div class="px-4 py-3">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-          我的书架
-        </h1>
-
+    <AppHeader title="我的书架">
+      <template #bottom>
         <!-- Search -->
         <div class="mt-3 relative">
           <input
@@ -179,8 +174,8 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
             收藏
           </button>
         </div>
-      </div>
-    </header>
+      </template>
+    </AppHeader>
 
     <!-- Books List -->
     <main class="px-4 py-4">

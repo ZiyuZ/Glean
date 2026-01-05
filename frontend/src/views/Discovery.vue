@@ -4,6 +4,7 @@ import { ArrowPathIcon, CheckCircleIcon, ClockIcon, DocumentTextIcon, StarIcon }
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AppHeader from '@/components/AppHeader.vue'
 import { useBooksStore } from '@/stores/books'
 
 const router = useRouter()
@@ -73,18 +74,8 @@ function toggleStar(book: Book, event: Event) {
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
     <!-- Header -->
-    <header
-      class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200 dark:bg-gray-900/95 dark:border-gray-800"
-    >
-      <div class="px-4 py-3 flex items-center justify-between">
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-            发现
-          </h1>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            从书库中随机发现好书
-          </p>
-        </div>
+    <AppHeader title="发现" subtitle="从书库中随机发现好书">
+      <template #actions>
         <button
           :disabled="loading"
           class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-50 transition-colors"
@@ -93,8 +84,8 @@ function toggleStar(book: Book, event: Event) {
         >
           <ArrowPathIcon class="w-6 h-6" :class="{ 'animate-spin': loading }" />
         </button>
-      </div>
-    </header>
+      </template>
+    </AppHeader>
 
     <!-- Random Books -->
     <main class="px-4 py-4">
