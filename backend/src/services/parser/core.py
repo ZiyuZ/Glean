@@ -48,7 +48,7 @@ def parse_chapters(file_path: Path) -> list[ChapterDict]:
                 ChapterDict(
                     # 将章节名里的 ASCII 符号转换为空格并去掉头尾空格
                     title=re.sub(
-                        r'[^\u4e00-\u9fffA-Za-z0-9 ]',
+                        r'[^\u4e00-\u9fffA-Za-z0-9， ]',
                         ' ',
                         line,
                     ).strip(),
@@ -58,7 +58,6 @@ def parse_chapters(file_path: Path) -> list[ChapterDict]:
             )
         else:
             # 是正文，归属到当前章节
-            # 直接拼接字符串 (用户要求)
             if raw_chapters[-1]['content']:
                 raw_chapters[-1]['content'].append(line)
             else:
@@ -73,14 +72,10 @@ def parse_chapters(file_path: Path) -> list[ChapterDict]:
             continue
 
         # 检查当前章节是否为空（或者内容非常少，可能是误判的标题）
-        # 这里判断空字符串即可，因为上面只有 append line
-        if not chapter['content']:
-            # 空章节 -> 标题回退为正文
+        if len(chapter['content']) < 5:
+            # 短章节 -> 标题回退为正文
             # 追加到 上一个章节(merged_chapters[-1]) 的末尾
-            if merged_chapters[-1]['content']:
-                merged_chapters[-1]['content'].append('\n\n' + chapter['title'])
-            else:
-                merged_chapters[-1]['content'].append(chapter['title'])
+            merged_chapters[-1]['content'].append(chapter['title'])
         else:
             merged_chapters.append(chapter)
 

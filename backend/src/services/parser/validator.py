@@ -42,10 +42,10 @@ def is_line_chapter_title(line: str) -> bool:
     if len(re.findall(r'\d', line)) > 5:
         return False
 
-    # 2. 标点符号校验 (结尾不应该是句号逗号)
-    if line.endswith(('。', '，', ',', '.')):
-        # 特例：如果有 "Chapter 1." 这种格式？
-        # 一般来说中文小说标题不带句号
+    # 2. 标点符号校验 (结尾不应该是逗号、顿号、冒号，且一般不包括句号)
+    if line.endswith(('，', '、', '：')):
+        return False
+    if '。' in line:
         return False
 
     # 3. 正则匹配
