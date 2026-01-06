@@ -1,21 +1,13 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from loguru import logger
-from pydantic import BaseModel
 from sqlmodel import delete
 
 from ..core.database import get_session
 from ..core.models import Book, Chapter
-from ..core.schemas import MessageResponse
+from ..core.schemas import MessageResponse, ScanResponse
 from ..services.scanner import ScanStatus, get_scan_status, scan_directory, stop_scan
 
 router = APIRouter()
-
-
-class ScanResponse(BaseModel):
-    message: str
-    files_scanned: int = 0
-    files_added: int = 0
-    files_updated: int = 0
 
 
 async def scan_task(full_scan: bool) -> None:

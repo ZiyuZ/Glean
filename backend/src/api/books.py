@@ -2,30 +2,16 @@ import time
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel
 from sqlmodel import Session, func, select
 from sqlmodel.sql.expression import col
 
 from ..core.config import settings
 from ..core.database import get_db_session
 from ..core.models import Book, Chapter
-from ..core.schemas import MessageResponse
+from ..core.schemas import MarkFinishedRequest, MessageResponse, ToggleStarRequest, UpdateProgressRequest
 from ..services.book_service import reparse_book as reparse_book_service
 
 router = APIRouter()
-
-
-class UpdateProgressRequest(BaseModel):
-    chapter_index: int
-    chapter_offset: int
-
-
-class ToggleStarRequest(BaseModel):
-    starred: bool
-
-
-class MarkFinishedRequest(BaseModel):
-    finished: bool
 
 
 def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
