@@ -171,6 +171,14 @@ export const useReaderStore = defineStore('reader', () => {
     )
   }
 
+  // 标记已读完
+  async function markFinished(finished: boolean) {
+    if (!currentBook.value)
+      return
+    const updatedBook = await api.markFinished(currentBook.value.id!, finished)
+    currentBook.value = updatedBook
+  }
+
   // 重置状态
   function reset() {
     currentBook.value = null
@@ -194,6 +202,7 @@ export const useReaderStore = defineStore('reader', () => {
     previousChapter,
     nextChapter,
     saveProgress,
+    markFinished,
     reset,
   }
 })

@@ -2,8 +2,10 @@
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ArrowLeftIcon, ChevronLeftIcon, ChevronRightIcon, Cog6ToothIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
 import { useHead } from '@unhead/vue'
+import { useDebounceFn } from '@vueuse/core'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue-sonner'
 import ReaderSettings from '@/components/reader/ReaderSettings.vue'
 import ReaderTOC from '@/components/reader/ReaderTOC.vue'
 import { useReaderConfig } from '@/composables/useReader'
@@ -128,6 +130,25 @@ function nextPage() {
   else if (readerStore.hasNextChapter) {
     loadChapter(readerStore.currentChapterIndex! + 1)
   }
+  else {
+    // Reached the very end of the book
+    finishBook()
+  }
+}
+
+async function finishBook() {
+  if (readerStore.currentBook && !readerStore.currentBook.is_finished) {
+    try {
+      await readerStore.saveProgress(readerStore.currentContent.length)
+      await readerStore.markFinished(true)
+      toast.success('恭喜，您已读完本书！', {
+        description: readerStore.currentBook.title,
+      })
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
 }
 
 function prevPage() {
@@ -185,17 +206,31 @@ async function init() {
 async function saveProgress() {
   if (readerStore.currentBook && readerStore.currentChapterIndex !== null) {
     let offset = 0
-    // Estimate char offset based on current page
-    if (readerStore.currentContent && totalPages.value > 1) {
+    if (readerStore.currentContent) {
       const contentLength = readerStore.currentContent.length
-      // Calculate start of page ratio
-      const progress = currentPage.value / totalPages.value
-      offset = Math.floor(progress * contentLength)
+      if (totalPages.value <= 1 || currentPage.value === totalPages.value - 1) {
+        // If it's the last page, use the full length
+        offset = contentLength
+      }
+      else {
+        // Estimate char offset based on current page
+        const progress = currentPage.value / totalPages.value
+        offset = Math.floor(progress * contentLength)
+      }
     }
 
     await readerStore.saveProgress(offset)
   }
 }
+
+// Auto-save progress with debounce
+const debouncedSave = useDebounceFn(() => {
+  saveProgress()
+}, 2000)
+
+watch(currentPage, () => {
+  debouncedSave()
+})
 
 // --- Interaction: 3x3 Grid ---
 function handleGridClick(index: number) {
