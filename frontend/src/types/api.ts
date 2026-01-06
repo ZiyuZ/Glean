@@ -29,7 +29,7 @@ export interface Chapter {
   book_id: number
   title: string
   order_index: number
-  content: string
+  content?: string
 }
 
 /**

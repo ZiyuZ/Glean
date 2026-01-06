@@ -4,17 +4,19 @@ from sqlmodel import Session, select
 
 from ..core.database import get_db_session
 from ..core.models import Book, Chapter
+from ..core.schemas import ChapterMetadata
 
 router = APIRouter()
 
 
-@router.get('/{book_id}/chapters')
+@router.get('/{book_id}/chapters', response_model=list[ChapterMetadata])
 async def list_chapters(
     book_id: int,
     session: Session = Depends(get_db_session),
-) -> list[Chapter]:
+) -> list[ChapterMetadata]:
     """
     获取书籍的章节目录
+
 
     返回章节列表，包含标题和索引信息
     """
@@ -24,7 +26,15 @@ async def list_chapters(
 
     statement = select(Chapter).where(Chapter.book_id == book_id).order_by(Chapter.order_index)
     chapters = session.exec(statement).all()
-    return list(chapters)
+    return [
+        ChapterMetadata(
+            id=c.id,
+            book_id=c.book_id,
+            title=c.title,
+            order_index=c.order_index,
+        )
+        for c in chapters
+    ]
 
 
 @router.get('/{book_id}/chapters/{chapter_index}')
