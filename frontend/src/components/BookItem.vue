@@ -42,10 +42,15 @@ function formatDate(timestamp: number | null): string {
 
 <template>
   <div
-    class="relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-    @click="emit('open', book)"
+    class="relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm hover:shadow-md transition-all hover:z-10 active:z-20 has-[[data-headlessui-state*='open']]:z-30 border border-gray-100 dark:border-gray-700/50"
   >
-    <div class="flex items-start justify-between">
+    <!-- Card Click Target (Background feedback) -->
+    <button
+      class="absolute inset-0 w-full h-full rounded-xl active:bg-gray-50 dark:active:bg-gray-700/30 transition-colors z-0"
+      @click="emit('open', book)"
+    />
+
+    <div class="relative flex items-start justify-between z-10 pointer-events-none">
       <div class="flex-1 min-w-0">
         <h2 class="text-md font-semibold text-gray-900 dark:text-white truncate">
           {{ book.title }}
@@ -57,12 +62,13 @@ function formatDate(timestamp: number | null): string {
           <CheckCircleIcon v-if="book.is_finished" class="w-4 h-4 text-green-500" title="已读完" />
         </div>
       </div>
-      <div class="flex items-center gap-2 ml-4">
+
+      <div class="flex items-center gap-2 ml-4 pointer-events-auto">
         <button
-          class="p-2 rounded-lg transition-colors" :class="[
+          class="p-2 rounded-lg transition-all active:scale-95" :class="[
             book.is_starred
-              ? 'text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
-              : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700',
+              ? 'text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 active:bg-yellow-100 dark:active:bg-yellow-900/40'
+              : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600',
           ]"
           @click.stop="emit('toggleStar', book)"
         >
@@ -70,7 +76,7 @@ function formatDate(timestamp: number | null): string {
         </button>
         <Menu as="div" class="relative inline-block text-left" @click.stop>
           <MenuButton
-            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
+            class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 active:scale-95 transition-all"
           >
             <EllipsisHorizontalIcon class="w-5 h-5" />
           </MenuButton>
@@ -89,7 +95,7 @@ function formatDate(timestamp: number | null): string {
               <div class="px-1 py-1">
                 <MenuItem v-slot="{ active }">
                   <button
-                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm"
+                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm transition-colors"
                     :class="[
                       active ? 'bg-gray-100 dark:bg-gray-700' : 'text-gray-700 dark:text-gray-200',
                     ]"
@@ -101,7 +107,7 @@ function formatDate(timestamp: number | null): string {
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <button
-                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm text-red-600 dark:text-red-400"
+                    class="group flex w-full items-center rounded-lg px-2 py-2 text-sm text-red-600 dark:text-red-400 transition-colors"
                     :class="[
                       active ? 'bg-red-50 dark:bg-red-900/20' : '',
                     ]"

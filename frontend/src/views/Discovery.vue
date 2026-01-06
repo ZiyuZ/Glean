@@ -5,6 +5,8 @@ import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
+import EmptyState from '@/components/EmptyState.vue'
+import SkeletonLoader from '@/components/SkeletonLoader.vue'
 import { useBooksStore } from '@/stores/books'
 
 const router = useRouter()
@@ -85,18 +87,14 @@ function toggleStar(book: Book, event: Event) {
 
     <!-- Random Books -->
     <main class="px-4 py-4">
-      <div v-if="loading" class="text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
-        <p class="mt-2 text-gray-600 dark:text-gray-400">
-          加载中...
-        </p>
-      </div>
+      <SkeletonLoader v-if="loading" type="card" :count="8" />
 
-      <div v-else-if="randomBooks.length === 0" class="text-center py-12">
-        <p class="text-gray-500 dark:text-gray-400">
-          暂无书籍
-        </p>
-      </div>
+      <EmptyState
+        v-else-if="randomBooks.length === 0"
+        title="暂无书籍"
+        description="书库中还没有发现任何书籍，尝试扫描文件夹？"
+        :icon="DocumentTextIcon"
+      />
 
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div
@@ -108,15 +106,23 @@ function toggleStar(book: Book, event: Event) {
             <h3 class="text-base font-semibold text-gray-900 dark:text-white line-clamp-2 flex-1 pr-2">
               {{ book.title }}
             </h3>
-            <button
-              class="p-1.5 rounded-lg transition-colors flex-shrink-0" :class="[
-                book.is_starred
-                  ? 'text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
-                  : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700',
-              ]" @click.stop="toggleStar(book, $event)"
-            >
-              <component :is="book.is_starred ? StarIconSolid : StarIcon" class="size-[18px]" />
-            </button>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <span v-if="book.is_finished" title="已读完" class="text-green-500 dark:text-green-400 p-1.5">
+                <CheckCircleIcon class="size-[18px]" />
+              </span>
+              <span v-else-if="book.chapter_index !== null" title="阅读中" class="text-blue-500 dark:text-blue-400 p-1.5">
+                <ClockIcon class="size-[18px]" />
+              </span>
+              <button
+                class="p-1.5 rounded-lg transition-colors" :class="[
+                  book.is_starred
+                    ? 'text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+                    : 'text-gray-400 hover:text-yellow-500 hover:bg-gray-100 dark:hover:bg-gray-700',
+                ]" @click.stop="toggleStar(book, $event)"
+              >
+                <component :is="book.is_starred ? StarIconSolid : StarIcon" class="size-[18px]" />
+              </button>
+            </div>
           </div>
 
           <!-- Book info -->
@@ -131,30 +137,6 @@ function toggleStar(book: Book, event: Event) {
             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <ClockIcon class="size-[14px] flex-shrink-0" />
               <span>{{ formatDate(book.last_read_time) }}</span>
-            </div>
-
-            <!-- Status badges -->
-            <div class="flex items-center gap-2 pt-1 h-6">
-              <span
-                v-if="book.is_starred"
-                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400"
-              >
-                <StarIconSolid class="size-[12px]" />
-                已收藏
-              </span>
-              <span
-                v-if="book.is_finished"
-                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
-              >
-                <CheckCircleIcon class="size-[12px]" />
-                已读完
-              </span>
-              <span
-                v-if="book.chapter_index !== null"
-                class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400"
-              >
-                阅读中
-              </span>
             </div>
           </div>
         </div>

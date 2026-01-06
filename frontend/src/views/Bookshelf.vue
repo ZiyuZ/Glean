@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
-import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ExclamationTriangleIcon, StarIcon } from '@heroicons/vue/24/outline'
+import { Dialog, DialogPanel, DialogTitle, RadioGroup, RadioGroupOption, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { BookOpenIcon, ExclamationTriangleIcon, StarIcon } from '@heroicons/vue/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { useDebounceFn } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
@@ -9,6 +9,8 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import AppHeader from '@/components/AppHeader.vue'
 import BookItem from '@/components/BookItem.vue'
+import EmptyState from '@/components/EmptyState.vue'
+import SkeletonLoader from '@/components/SkeletonLoader.vue'
 import { useBooksStore } from '@/stores/books'
 
 const router = useRouter()
@@ -95,6 +97,12 @@ function setStatusFilter(status: 'reading' | 'finished' | 'all') {
 // 计算当前激活的状态
 const currentStatus = ref<'reading' | 'finished' | 'all'>('reading')
 // 监听 store 变化同步状态 (简单起见，setter 同步更新 currentStatus)
+const statusOptions = [
+  { id: 'reading', label: '未读完', activeClass: 'text-blue-600 dark:text-blue-400' },
+  { id: 'finished', label: '已读完', activeClass: 'text-green-600 dark:text-green-400' },
+  { id: 'all', label: '全部', activeClass: 'text-gray-900 dark:text-white' },
+]
+
 function updateStatus(status: 'reading' | 'finished' | 'all') {
   currentStatus.value = status
   setStatusFilter(status)
@@ -114,42 +122,31 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
       <template #bottom>
         <!-- Filters -->
         <div class="flex items-center gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
-          <!-- Status Group -->
-          <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <button
-              class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
-              :class="[
-                currentStatus === 'reading'
-                  ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
-              ]"
-              @click="updateStatus('reading')"
+          <!-- Status Group (Using RadioGroup for A11y) -->
+          <RadioGroup
+            :model-value="currentStatus"
+            class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-lg"
+            @update:model-value="updateStatus"
+          >
+            <RadioGroupOption
+              v-for="option in statusOptions"
+              :key="option.id"
+              v-slot="{ checked }"
+              :value="option.id"
+              class="focus:outline-none"
             >
-              未读完
-            </button>
-            <button
-              class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
-              :class="[
-                currentStatus === 'finished'
-                  ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
-              ]"
-              @click="updateStatus('finished')"
-            >
-              已读完
-            </button>
-            <button
-              class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
-              :class="[
-                currentStatus === 'all'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
-              ]"
-              @click="updateStatus('all')"
-            >
-              全部
-            </button>
-          </div>
+              <button
+                class="px-3 py-1.5 rounded-md text-sm font-medium transition-all"
+                :class="[
+                  checked
+                    ? `bg-white dark:bg-gray-700 shadow-sm ${option.activeClass}`
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
+                ]"
+              >
+                {{ option.label }}
+              </button>
+            </RadioGroupOption>
+          </RadioGroup>
 
           <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1" />
 
@@ -172,21 +169,23 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
 
     <!-- Books List -->
     <main class="px-4 py-4">
-      <div v-if="booksStore.loading" class="text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
-        <p class="mt-2 text-gray-600 dark:text-gray-400">
-          加载中...
-        </p>
-      </div>
+      <SkeletonLoader v-if="booksStore.loading" type="list-item" />
 
-      <div v-else-if="booksStore.filteredBooks.length === 0" class="text-center py-12">
-        <p class="text-gray-500 dark:text-gray-400">
-          暂无书籍
-        </p>
-        <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">
-          去发现页面找一些好书吧
-        </p>
-      </div>
+      <EmptyState
+        v-else-if="booksStore.filteredBooks.length === 0"
+        title="暂无书籍"
+        description="您的书架还是空的，去发现页面找一些好书吧"
+        :icon="BookOpenIcon"
+      >
+        <template #actions>
+          <button
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-xl text-sm font-medium transition-all shadow-sm"
+            @click="router.push('/discovery')"
+          >
+            去发现
+          </button>
+        </template>
+      </EmptyState>
 
       <div v-else class="space-y-3">
         <BookItem

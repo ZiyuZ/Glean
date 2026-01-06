@@ -25,10 +25,10 @@ function navigate(path: string) {
   >
     <div class="flex justify-around items-center h-16 px-4">
       <button
-        v-for="item in navItems" :key="item.path" class="flex flex-col items-center justify-center flex-1 h-full transition-colors" :class="[
+        v-for="item in navItems" :key="item.path" class="flex flex-col items-center justify-center flex-1 h-full active:scale-95 transition-all text-gray-600 dark:text-gray-400" :class="[
           currentPath === item.path
-            ? 'text-blue-600 dark:text-blue-400'
-            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200',
+            ? '!text-blue-600 dark:!text-blue-400'
+            : 'hover:text-gray-900 dark:hover:text-gray-200',
         ]" @click="navigate(item.path)"
       >
         <component :is="item.icon" class="w-[24px] h-[24px] mb-1" />

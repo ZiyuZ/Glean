@@ -260,20 +260,27 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
     />
 
     <!-- Header -->
-    <transition name="fade">
+    <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="-translate-y-full opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="-translate-y-full opacity-0"
+    >
       <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pt-[env(safe-area-inset-top)]" @click.stop>
         <div class="p-3 flex justify-between items-center h-14">
           <div class="flex items-center gap-3 text-gray-700 dark:text-gray-200 overflow-hidden">
-            <button class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors" @click="router.back()">
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all" @click="router.back()">
               <ArrowLeftIcon class="w-6 h-6" />
             </button>
             <span class="font-medium truncate flex-1">{{ readerStore.currentBook?.title }}</span>
           </div>
           <div class="flex gap-1 flex-shrink-0">
-            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors" @click="showTOC = true; isMenuOpen = false">
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all" @click="showTOC = true; isMenuOpen = false">
               <ListBulletIcon class="w-6 h-6" />
             </button>
-            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors" @click="showSettings = true; isMenuOpen = false">
+            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all" @click="showSettings = true; isMenuOpen = false">
               <Cog6ToothIcon class="w-6 h-6" />
             </button>
           </div>
@@ -282,12 +289,19 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
     </transition>
 
     <!-- Footer -->
-    <transition name="fade">
+    <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="translate-y-full opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="translate-y-full opacity-0"
+    >
       <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)]" @click.stop>
         <div class="px-2 py-2">
           <div class="flex items-center gap-1">
             <!-- Prev Page Button -->
-            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="prevPage">
+            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0" @click="prevPage">
               <ChevronLeftIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
 
@@ -310,7 +324,7 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
             <span class="text-xs text-gray-500 font-medium tabular-nums min-w-[1.5rem]">{{ totalPages }}</span>
 
             <!-- Next Page Button -->
-            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors shrink-0" @click="nextPage">
+            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0" @click="nextPage">
               <ChevronRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
           </div>

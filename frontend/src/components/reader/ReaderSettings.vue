@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ReaderConfig } from '@/composables/useReader'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useReaderConfig } from '@/composables/useReader'
 
 interface ThemeOption { value: ReaderConfig['theme'], label: string }
@@ -67,25 +68,32 @@ const settingRanges = {
               背景主题
             </p>
           </div>
-          <div class="grid grid-cols-4 gap-3">
-            <button
-              v-for="option in themeOptions" :key="option.value" type="button"
-              class="flex flex-col items-center justify-center gap-1 py-2 rounded-xl border-2 transition-all duration-200"
-              :class="[
-                theme === option.value
-                  ? 'border-blue-500 shadow-sm scale-[1.02]'
-                  : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-800 scale-100',
-                option.value === 'light' ? 'bg-[#fbfbfb] text-gray-800' : '',
-                option.value === 'sepia' ? 'bg-[#f4ecd8] text-[#5b4636]' : '',
-                option.value === 'dark' ? 'bg-[#1a1a1a] text-[#cecece]' : '',
-                option.value === 'night' ? 'bg-[#000000] text-[#888888]' : '',
-              ]"
-              @click="theme = option.value"
+          <RadioGroup v-model="theme" class="grid grid-cols-4 gap-3">
+            <RadioGroupOption
+              v-for="option in themeOptions"
+              :key="option.value"
+              v-slot="{ checked }"
+              :value="option.value"
+              class="focus:outline-none"
             >
-              <div class="w-6 h-6 rounded-full border border-black/10 dark:border-white/10" :style="{ background: getThemeBg(option.value) }" />
-              <span class="text-xs font-medium">{{ option.label }}</span>
-            </button>
-          </div>
+              <button
+                type="button"
+                class="w-full flex flex-col items-center justify-center gap-1 py-2 rounded-xl border-2 transition-all duration-200"
+                :class="[
+                  checked
+                    ? 'border-blue-500 shadow-sm scale-[1.02]'
+                    : 'border-transparent hover:bg-gray-50 dark:hover:bg-gray-800 scale-100',
+                  option.value === 'light' ? 'bg-[#fbfbfb] text-gray-800' : '',
+                  option.value === 'sepia' ? 'bg-[#f4ecd8] text-[#5b4636]' : '',
+                  option.value === 'dark' ? 'bg-[#1a1a1a] text-[#cecece]' : '',
+                  option.value === 'night' ? 'bg-[#000000] text-[#888888]' : '',
+                ]"
+              >
+                <div class="w-6 h-6 rounded-full border border-black/10 dark:border-white/10" :style="{ background: getThemeBg(option.value) }" />
+                <span class="text-xs font-medium">{{ option.label }}</span>
+              </button>
+            </RadioGroupOption>
+          </RadioGroup>
         </div>
 
         <!-- Line Height & Margin & Padding -->
@@ -141,22 +149,24 @@ const settingRanges = {
         <p class="text-sm font-medium text-gray-900 dark:text-gray-50">
           翻页动画
         </p>
-        <div class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-          <button
-            class="flex-1 py-1.5 text-xs font-medium rounded-md transition-all"
-            :class="enableAnimation ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'"
-            @click="enableAnimation = true"
-          >
-            开启
-          </button>
-          <button
-            class="flex-1 py-1.5 text-xs font-medium rounded-md transition-all"
-            :class="!enableAnimation ? 'bg-white dark:bg-gray-700 shadow text-gray-900 dark:text-gray-100' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'"
-            @click="enableAnimation = false"
-          >
-            关闭
-          </button>
-        </div>
+        <RadioGroup v-model="enableAnimation" class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          <RadioGroupOption v-slot="{ checked }" :value="true" class="flex-1 focus:outline-none">
+            <button
+              class="w-full py-1.5 text-xs font-medium rounded-md transition-all"
+              :class="checked ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'"
+            >
+              开启
+            </button>
+          </RadioGroupOption>
+          <RadioGroupOption v-slot="{ checked }" :value="false" class="flex-1 focus:outline-none">
+            <button
+              class="w-full py-1.5 text-xs font-medium rounded-md transition-all"
+              :class="checked ? 'bg-white dark:bg-gray-700 shadow text-gray-900 dark:text-gray-100' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'"
+            >
+              关闭
+            </button>
+          </RadioGroupOption>
+        </RadioGroup>
       </div>
 
       <!-- Brightness -->
