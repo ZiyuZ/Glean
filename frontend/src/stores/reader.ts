@@ -37,6 +37,8 @@ export const useReaderStore = defineStore('reader', () => {
 
   // 加载书籍和章节列表
   async function loadBook(bookId: number) {
+    reset()
+
     loading.value = true
     try {
       currentBook.value = await api.getBook(bookId)

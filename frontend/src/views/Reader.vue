@@ -228,6 +228,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', updateMetrics)
   saveProgress()
+  readerStore.reset()
 })
 
 watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
