@@ -74,18 +74,14 @@ function toggleStar(book: Book, event: Event) {
 <template>
   <div class="h-full overflow-y-auto">
     <!-- Header -->
-    <AppHeader title="发现" subtitle="从书库中随机发现好书">
-      <template #actions>
-        <button
-          :disabled="loading"
-          class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 disabled:opacity-50 transition-colors"
-          title="换一批"
-          @click="loadRandomBooks"
-        >
-          <ArrowPathIcon class="w-6 h-6" :class="{ 'animate-spin': loading }" />
-        </button>
-      </template>
-    </AppHeader>
+    <AppHeader
+      title="发现"
+      subtitle="从书库中随机发现好书"
+      :action-icon="ArrowPathIcon"
+      :action-loading="loading"
+      action-title="换一批"
+      @action="loadRandomBooks"
+    />
 
     <!-- Random Books -->
     <main class="px-4 py-4">

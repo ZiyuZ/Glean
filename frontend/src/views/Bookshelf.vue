@@ -104,24 +104,14 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
 <template>
   <div class="h-full overflow-y-auto">
     <!-- Header -->
-    <AppHeader title="我的书架">
+    <AppHeader
+      v-model:search-model-value="booksStore.searchQuery"
+      title="我的书架"
+      show-search
+      search-placeholder="搜索书名..."
+      @search-input="onSearchInput"
+    >
       <template #bottom>
-        <!-- Search -->
-        <div class="mt-3 relative">
-          <input
-            v-model="booksStore.searchQuery"
-            type="text"
-            placeholder="搜索书名..."
-            class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-            @input="onSearchInput"
-          >
-          <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-            </svg>
-          </div>
-        </div>
-
         <!-- Filters -->
         <div class="flex items-center gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
           <!-- Status Group -->
