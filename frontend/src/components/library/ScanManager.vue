@@ -3,7 +3,7 @@ import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import { onUnmounted, ref, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import * as api from '@/api'
-import BaseModal from './BaseModal.vue'
+import BaseModal from '../ui/BaseModal.vue'
 
 const props = defineProps<{
   isOpen: boolean

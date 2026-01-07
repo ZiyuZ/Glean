@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Toaster } from 'vue-sonner'
-import BottomNav from '@/components/BottomNav.vue'
+import BottomNav from '@/components/layout/BottomNav.vue'
 
 const route = useRoute()
 

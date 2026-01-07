@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { WrenchScrewdriverIcon } from '@heroicons/vue/24/outline'
 import { computed, ref } from 'vue'
-import AppHeader from '@/components/AppHeader.vue'
-import FileTree from '@/components/FileTree.vue'
-import ScanManager from '@/components/ScanManager.vue'
+import AppHeader from '@/components/layout/AppHeader.vue'
+import FileTree from '@/components/library/FileTree.vue'
+import ScanManager from '@/components/library/ScanManager.vue'
 import { useBooksStore } from '@/stores/books'
 
 const isScanManagerOpen = ref(false)

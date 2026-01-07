@@ -4,9 +4,9 @@ import { ArrowPathIcon, CheckCircleIcon, ClockIcon, DocumentTextIcon, StarIcon }
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import AppHeader from '@/components/AppHeader.vue'
-import EmptyState from '@/components/EmptyState.vue'
-import SkeletonLoader from '@/components/SkeletonLoader.vue'
+import AppHeader from '@/components/layout/AppHeader.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
+import SkeletonLoader from '@/components/ui/SkeletonLoader.vue'
 import { useBooksStore } from '@/stores/books'
 
 const router = useRouter()

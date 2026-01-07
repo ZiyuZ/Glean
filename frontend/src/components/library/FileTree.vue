@@ -6,7 +6,7 @@ import type { Book } from '@/types/api'
 import { FolderIcon } from '@heroicons/vue/24/outline'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import TreeItem from '@/components/TreeItem.vue'
+import TreeItem from '@/components/library/TreeItem.vue'
 import { useBooksStore } from '@/stores/books'
 
 export interface TreeNode {
