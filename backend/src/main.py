@@ -4,12 +4,11 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from src.api import api_router
-from src.core.config import settings
-from src.core.database import init_db
-from src.core.log import setup_logging
 
-__version__ = '0.2.0'
+from api import api_router
+from core.config import settings
+from core.database import init_db
+from core.log import setup_logging
 
 # 设置日志
 setup_logging()
@@ -25,7 +24,7 @@ IS_PRODUCTION = settings.is_production
 app = FastAPI(
     title='Glean (拾阅)',
     description='轻量级的、自托管的个人小说云阅工具',
-    version=__version__,
+    version=settings.app_version,
 )
 
 # CORS 配置
@@ -76,7 +75,7 @@ else:
     # 开发环境：根路由返回 API 信息
     @app.get('/')
     async def root_dev():
-        return {'message': 'Glean API', 'version': __version__}
+        return {'message': 'Glean API', 'version': settings.app_version}
 
 
 if __name__ == '__main__':

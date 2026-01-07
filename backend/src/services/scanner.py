@@ -6,8 +6,9 @@ from pydantic import BaseModel
 from sqlmodel import Session, select
 from sqlmodel.sql.expression import col
 
-from ..core.config import settings
-from ..core.models import Book
+from core.config import settings
+from core.models import Book
+
 from .book_service import create_or_update_book
 
 

@@ -14,12 +14,12 @@ lint-be:
 # 启动开发服务器 (带热重载)
 [group('backend')]
 dev-be:
-    cd backend && uv run fastapi dev main.py
+    cd backend && uv run fastapi dev src/main.py
 
 # 以生产模式启动服务器
 [group('backend')]
 run-be:
-    cd backend && uv run fastapi run main.py
+    cd backend && uv run fastapi run src/main.py
 
 # 安装后端依赖
 [group('backend')]

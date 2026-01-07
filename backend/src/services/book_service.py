@@ -5,7 +5,8 @@ from pathlib import Path
 from loguru import logger
 from sqlmodel import Session, select
 
-from ..core.models import Book, Chapter
+from core.models import Book, Chapter
+
 from .parser import calculate_file_hash, parse_chapters
 
 
@@ -116,7 +117,7 @@ def create_or_update_book(
 
         session.commit()
         session.refresh(book)
-        logger.info(f'Created new book: {relative_path}')
+        logger.info(f'Created new book: {relative_path} with {len(chapters_data)} chapters')
 
     return book, is_new
 

@@ -48,4 +48,4 @@ ENV PYTHONUNBUFFERED=1 \
     APP_ENV=production
 
 # 启动应用
-CMD ["uv", "run", "fastapi", "run", "main.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "fastapi", "run", "src/main.py", "--host", "0.0.0.0", "--port", "8000"]

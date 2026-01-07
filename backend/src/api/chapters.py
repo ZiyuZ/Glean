@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
 from sqlmodel import Session, select
 
-from ..core.database import get_db_session
-from ..core.models import Book, Chapter
-from ..core.schemas import ChapterMetadata
+from core.database import get_db_session
+from core.models import Book, Chapter
+from core.schemas import ChapterMetadata
 
 router = APIRouter()
 

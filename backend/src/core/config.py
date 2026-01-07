@@ -27,8 +27,7 @@ def _get_version() -> str:
         pyproject_path = _get_project_root() / 'backend' / 'pyproject.toml'
         if not pyproject_path.exists():
             raise FileNotFoundError('Cannot find pyproject.toml')
-        data = tomllib.load(pyproject_path.read_bytes())
-        print(data)
+        data = tomllib.loads(pyproject_path.read_text())
         return data.get('project', {}).get('version', 'Unset')
     except Exception:
         return 'Unknown'

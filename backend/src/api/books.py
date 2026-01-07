@@ -5,11 +5,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session, func, select
 from sqlmodel.sql.expression import col
 
-from ..core.config import settings
-from ..core.database import get_db_session
-from ..core.models import Book, Chapter
-from ..core.schemas import MarkFinishedRequest, MessageResponse, ToggleStarRequest, UpdateProgressRequest
-from ..services.book_service import reparse_book as reparse_book_service
+from core.config import settings
+from core.database import get_db_session
+from core.models import Book, Chapter
+from core.schemas import MarkFinishedRequest, MessageResponse, ToggleStarRequest, UpdateProgressRequest
+from services.book_service import reparse_book as reparse_book_service
 
 router = APIRouter()
 
