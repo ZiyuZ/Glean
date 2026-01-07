@@ -33,6 +33,13 @@ def _get_version() -> str:
         return 'Unknown'
 
 
+def _get_database_model_version() -> str:
+    """获取数据库模式版本"""
+    from .models import __version__  # noqa: PLC0415
+
+    return __version__
+
+
 class Settings(BaseSettings):
     """应用配置，支持从环境变量读取"""
 
@@ -57,6 +64,11 @@ class Settings(BaseSettings):
     app_version: str = Field(
         default=_get_version(),
         description='应用版本',
+    )
+
+    database_version: str = Field(
+        default=_get_database_model_version(),
+        description='数据库模式版本',
     )
 
     # 数据目录配置（唯一可配置的环境变量）

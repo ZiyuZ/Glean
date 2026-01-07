@@ -1,5 +1,7 @@
 from sqlmodel import Field, Relationship, SQLModel
 
+__version__ = 'v1'
+
 
 class Book(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
