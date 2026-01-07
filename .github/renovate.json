@@ -1,0 +1,20 @@
+{
+    "extends": [
+        "config:base"
+    ],
+    "timezone": "Asia/Shanghai",
+    "schedule": [
+        "monthly"
+    ],
+    "docker": {
+        "pinDigests": true
+    },
+    "commitMessagePrefix": "chore: ",
+    "commitMessageTopic": "更新基础镜像",
+    "commitMessageExtra": "",
+    "labels": [
+        "dependencies",
+        "docker"
+    ],
+    "dependencyDashboard": true
+}
