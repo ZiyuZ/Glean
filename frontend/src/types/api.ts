@@ -93,3 +93,11 @@ export interface MessageResponse {
 export interface RandomBooksParams {
   count?: number // 1-100，默认 1
 }
+
+/**
+ * 系统版本响应
+ */
+export interface SystemVersionResponse {
+  app_version: string
+  database_version: string
+}

@@ -17,6 +17,16 @@ const emit = defineEmits<{
 const scanStatus = ref<any>(null)
 const scanning = ref(false)
 const isClearModalOpen = ref(false)
+const systemVersion = ref<{ app_version: string, database_version: string } | null>(null)
+
+async function fetchVersion() {
+  try {
+    systemVersion.value = await api.getSystemVersion()
+  }
+  catch (err) {
+    console.error('Failed to fetch system version:', err)
+  }
+}
 
 async function triggerScan(fullScan: boolean = false) {
   scanning.value = true
@@ -102,6 +112,7 @@ function stopPolling() {
 watch(() => props.isOpen, (val) => {
   if (val) {
     startPolling()
+    fetchVersion()
   }
   else {
     stopPolling()
@@ -127,7 +138,7 @@ onUnmounted(() => {
           class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
           @click="triggerScan(false)"
         >
-          {{ scanStatus?.is_running ? '扫描中...' : '增量扫描 (推荐)' }}
+          {{ scanStatus?.is_running ? '扫描中...' : '增量扫描' }}
         </button>
 
         <button
@@ -161,13 +172,13 @@ onUnmounted(() => {
             <span>更新书籍:</span>
             <span class="text-blue-600 dark:text-blue-400 font-medium">{{ scanStatus.files_updated }}</span>
           </div>
-          <div v-if="scanStatus.current_file" class="pt-2 border-t border-gray-200 dark:border-gray-700 mt-2">
+          <div class="pt-2 border-t border-gray-200 dark:border-gray-700 mt-2">
             <p
               class="text-xs text-gray-500 opacity-75 whitespace-nowrap overflow-hidden text-ellipsis w-64"
               style="direction: rtl; text-align: left;"
               :title="scanStatus.current_file"
             >
-              &lrm;{{ scanStatus.current_file }}
+              &lrm;{{ scanStatus.current_file || '等待启动扫描' }}
             </p>
           </div>
         </div>
@@ -184,6 +195,12 @@ onUnmounted(() => {
           <p class="text-xs text-gray-500 mt-2 text-center">
             这将删除所有书籍和更读进度，但不会删除物理文件。
           </p>
+        </div>
+
+        <!-- Version Info -->
+        <div v-if="systemVersion" class="flex flex-col items-center justify-center gap-1 opacity-40 hover:opacity-100 transition-opacity duration-500 text-[10px] font-mono text-gray-400">
+          Glean {{ systemVersion.app_version }},
+          Database Schema: {{ systemVersion.database_version }}
         </div>
       </div>
     </div>
