@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD033 MD036 MD041 -->
+<!-- markdownlint-disable MD028 MD033 MD036 MD041 -->
 <div align="center">
   <!-- <img src="docs/assets/logo.png" alt="Glean Logo" width="120" height="120"> -->
   <h1>Glean (拾阅)</h1>
@@ -209,6 +209,9 @@ just install     # 安装所有依赖
 just lint        # 格式化代码并修复 lint 问题
 just dev         # 同时启动前后端开发服务器
 just check       # 代码检查（格式化 + 构建测试）
+
+# 版本号管理
+just bump        # 自动更新版本号
 ```
 
 ## 🗺️ 路线图
