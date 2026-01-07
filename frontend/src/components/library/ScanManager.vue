@@ -187,45 +187,45 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-  </BaseModal>
 
-  <!-- Clear Confirmation Modal -->
-  <BaseModal
-    :show="isClearModalOpen"
-    title="确定清空数据库?"
-    :show-close="false"
-    max-width="lg"
-    @close="isClearModalOpen = false"
-  >
-    <div class="sm:flex sm:items-start">
-      <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-        <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
-      </div>
-      <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-        <div class="mt-2">
-          <p class="text-sm text-gray-500 dark:text-gray-400">
-            所有阅读进度、章节数据和书架记录将被删除。此操作
-            <span class="font-bold text-red-500">无法撤销</span>
-            。(您的物理文件还是安全的)
-          </p>
+    <!-- Clear Confirmation Modal -->
+    <BaseModal
+      :show="isClearModalOpen"
+      title="确定清空数据库?"
+      :show-close="false"
+      max-width="lg"
+      @close="isClearModalOpen = false"
+    >
+      <div class="sm:flex sm:items-start">
+        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+          <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+        </div>
+        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+          <div class="mt-2">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              所有阅读进度、章节数据和书架记录将被删除。此操作
+              <span class="font-bold text-red-500">无法撤销</span>
+              。(您的物理文件还是安全的)
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse gap-3">
-      <button
-        type="button"
-        class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto"
-        @click="clearDatabase"
-      >
-        确定清空
-      </button>
-      <button
-        type="button"
-        class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto"
-        @click="isClearModalOpen = false"
-      >
-        取消
-      </button>
-    </div>
+      <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse gap-3">
+        <button
+          type="button"
+          class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto"
+          @click="clearDatabase"
+        >
+          确定清空
+        </button>
+        <button
+          type="button"
+          class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto"
+          @click="isClearModalOpen = false"
+        >
+          取消
+        </button>
+      </div>
+    </BaseModal>
   </BaseModal>
 </template>
