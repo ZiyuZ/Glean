@@ -1,12 +1,28 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Toaster } from 'vue-sonner'
 import BottomNav from '@/components/layout/BottomNav.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
 
 const showNav = computed(() => !route.meta.hideNav)
+
+function handleUnauthorized() {
+  authStore.logout()
+  router.push('/login')
+}
+
+onMounted(() => {
+  window.addEventListener('auth:unauthorized', handleUnauthorized)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('auth:unauthorized', handleUnauthorized)
+})
 </script>
 
 <template>

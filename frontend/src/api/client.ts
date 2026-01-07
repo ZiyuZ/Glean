@@ -52,10 +52,9 @@ export const apiClient = ky.create({
         const { response } = error
         if (response) {
           if (response.status === 401) {
-            localStorage.removeItem('access_token')
-            if (!window.location.pathname.startsWith('/login')) {
-              window.location.href = '/login'
-            }
+            // 派发未授权事件，由 App.vue 或 main.ts 统一处理跳转
+            // 避免在非组件环境直接操作路由或强制刷新
+            window.dispatchEvent(new CustomEvent('auth:unauthorized'))
           }
 
           if (response.body) {

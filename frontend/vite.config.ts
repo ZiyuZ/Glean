@@ -32,6 +32,25 @@ export default defineConfig({
       suppressWarnings: true,
       type: 'module',
     },
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: /^https?:\/\/.*\/api\/.*/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 Days
+            },
+            networkTimeoutSeconds: 5,
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+      ],
+    },
   })],
   resolve: {
     alias: {
