@@ -23,6 +23,14 @@ export const apiClient = ky.create({
     statusCodes: [408, 413, 429, 500, 502, 503, 504],
   },
   hooks: {
+    beforeRequest: [
+      (request) => {
+        const token = localStorage.getItem('access_token')
+        if (token) {
+          request.headers.set('Authorization', `Bearer ${token}`)
+        }
+      },
+    ],
     afterResponse: [
       async (request, _options, response) => {
         if (response.ok && request.method !== 'GET') {
@@ -42,23 +50,33 @@ export const apiClient = ky.create({
     beforeError: [
       async (error) => {
         const { response } = error
-        if (response && response.body) {
-          try {
-            const body = await response.json<{ detail: string }>()
-            // FastAPI 错误响应格式：{"detail": "error message"}
-            if (body.detail) {
-              error.message = body.detail
-              toast.error(body.detail)
+        if (response) {
+          if (response.status === 401) {
+            localStorage.removeItem('access_token')
+            if (!window.location.pathname.startsWith('/login')) {
+              window.location.href = '/login'
             }
           }
-          catch {
-            // 如果解析失败，使用默认错误消息
+
+          if (response.body) {
+            try {
+              const body = await response.json<{ detail: string }>()
+              // FastAPI 错误响应格式：{"detail": "error message"}
+              if (body.detail) {
+                error.message = body.detail
+                toast.error(body.detail)
+              }
+            }
+            catch {
+              // 如果解析失败，使用默认错误消息
+            }
           }
         }
         return error
       },
     ],
   },
+
 })
 
 /**

@@ -1,4 +1,4 @@
-import type { SystemVersionResponse } from '../types/api'
+import type { AuthStatusResponse, LoginResponse, SystemVersionResponse } from '../types/api'
 import { apiClient } from './client'
 
 /**
@@ -6,4 +6,12 @@ import { apiClient } from './client'
  */
 export async function getSystemVersion(): Promise<SystemVersionResponse> {
   return apiClient.get('system/version').json<SystemVersionResponse>()
+}
+
+export async function checkAuthStatus(): Promise<AuthStatusResponse> {
+  return apiClient.get('system/auth-status').json<AuthStatusResponse>()
+}
+
+export async function login(password: string): Promise<LoginResponse> {
+  return apiClient.post('system/login', { json: { password } }).json<LoginResponse>()
 }

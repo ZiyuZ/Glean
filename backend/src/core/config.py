@@ -1,3 +1,4 @@
+import secrets
 import tomllib
 from pathlib import Path
 from typing import Any
@@ -79,6 +80,18 @@ class Settings(BaseSettings):
         description='数据根目录路径',
     )
 
+    # 身份认证配置
+    app_password: str | None = Field(
+        default=None,
+        # default='0000',  # 开发测试
+        description='应用访问密码。如果未设置，则不启用身份认证。',
+    )
+
+    jwt_secret: str | None = Field(
+        default=None,
+        description='JWT 签名密钥。如果未设置，则每次启动随机生成密钥，重启后所有旧 Token 失效（强制下线）。',
+    )
+
     def __init__(self, **kwargs: dict[str, Any]):
         super().__init__(**kwargs)
         # 确保路径是绝对路径
@@ -86,6 +99,10 @@ class Settings(BaseSettings):
         if not self.data_dir.is_absolute():
             project_root = _get_project_root()
             self.data_dir = (project_root / self.data_dir).resolve()
+
+        # 每次启动随机生成密钥，这样重启服务器后所有旧 Token 失效（实现强制下线）
+        if not self.jwt_secret:
+            self.jwt_secret = secrets.token_urlsafe(32)
 
     @property
     def books_dir(self) -> Path:

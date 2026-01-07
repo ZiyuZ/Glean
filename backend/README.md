@@ -65,6 +65,13 @@ backend/
 
 所有 API 使用 `/api` 前缀，完整文档可在启动服务后访问 `/docs` 查看。
 
+### 系统 API (`/api/system`)
+
+- `GET /api/system/health` - 健康检查
+- `GET /api/system/version` - 获取版本信息
+- `GET /api/system/auth-status` - 检查是否启用了身份验证
+- `POST /api/system/login` - 登录获取 Token
+
 ### 书籍 API (`/api/books`)
 
 - `GET /api/books` - 获取书架列表
@@ -171,6 +178,7 @@ backend/
 
 - `APP_ENV`：运行环境，容器镜像默认 `production`，本地默认 `development`。
 - `DATA_DIR`：数据根目录路径（默认：项目根目录下的 `data`，容器内默认 `/app/data`）。
+- `APP_PASSWORD`：应用访问密码（可选）。若设置则启用身份认证及 JWT 签名密钥随机生成。
 
 **自动计算的路径：**
 

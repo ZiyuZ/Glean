@@ -101,3 +101,12 @@ export interface SystemVersionResponse {
   app_version: string
   database_version: string
 }
+
+export interface LoginResponse {
+  access_token: string
+  token_type: string
+}
+
+export interface AuthStatusResponse {
+  enabled: boolean
+}

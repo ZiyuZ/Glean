@@ -256,8 +256,8 @@ async def delete_book(
         try:
             file_path.unlink()
         except OSError as e:
-            # 文件删除失败（如被占用），但仍继续删除数据库记录？
-            print(f'Error deleting file {file_path}: {e}')
+            # 文件删除失败（如被占用），此时不删除数据库记录
+            raise HTTPException(status_code=500, detail=f'Error deleting file {file_path}: {e}')
 
     # 2. 删除关联章节 (避免 IntegrityError)
     chapters = session.exec(select(Chapter).where(Chapter.book_id == book.id)).all()
