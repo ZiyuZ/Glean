@@ -25,13 +25,18 @@ def _get_project_root() -> Path:
 def _get_version() -> str:
     """获取项目版本"""
     try:
-        pyproject_path = _get_project_root() / 'backend' / 'pyproject.toml'
+        root = _get_project_root()
+        pyproject_path = root / 'backend' / 'pyproject.toml'  # 开发环境
         if not pyproject_path.exists():
-            raise FileNotFoundError('Cannot find pyproject.toml')
+            pyproject_path = root / 'pyproject.toml'  # 容器内
+            if not pyproject_path.exists():
+                raise FileNotFoundError('Cannot find pyproject.toml')
         data = tomllib.loads(pyproject_path.read_text())
         return data.get('project', {}).get('version', 'Unset')
-    except Exception:
-        return 'Unknown'
+    except FileNotFoundError:
+        raise
+    except Exception as e:
+        return f'Unknown: {e}'
 
 
 def _get_database_model_version() -> str:
