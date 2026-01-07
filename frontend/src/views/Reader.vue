@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ArrowLeftIcon, ChevronLeftIcon, ChevronRightIcon, Cog6ToothIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
+import { ArrowLeftIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, ChevronLeftIcon, ChevronRightIcon, Cog6ToothIcon, ListBulletIcon } from '@heroicons/vue/24/outline'
 import { useHead } from '@unhead/vue'
 import { useDebounceFn } from '@vueuse/core'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
@@ -157,6 +157,18 @@ function prevPage() {
   }
   else if (readerStore.hasPreviousChapter) {
     loadChapter(readerStore.currentChapterIndex! - 1, 'end')
+  }
+}
+
+function prevChapter() {
+  if (readerStore.hasPreviousChapter) {
+    loadChapter(readerStore.currentChapterIndex! - 1, 'start')
+  }
+}
+
+function nextChapter() {
+  if (readerStore.hasNextChapter) {
+    loadChapter(readerStore.currentChapterIndex! + 1, 'start')
   }
 }
 
@@ -335,6 +347,16 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
       <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)]" @click.stop>
         <div class="px-2 py-2">
           <div class="flex items-center gap-1">
+            <!-- Prev Chapter Button -->
+            <button
+              class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0"
+              :class="{ 'opacity-30 cursor-not-allowed': !readerStore.hasPreviousChapter }"
+              :disabled="!readerStore.hasPreviousChapter"
+              @click="prevChapter"
+            >
+              <ChevronDoubleLeftIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            </button>
+
             <!-- Prev Page Button -->
             <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0" @click="prevPage">
               <ChevronLeftIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
@@ -361,6 +383,16 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
             <!-- Next Page Button -->
             <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0" @click="nextPage">
               <ChevronRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+            </button>
+
+            <!-- Next Chapter Button -->
+            <button
+              class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0"
+              :class="{ 'opacity-30 cursor-not-allowed': !readerStore.hasNextChapter }"
+              :disabled="!readerStore.hasNextChapter"
+              @click="nextChapter"
+            >
+              <ChevronDoubleRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
           </div>
         </div>
