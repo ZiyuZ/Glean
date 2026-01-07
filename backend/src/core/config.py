@@ -1,4 +1,6 @@
+import tomllib
 from pathlib import Path
+from typing import Any
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -17,6 +19,19 @@ def _get_project_root() -> Path:
         return parent
 
     raise RuntimeError('无法确定项目根目录。')
+
+
+def _get_version() -> str:
+    """获取项目版本"""
+    try:
+        pyproject_path = _get_project_root() / 'backend' / 'pyproject.toml'
+        if not pyproject_path.exists():
+            raise FileNotFoundError('Cannot find pyproject.toml')
+        data = tomllib.load(pyproject_path.read_bytes())
+        print(data)
+        return data.get('project', {}).get('version', 'Unset')
+    except Exception:
+        return 'Unknown'
 
 
 class Settings(BaseSettings):
@@ -40,30 +55,26 @@ class Settings(BaseSettings):
         description='应用运行环境：development / production',
     )
 
+    app_version: str = Field(
+        default=_get_version(),
+        description='应用版本',
+    )
+
     # 数据目录配置（唯一可配置的环境变量）
     # 默认使用项目根目录下的 data 文件夹
     # 在 Docker 中可以通过环境变量 DATA_DIR 覆盖
-    data_dir: Path | None = Field(
-        default=None,
+    data_dir: Path = Field(
+        default=_get_project_root() / 'data',
         description='数据根目录路径',
     )
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: dict[str, Any]):
         super().__init__(**kwargs)
         # 确保路径是绝对路径
-        self._resolve_paths()
-
-    def _resolve_paths(self) -> None:
-        """解析路径，确保所有路径都是绝对路径"""
-        # 如果没有设置 data_dir，使用默认值（项目根目录下的 data）
-        if self.data_dir is None:
-            self.data_dir = _get_project_root() / 'data'
         # 如果 data_dir 是相对路径，则相对于项目根目录
-        elif not self.data_dir.is_absolute():
+        if not self.data_dir.is_absolute():
             project_root = _get_project_root()
             self.data_dir = (project_root / self.data_dir).resolve()
-        else:
-            self.data_dir = Path(self.data_dir).resolve()
 
     @property
     def books_dir(self) -> Path:

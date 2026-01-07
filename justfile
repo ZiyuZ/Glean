@@ -68,3 +68,14 @@ install: install-be install-fe
 # 提代码前的准备：格式化前后端代码并尝试构建前端
 check: lint
     cd frontend && bun run build
+
+# --- 项目管理 ---
+
+# 统一更新前后端版本号 (支持: patch, minor, major)
+# 使用示例: just bump minor
+[group('project')]
+bump increment='patch':
+    @echo "Bumping backend version..."
+    cd backend && uv version --bump {{increment}}
+    @echo "Bumping frontend version..."
+    cd frontend && bun pm version {{increment}}
