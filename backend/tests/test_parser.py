@@ -31,11 +31,16 @@ def test_chapter_regex_cases():
         Case('Chapter 1 Title', True, 'English Chapter'),
         Case('1. Introduction', True, 'Number dot'),
         Case('###第五章 厨师的专业素质###', True, 'Symbol prefix/suffix'),
+        Case('1234', True, 'Short Number'),
+        Case('前言', True, 'Special word'),
+        Case('楔子', True, 'Special word'),
+        Case('番外：小明的日常', True, 'Special word with colon'),
+        Case('第100章 尾声', True, 'Mixed chapter and special word'),
         # Negative Cases (Should NOT Match)
         Case('我们在第二节课后下楼，去学校门口买点东西。', False, 'False positive: Lesson'),
         Case('这是我第一回来吃这家店，味道比想象中好。', False, 'False positive: Time coming'),
         # Case('第一章已更新', False, "False positive: 'Already' suffix"), # 这种情况先忽略吧
-        Case('前言', False, 'Non-chapter word'),
+        Case('他在前言里提到了一些往事。', False, 'Special word in middle (Negative)'),
         Case(
             '前言这是特别长的一行所以这根本就不可能是标题因为它超过了三十个字'
             + '这样设计是为了避免匹配到正文中带有第一章开头的长句子',
@@ -45,6 +50,7 @@ def test_chapter_regex_cases():
         Case('这章很缓慢地码了5个小时，因为一直恶心想吐，难道怀孕了？', False, 'False positive: Lesson'),
         Case('"十七。"', False, 'Digit text'),
         Case('T2……', False, 'Digit text'),
+        Case('82251', False, 'Long number'),
     ]
 
     for case in test_cases:
