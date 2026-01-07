@@ -28,7 +28,7 @@ onUnmounted(() => {
 <template>
   <Toaster position="top-center" />
   <div
-    class="h-screen w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+    class="fixed inset-0 w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
   >
     <div class="flex-1 min-h-0 w-full relative">
       <router-view />
