@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
-import { Dialog, DialogPanel, DialogTitle, RadioGroup, RadioGroupOption, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { BookOpenIcon, ExclamationTriangleIcon, StarIcon } from '@heroicons/vue/24/outline'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { BookOpenIcon, StarIcon } from '@heroicons/vue/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { useDebounceFn } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
@@ -9,7 +9,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import AppHeader from '@/components/AppHeader.vue'
 import BookItem from '@/components/BookItem.vue'
-import EmptyState from '@/components/EmptyState.vue'
+import ConfirmModal from '@/components/ConfirmModal.vue'
 import SkeletonLoader from '@/components/SkeletonLoader.vue'
 import { useBooksStore } from '@/stores/books'
 
@@ -200,78 +200,23 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
       </div>
     </main>
     <!-- Delete Confirmation Modal -->
-    <TransitionRoot as="template" :show="isDeleteModalOpen">
-      <Dialog as="div" class="relative z-50" @close="isDeleteModalOpen = false">
-        <TransitionChild
-          as="template"
-          enter="ease-out duration-300"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="ease-in duration-200"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-        >
-          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </TransitionChild>
-
-        <div class="fixed inset-0 z-10 overflow-y-auto">
-          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <TransitionChild
-              as="template"
-              enter="ease-out duration-300"
-              enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enter-to="opacity-100 translate-y-0 sm:scale-100"
-              leave="ease-in duration-200"
-              leave-from="opacity-100 translate-y-0 sm:scale-100"
-              leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            >
-              <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                <div class="sm:flex sm:items-start">
-                  <div
-                    class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10"
-                    :class="deleteType === 'physical' ? 'bg-red-100' : 'bg-blue-100'"
-                  >
-                    <ExclamationTriangleIcon
-                      class="h-6 w-6"
-                      :class="deleteType === 'physical' ? 'text-red-600' : 'text-blue-600'"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                      {{ deleteType === 'physical' ? '彻底删除书籍' : '移出书架' }}
-                    </DialogTitle>
-                    <div class="mt-2">
-                      <p class="text-sm text-gray-500 dark:text-gray-400">
-                        确定要{{ deleteType === 'physical' ? '彻底删除' : '移出' }} "<strong>{{ bookToDelete?.title }}</strong>" 吗？
-                        <span v-if="deleteType === 'physical'" class="text-red-500 font-medium block mt-1">此操作将删除物理文件，无法撤销！</span>
-                        <span v-else class="block mt-1">文件将保留在服务器上，后续可重新导入。</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <button
-                    type="button"
-                    class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto transition-colors"
-                    :class="deleteType === 'physical' ? 'bg-red-600 hover:bg-red-500' : 'bg-blue-600 hover:bg-blue-500'"
-                    @click="doDelete"
-                  >
-                    {{ deleteType === 'physical' ? '彻底删除' : '移出' }}
-                  </button>
-                  <button
-                    type="button"
-                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-700 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 sm:mt-0 sm:w-auto"
-                    @click="isDeleteModalOpen = false"
-                  >
-                    取消
-                  </button>
-                </div>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
-        </div>
-      </Dialog>
-    </TransitionRoot>
+    <ConfirmModal
+      :show="isDeleteModalOpen"
+      :title="deleteType === 'physical' ? '彻底删除书籍' : '移出书架'"
+      :message="`确定要${deleteType === 'physical' ? '彻底删除' : '移出'} &quot;${bookToDelete?.title}&quot; 吗？`"
+      :confirm-label="deleteType === 'physical' ? '彻底删除' : '移出'"
+      :type="deleteType === 'physical' ? 'danger' : 'info'"
+      @confirm="doDelete"
+      @close="isDeleteModalOpen = false"
+    >
+      <template #extra>
+        <span v-if="deleteType === 'physical'" class="text-red-500 font-medium block mt-2">
+          此操作将删除物理文件，无法撤销！
+        </span>
+        <span v-else class="block mt-2">
+          文件将保留在服务器上，后续可重新导入。
+        </span>
+      </template>
+    </ConfirmModal>
   </div>
 </template>
