@@ -1,7 +1,10 @@
 # ============================================
 # Stage 1: 构建前端
 # ============================================
-FROM oven/bun:1 AS frontend-builder
+# (locked at 2026-01-07)
+# FROM oven/bun:1 AS frontend-builder
+FROM oven/bun@sha256:e90cdbaf9ccdb3d4bd693aa335c3310a6004286a880f62f79b18f9b1312a8ec3 AS frontend-builder
+
 
 WORKDIR /app
 
@@ -20,7 +23,8 @@ RUN bun run build
 # ============================================
 # Stage 2: 运行后端（包含前端静态文件）
 # ============================================
-FROM ghcr.io/astral-sh/uv:python3.14-alpine AS runtime
+# FROM ghcr.io/astral-sh/uv:python3.14-alpine AS runtime
+FROM ghcr.io/astral-sh/uv@sha256:d34f53c69badd7a87a3a887e46dcef87b22920e00ae746cfdb840b692eea13f4 AS runtime
 
 WORKDIR /app
 
