@@ -62,33 +62,39 @@ def clean_line_breaks(
         return content
 
     result_lines = []
-    i = 0
-    while i < len(lines):
-        line = lines[i]
+    buffer = []
+    buffer_len = 0
 
-        # 空行：保留（用于段落分隔）
+    for line in lines:
+        # 空行：先刷新缓冲区，但不添加空行到结果中
         if not line:
-            result_lines.append('')
-            i += 1
+            if buffer:
+                result_lines.append(' '.join(buffer))
+                buffer = []
+                buffer_len = 0
             continue
 
-        # 检查当前行是否应该合并下一行
-        # 条件：行尾没有标点符号，且不太可能是标题行
+        # 将当前行加入缓冲区（相当于通过栈积累碎片）
+        buffer.append(line)
+        buffer_len += len(line)
+
+        # 检查是否因为标点或标题原因，当前缓冲区内容已经构成完整的一段/句
+        # 条件：行尾是标点符号，或者总长度像是标题
         end_with_punctuation = line[-1] in end_punctuations
-        is_likely_title = len(line) < max_title_length
-        has_next_line = i + 1 < len(lines) and lines[i + 1]
 
-        # 如果应该合并，且下一行存在且非空
-        if not end_with_punctuation and not is_likely_title and has_next_line:
-            # 合并下一行到当前行
-            line += ' ' + lines[i + 1]
-            i += 1
-            # 继续检查合并后的行是否还需要继续合并
-            continue
+        # 计算当前合并后的总长度：字符长度 + 空格数量
+        current_total_len = buffer_len + max(0, len(buffer) - 1)
+        is_likely_title = current_total_len < max_title_length
 
-        # 不需要合并，直接添加
-        result_lines.append(line)
-        i += 1
+        if end_with_punctuation or is_likely_title:
+            # 缓冲区内容已完整，刷新到结果
+            result_lines.append(' '.join(buffer))
+            buffer = []
+            buffer_len = 0
+
+    # 处理剩余的缓冲区内容
+    if buffer:
+        result_lines.append(' '.join(buffer))
 
     # 重新组合，段落之间用两个换行分隔
     return '\n\n'.join(result_lines)
