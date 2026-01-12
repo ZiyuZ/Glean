@@ -1,0 +1,20 @@
+# Retree Docker Compose 配置
+# 用法:
+#   docker compose run --rm retree run --threshold 0.9
+#   docker compose run --rm retree similar --mode chunk-mean
+#   docker compose run --rm retree status
+
+services:
+    retree:
+        build: .
+        image: retree:latest
+        volumes:
+            # 书库目录（相对于 retree/ 目录）
+            - ../data/books:/data/books:ro
+            # 数据输出目录（metadata, embeddings, similarity）
+            - ../data/retree:/data/retree
+        environment:
+            - RETREE_BOOKS_ROOT=/data/books
+            - RETREE_DATA_ROOT=/data/retree
+        # 默认命令，可通过 docker compose run 覆盖
+        command: ["--help"]

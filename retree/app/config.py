@@ -1,16 +1,19 @@
 """配置文件"""
 
+import os
 from pathlib import Path
 
-# 路径配置
+# 路径配置（支持环境变量覆盖，便于 Docker 部署）
 RETREE_ROOT = Path(__file__).parent.parent
 GLEAN_ROOT = RETREE_ROOT.parent
 DATA_ROOT = GLEAN_ROOT / 'data'
-BOOKS_ROOT = DATA_ROOT / 'books'
 
-# retree 数据存储目录
-RETREE_DATA = DATA_ROOT / 'retree'
-RETREE_DATA.mkdir(exist_ok=True)
+# 书库路径（可通过 RETREE_BOOKS_ROOT 环境变量覆盖）
+BOOKS_ROOT = Path(os.environ.get('RETREE_BOOKS_ROOT', DATA_ROOT / 'books'))
+
+# retree 数据存储目录（可通过 RETREE_DATA_ROOT 环境变量覆盖）
+RETREE_DATA = Path(os.environ.get('RETREE_DATA_ROOT', DATA_ROOT / 'retree'))
+RETREE_DATA.mkdir(parents=True, exist_ok=True)
 
 # 数据文件路径
 METADATA_FILE = RETREE_DATA / 'metadata.json'

@@ -79,3 +79,15 @@ bump increment='patch':
     cd backend && uv version --bump {{increment}}
     @echo "Bumping frontend version..."
     cd frontend && bun pm version {{increment}}
+
+
+    
+# --- 书库分析 (Retree) ---
+[group('retree')]
+retree-uv *args:
+    cd retree/app && uv run main.py {{args}}
+
+# Docker 一次性运行 Retree 分析
+[group('retree')]
+retree-docker *args:
+    docker compose run --rm retree {{args}}

@@ -82,3 +82,48 @@ uv run main.py title
 - `metadata.json` - 文件元数据（路径、大小、修改时间）
 - `embeddings_*.npz` - 嵌入向量缓存（文件名包含配置参数）
 - `similarity.json` - 相似度分析结果
+
+## 🐳 Docker 使用
+
+### 构建镜像
+
+```bash
+docker compose build
+```
+
+### 运行命令
+
+```bash
+# 查看帮助
+docker compose run --rm retree --help
+
+# 一键运行完整流程
+docker compose run --rm retree run --threshold 0.9
+
+# 单独运行各步骤
+docker compose run --rm retree scan
+docker compose run --rm retree embed
+docker compose run --rm retree similar --mode chunk-mean
+
+# 查看状态
+docker compose run --rm retree status
+```
+
+### 自定义数据目录
+
+修改 `compose.yml` 中的 volumes 配置：
+
+```yaml
+volumes:
+  - /your/books/path:/data/books:ro    # 书库目录（只读）
+  - /your/output/path:/data/retree     # 输出目录
+```
+
+### 直接使用 docker run
+
+```bash
+docker run --rm \
+  -v /path/to/books:/data/books:ro \
+  -v /path/to/output:/data/retree \
+  retree:latest run --threshold 0.9
+```
