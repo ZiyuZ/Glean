@@ -1,0 +1,44 @@
+[project]
+name = "retree"
+version = "0.1.0"
+description = "基于语义嵌入的本地文件相似性分析工具"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "chardet>=5.2.0",
+    "httpx>=0.28.1",
+    "numpy>=2.4.0",
+    "opencc>=1.1.9",
+    "rich>=14.2.0",
+    "sentence-transformers>=5.2.0",
+    "torch>=2.9.1",
+    "typer>=0.21.1",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+torchvision = [
+    { index = "pytorch-cu130", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+]
+[tool.ruff]
+src = ["src", 'app.py']
+line-length = 110
+exclude = ['.venv', 'ui']
+
+[tool.ruff.lint]
+select = ['E', 'F', 'W', 'A', 'PLC', 'PLE', 'PLW', 'I']
+
+[tool.ruff.lint.per-file-ignores]
+'__init__.py' = ['E402']
+'**/{tests,docs,tools}/*' = ['E402']
+'**/*.ipynb' = ['F401']
+
+[tool.ruff.format]
+quote-style = 'single'
