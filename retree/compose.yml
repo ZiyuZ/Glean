@@ -13,8 +13,11 @@ services:
             - ../data/books:/data/books:ro
             # 数据输出目录（metadata, embeddings, similarity）
             - ../data/retree:/data/retree
+            # HuggingFace 模型缓存
+            - ../data/models:/data/models
         environment:
             - RETREE_BOOKS_ROOT=/data/books
             - RETREE_DATA_ROOT=/data/retree
+            - HF_HOME=/data/models
         # 默认命令，可通过 docker compose run 覆盖
         command: ["--help"]

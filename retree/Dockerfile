@@ -28,10 +28,11 @@ COPY app/ ./
 # 设置环境变量
 ENV RETREE_BOOKS_ROOT=/data/books \
     RETREE_DATA_ROOT=/data/retree \
+    HF_HOME=/data/models \
     PYTHONUNBUFFERED=1
 
 # 数据卷挂载点
-VOLUME ["/data/books", "/data/retree"]
+VOLUME ["/data/books", "/data/retree", "/data/models"]
 
 # 入口点
 ENTRYPOINT ["python", "main.py"]
