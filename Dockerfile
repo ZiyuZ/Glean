@@ -24,7 +24,7 @@ RUN bun run build
 # Stage 2: 运行后端（包含前端静态文件）
 # ============================================
 # FROM ghcr.io/astral-sh/uv:python3.14-alpine AS runtime
-FROM ghcr.io/astral-sh/uv@sha256:d34f53c69badd7a87a3a887e46dcef87b22920e00ae746cfdb840b692eea13f4 AS runtime
+FROM ghcr.io/astral-sh/uv@sha256:816fdce3387ed2142e37d2e56e1b1b97ccc1ea87731ba199dc8a25c04e4997c5 AS runtime
 
 WORKDIR /app
 
