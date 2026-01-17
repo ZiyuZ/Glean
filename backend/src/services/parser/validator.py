@@ -24,11 +24,13 @@ def _generate_chapter_regex() -> re.Pattern[str]:
         rf'(?<![\u4e00-\u9fff]|[A-Za-z\d]){_DIGIT_NUM}',
         # 3. 分卷模式: 分卷阅读1, 分卷阅读第一卷
         rf'分卷阅读{_ANY_NUM}',
-        # 4. 目录关键词
+        # 4. 括号中文模式: (一)
+        rf'（{_CHINESE_NUM}）',
+        # 5. 目录关键词
         r'章节目录',
-        # 5. 英文模式: Chapter 1
+        # 6. 英文模式: Chapter 1
         rf'^Chapter\s+{_DIGIT_NUM}',
-        # 6. 特殊关键词: 必须是行首，且后面跟着冒号、空格或是行尾
+        # 7. 特殊关键词: 必须是行首，且后面跟着冒号、空格或是行尾
         rf'^{_SPECIAL_WORDS}([:：\s]|$)',
     ]
     combined_pattern = '|'.join(f'({pattern})' for pattern in patterns)
