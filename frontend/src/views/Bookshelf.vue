@@ -19,6 +19,7 @@ const booksStore = useBooksStore()
 
 const isDeleteModalOpen = ref(false)
 const bookToDelete = ref<Book | null>(null)
+const bookToDeleteTitle = ref('')
 const deleteType = ref<'soft' | 'physical'>('physical')
 
 onMounted(() => {
@@ -50,6 +51,7 @@ function toggleStar(book: Book) {
 
 function confirmDelete(book: Book, type: 'soft' | 'physical' = 'physical') {
   bookToDelete.value = book
+  bookToDeleteTitle.value = book.title // 保存标题以防在删除过程中 bookToDelete 变为 null
   deleteType.value = type
   isDeleteModalOpen.value = true
 }
@@ -68,8 +70,7 @@ async function doDelete() {
   }
   finally {
     isDeleteModalOpen.value = false
-    // 关闭窗口后等待一会儿再更新书籍名称, 避免出现对话框 undefined
-    setTimeout(() => bookToDelete.value = null, 300)
+    bookToDelete.value = null
   }
 }
 
@@ -205,7 +206,7 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
     <ConfirmModal
       :show="isDeleteModalOpen"
       :title="deleteType === 'physical' ? '彻底删除书籍' : '移出书架'"
-      :message="`确定要${deleteType === 'physical' ? '彻底删除' : '移出'} &quot;${bookToDelete?.title}&quot; 吗？`"
+      :message="`确定要${deleteType === 'physical' ? '彻底删除' : '移出'} &quot;${bookToDeleteTitle}&quot; 吗？`"
       :confirm-label="deleteType === 'physical' ? '彻底删除' : '移出'"
       :type="deleteType === 'physical' ? 'danger' : 'info'"
       @confirm="doDelete"
