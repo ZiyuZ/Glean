@@ -68,7 +68,8 @@ async function doDelete() {
   }
   finally {
     isDeleteModalOpen.value = false
-    bookToDelete.value = null
+    // 关闭窗口后等待一会儿再更新书籍名称, 避免出现对话框 undefined
+    setTimeout(() => bookToDelete.value = null, 300)
   }
 }
 
