@@ -10,12 +10,12 @@
       "root": "backend/src"
     },
     {
-      "root": "retree/src"
+      "root": "retree/app"
     }
   ],
   "include": [
     "backend/src",
-    "retree/src"
+    "retree/app"
   ],
   "reportAny": false,
   "reportArgumentType": false,
