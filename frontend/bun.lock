@@ -5,37 +5,37 @@
     "": {
       "name": "glean-frontend",
       "dependencies": {
-        "@headlessui/vue": "^1.7.23",
-        "@heroicons/vue": "^2.2.0",
-        "@tailwindcss/postcss": "^4.1.18",
-        "@unhead/vue": "^2.1.2",
-        "@vueuse/core": "^14.1.0",
-        "eslint": "^9.39.2",
-        "eslint-plugin-vue": "^10.7.0",
-        "ky": "^1.14.2",
-        "pinia": "^3.0.4",
-        "tailwindcss": "^4.1.18",
-        "vue": "^3.5.27",
-        "vue-router": "^4.6.4",
-        "vue-sonner": "^2.0.9",
+        "@headlessui/vue": "latest",
+        "@heroicons/vue": "latest",
+        "@tailwindcss/postcss": "latest",
+        "@unhead/vue": "latest",
+        "@vueuse/core": "latest",
+        "eslint": "latest",
+        "eslint-plugin-vue": "latest",
+        "ky": "latest",
+        "pinia": "latest",
+        "tailwindcss": "latest",
+        "vue": "latest",
+        "vue-router": "latest",
+        "vue-sonner": "latest",
       },
       "devDependencies": {
-        "@antfu/eslint-config": "^7.2.0",
-        "@types/node": "^25.0.10",
-        "@vite-pwa/assets-generator": "^1.0.2",
-        "@vitejs/plugin-vue": "^6.0.3",
-        "@vue/tsconfig": "^0.8.1",
-        "autoprefixer": "^10.4.23",
-        "postcss": "^8.5.6",
-        "typescript": "~5.9.3",
-        "vite": "^7.3.1",
-        "vite-plugin-pwa": "^1.2.0",
-        "vue-tsc": "^3.2.2",
-        "workbox-core": "^7.4.0",
-        "workbox-precaching": "^7.4.0",
-        "workbox-routing": "^7.4.0",
-        "workbox-strategies": "^7.4.0",
-        "workbox-window": "^7.4.0",
+        "@antfu/eslint-config": "latest",
+        "@types/node": "latest",
+        "@vite-pwa/assets-generator": "latest",
+        "@vitejs/plugin-vue": "latest",
+        "@vue/tsconfig": "latest",
+        "autoprefixer": "latest",
+        "postcss": "latest",
+        "typescript": "latest",
+        "vite": "latest",
+        "vite-plugin-pwa": "latest",
+        "vue-tsc": "latest",
+        "workbox-core": "latest",
+        "workbox-precaching": "latest",
+        "workbox-routing": "latest",
+        "workbox-strategies": "latest",
+        "workbox-window": "latest",
       },
     },
   },
@@ -556,7 +556,7 @@
 
     "@vue/devtools-shared": ["@vue/devtools-shared@7.7.9", "https://registry.npmmirror.com/@vue/devtools-shared/-/devtools-shared-7.7.9.tgz", { "dependencies": { "rfdc": "^1.4.1" } }, "sha512-iWAb0v2WYf0QWmxCGy0seZNDPdO3Sp5+u78ORnyeonS6MT4PC7VPrryX2BpMJrwlDeaZ6BD4vP4XKjK0SZqaeA=="],
 
-    "@vue/language-core": ["@vue/language-core@3.2.2", "https://registry.npmmirror.com/@vue/language-core/-/language-core-3.2.2.tgz", { "dependencies": { "@volar/language-core": "2.4.27", "@vue/compiler-dom": "^3.5.0", "@vue/shared": "^3.5.0", "alien-signals": "^3.0.0", "muggle-string": "^0.4.1", "path-browserify": "^1.0.1", "picomatch": "^4.0.2" } }, "sha512-5DAuhxsxBN9kbriklh3Q5AMaJhyOCNiQJvCskN9/30XOpdLiqZU9Q+WvjArP17ubdGEyZtBzlIeG5nIjEbNOrQ=="],
+    "@vue/language-core": ["@vue/language-core@3.2.3", "https://registry.npmmirror.com/@vue/language-core/-/language-core-3.2.3.tgz", { "dependencies": { "@volar/language-core": "2.4.27", "@vue/compiler-dom": "^3.5.0", "@vue/shared": "^3.5.0", "alien-signals": "^3.0.0", "muggle-string": "^0.4.1", "path-browserify": "^1.0.1", "picomatch": "^4.0.2" } }, "sha512-VpN/GnYDzGLh44AI6i1OB/WsLXo6vwnl0EWHBelGc4TyC0yEq6azwNaed/+Tgr8anFlSdWYnMEkyHJDPe7ii7A=="],
 
     "@vue/reactivity": ["@vue/reactivity@3.5.27", "https://registry.npmmirror.com/@vue/reactivity/-/reactivity-3.5.27.tgz", { "dependencies": { "@vue/shared": "3.5.27" } }, "sha512-vvorxn2KXfJ0nBEnj4GYshSgsyMNFnIQah/wczXlsNXt+ijhugmW+PpJ2cNPe4V6jpnBcs0MhCODKllWG+nvoQ=="],
 
@@ -1478,7 +1478,7 @@
 
     "vue-sonner": ["vue-sonner@2.0.9", "https://registry.npmmirror.com/vue-sonner/-/vue-sonner-2.0.9.tgz", { "peerDependencies": { "@nuxt/kit": "^4.0.3", "@nuxt/schema": "^4.0.3", "nuxt": "^4.0.3" }, "optionalPeers": ["@nuxt/kit", "@nuxt/schema", "nuxt"] }, "sha512-i6BokNlNDL93fpzNxN/LZSn6D6MzlO+i3qXt6iVZne3x1k7R46d5HlFB4P8tYydhgqOrRbIZEsnRd3kG7qGXyw=="],
 
-    "vue-tsc": ["vue-tsc@3.2.2", "https://registry.npmmirror.com/vue-tsc/-/vue-tsc-3.2.2.tgz", { "dependencies": { "@volar/typescript": "2.4.27", "@vue/language-core": "3.2.2" }, "peerDependencies": { "typescript": ">=5.0.0" }, "bin": { "vue-tsc": "bin/vue-tsc.js" } }, "sha512-r9YSia/VgGwmbbfC06hDdAatH634XJ9nVl6Zrnz1iK4ucp8Wu78kawplXnIDa3MSu1XdQQePTHLXYwPDWn+nyQ=="],
+    "vue-tsc": ["vue-tsc@3.2.3", "https://registry.npmmirror.com/vue-tsc/-/vue-tsc-3.2.3.tgz", { "dependencies": { "@volar/typescript": "2.4.27", "@vue/language-core": "3.2.3" }, "peerDependencies": { "typescript": ">=5.0.0" }, "bin": { "vue-tsc": "bin/vue-tsc.js" } }, "sha512-1RdRB7rQXGFMdpo0aXf9spVzWEPGAk7PEb/ejHQwVrcuQA/HsGiixIc3uBQeqY2YjeEEgvr2ShQewBgcN4c1Cw=="],
 
     "webidl-conversions": ["webidl-conversions@4.0.2", "https://registry.npmmirror.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz", {}, "sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg=="],
 
@@ -1614,10 +1614,6 @@
 
     "@vue/devtools-kit/hookable": ["hookable@5.5.3", "https://registry.npmmirror.com/hookable/-/hookable-5.5.3.tgz", {}, "sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ=="],
 
-    "@vue/language-core/@vue/compiler-dom": ["@vue/compiler-dom@3.5.26", "https://registry.npmmirror.com/@vue/compiler-dom/-/compiler-dom-3.5.26.tgz", { "dependencies": { "@vue/compiler-core": "3.5.26", "@vue/shared": "3.5.26" } }, "sha512-y1Tcd3eXs834QjswshSilCBnKGeQjQXB6PqFn/1nxcQw4pmG42G8lwz+FZPAZAby6gZeHSt/8LMPfZ4Rb+Bd/A=="],
-
-    "@vue/language-core/@vue/shared": ["@vue/shared@3.5.26", "https://registry.npmmirror.com/@vue/shared/-/shared-3.5.26.tgz", {}, "sha512-7Z6/y3uFI5PRoKeorTOSXKcDj0MSasfNNltcslbFrPpcw6aXRUALq4IfJlaTRspiWIUOEZbrpM+iQGmCOiWe4A=="],
-
     "babel-plugin-polyfill-corejs2/semver": ["semver@6.3.1", "https://registry.npmmirror.com/semver/-/semver-6.3.1.tgz", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "clean-regexp/escape-string-regexp": ["escape-string-regexp@1.0.5", "https://registry.npmmirror.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz", {}, "sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg=="],
@@ -1705,8 +1701,6 @@
     "@vitest/eslint-plugin/@typescript-eslint/utils/@typescript-eslint/types": ["@typescript-eslint/types@8.51.0", "https://registry.npmmirror.com/@typescript-eslint/types/-/types-8.51.0.tgz", {}, "sha512-TizAvWYFM6sSscmEakjY3sPqGwxZRSywSsPEiuZF6d5GmGD9Gvlsv0f6N8FvAAA0CD06l3rIcWNbsN1e5F/9Ag=="],
 
     "@vitest/eslint-plugin/@typescript-eslint/utils/@typescript-eslint/typescript-estree": ["@typescript-eslint/typescript-estree@8.51.0", "https://registry.npmmirror.com/@typescript-eslint/typescript-estree/-/typescript-estree-8.51.0.tgz", { "dependencies": { "@typescript-eslint/project-service": "8.51.0", "@typescript-eslint/tsconfig-utils": "8.51.0", "@typescript-eslint/types": "8.51.0", "@typescript-eslint/visitor-keys": "8.51.0", "debug": "^4.3.4", "minimatch": "^9.0.4", "semver": "^7.6.0", "tinyglobby": "^0.2.15", "ts-api-utils": "^2.2.0" }, "peerDependencies": { "typescript": ">=4.8.4 <6.0.0" } }, "sha512-1qNjGqFRmlq0VW5iVlcyHBbCjPB7y6SxpBkrbhNWMy/65ZoncXCEPJxkRZL8McrseNH6lFhaxCIaX+vBuFnRng=="],
-
-    "@vue/language-core/@vue/compiler-dom/@vue/compiler-core": ["@vue/compiler-core@3.5.26", "https://registry.npmmirror.com/@vue/compiler-core/-/compiler-core-3.5.26.tgz", { "dependencies": { "@babel/parser": "^7.28.5", "@vue/shared": "3.5.26", "entities": "^7.0.0", "estree-walker": "^2.0.2", "source-map-js": "^1.2.1" } }, "sha512-vXyI5GMfuoBCnv5ucIT7jhHKl55Y477yxP6fc4eUswjP8FG3FFVFd41eNDArR+Uk3QKn2Z85NavjaxLxOC19/w=="],
 
     "eslint-flat-config-utils/@eslint/config-helpers/@eslint/core": ["@eslint/core@1.0.1", "https://registry.npmmirror.com/@eslint/core/-/core-1.0.1.tgz", { "dependencies": { "@types/json-schema": "^7.0.15" } }, "sha512-r18fEAj9uCk+VjzGt2thsbOmychS+4kxI14spVNibUO2vqKX7obOG+ymZljAwuPZl+S3clPGwCwTDtrdqTiY6Q=="],
 

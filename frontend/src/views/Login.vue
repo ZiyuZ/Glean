@@ -66,6 +66,7 @@ async function handleLogin() {
           v-model="password"
           autofocus
           type="password"
+          inputmode="numeric"
           placeholder="ENTER PASSCODE"
           class="w-full bg-transparent border-b border-white/20 py-4 text-center text-xl tracking-[0.5em]
                  outline-none transition-all duration-300
@@ -81,10 +82,21 @@ async function handleLogin() {
         </div>
       </div>
 
+      <!-- Login Button -->
+      <button
+        :disabled="loading || !password"
+        class="w-full py-3 border border-white/20 text-white/70 text-sm tracking-[0.3em] font-light
+               transition-all duration-300 hover:bg-white/10 hover:border-white/40 hover:text-white
+               disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-white/20"
+        @click="handleLogin"
+      >
+        {{ loading ? 'VERIFYING...' : 'UNLOCK' }}
+      </button>
+
       <!-- Footer Hint -->
       <div class="text-center opacity-0 transition-opacity duration-700 delay-500" :class="{ 'opacity-30': !loading }">
         <p class="text-xs tracking-widest font-light">
-          PRESS ENTER TO UNLOCK
+          OR PRESS ENTER
         </p>
       </div>
     </div>
