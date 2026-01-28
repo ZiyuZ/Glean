@@ -35,15 +35,16 @@ retree/src/
 ### 安装依赖
 
 ```bash
-pip install torch sentence-transformers typer rich opencc chardet
+# 进入项目目录
+cd retree/app
+
+uv sync
+# 或者 pip install torch sentence-transformers typer rich opencc chardet
 ```
 
 ### 命令行使用
 
 ```bash
-# 进入项目目录
-cd retree/app
-
 # 1. 扫描文件元数据
 uv run main.py scan
 
