@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/types/api'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import { BookOpenIcon, StarIcon } from '@heroicons/vue/24/outline'
+import { BookOpenIcon, StarIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/vue/24/solid'
 import { useDebounceFn } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
@@ -21,6 +21,9 @@ const isDeleteModalOpen = ref(false)
 const bookToDelete = ref<Book | null>(null)
 const bookToDeleteTitle = ref('')
 const deleteType = ref<'soft' | 'physical'>('physical')
+const isBatchDeleteModalOpen = ref(false)
+const batchDeleteCount = ref(0)
+const isBatchDeleting = ref(false)
 
 onMounted(() => {
   // 初始化默认状态：未读完
@@ -110,6 +113,58 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
   currentStatus.value = status
   setStatusFilter(status)
 }
+
+// 获取需要删除的书籍（已读完且未收藏）
+function getFinishedUnstarredBooks() {
+  return booksStore.books.filter(book => book.is_finished && !book.is_starred)
+}
+
+// 打开批量删除确认对话框
+function confirmBatchDelete() {
+  const booksToDelete = getFinishedUnstarredBooks()
+  if (booksToDelete.length === 0) {
+    toast.info('没有符合条件的书籍')
+    return
+  }
+  batchDeleteCount.value = booksToDelete.length
+  isBatchDeleteModalOpen.value = true
+}
+
+// 执行批量删除
+async function doBatchDelete() {
+  const booksToDelete = getFinishedUnstarredBooks()
+  if (booksToDelete.length === 0)
+    return
+
+  isBatchDeleting.value = true
+  try {
+    let failedCount = 0
+    for (const book of booksToDelete) {
+      try {
+        await booksStore.deleteBook(book.id!, true)
+      }
+      catch (e) {
+        console.error(`Failed to delete book ${book.id}:`, e)
+        failedCount++
+      }
+    }
+    const successCount = booksToDelete.length - failedCount
+    if (failedCount === 0) {
+      toast.success(`已删除 ${successCount} 本书`)
+    }
+    else {
+      toast.error(`删除完成，成功 ${successCount} 本，失败 ${failedCount} 本`)
+    }
+  }
+  catch (e) {
+    console.error(e)
+    toast.error('批量删除失败')
+  }
+  finally {
+    isBatchDeleteModalOpen.value = false
+    isBatchDeleting.value = false
+  }
+}
 </script>
 
 <template>
@@ -120,7 +175,11 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
       title="我的书架"
       show-search
       search-placeholder="搜索书名..."
+      :action-icon="currentStatus === 'finished' ? TrashIcon : undefined"
+      :action-title="currentStatus === 'finished' ? '清理已读' : undefined"
+      :action-loading="isBatchDeleting"
       @search-input="onSearchInput"
+      @action="confirmBatchDelete"
     >
       <template #bottom>
         <!-- Filters -->
@@ -218,6 +277,23 @@ function updateStatus(status: 'reading' | 'finished' | 'all') {
         </span>
         <span v-else class="block mt-2">
           文件将保留在服务器上，后续可重新导入。
+        </span>
+      </template>
+    </ConfirmModal>
+
+    <!-- Batch Delete Confirmation Modal -->
+    <ConfirmModal
+      :show="isBatchDeleteModalOpen"
+      title="批量删除已读书籍"
+      :message="`确定要彻底删除 ${batchDeleteCount} 本已读完且未收藏的书籍吗？`"
+      confirm-label="全部删除"
+      type="danger"
+      @confirm="doBatchDelete"
+      @close="isBatchDeleteModalOpen = false"
+    >
+      <template #extra>
+        <span class="text-red-500 font-medium block mt-2">
+          此操作将删除物理文件，无法撤销！
         </span>
       </template>
     </ConfirmModal>
