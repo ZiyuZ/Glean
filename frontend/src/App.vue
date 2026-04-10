@@ -15,6 +15,9 @@ const systemStore = useSystemStore()
 const showNav = computed(() => !route.meta.hideNav && systemStore.isServerReachable)
 
 let healthProbeTimer: number | null = null
+let lastProbeAt = 0
+const HEALTHY_PROBE_INTERVAL = 30000
+const UNHEALTHY_PROBE_INTERVAL = 3000
 
 function handleUnauthorized() {
   authStore.logout()
@@ -30,20 +33,51 @@ function retryConnection() {
   void systemStore.probeServer()
 }
 
+function triggerImmediateProbe() {
+  const now = Date.now()
+  // 避免多个并发失败请求导致重复探活
+  if (now - lastProbeAt < 1000) {
+    return
+  }
+  lastProbeAt = now
+  void systemStore.probeServer()
+}
+
+function handleOffline() {
+  systemStore.markServerUnreachable('网络已断开，无法连接服务器')
+}
+
+function handleOnline() {
+  triggerImmediateProbe()
+}
+
+function scheduleNextProbe() {
+  const nextInterval = systemStore.isServerReachable
+    ? HEALTHY_PROBE_INTERVAL
+    : UNHEALTHY_PROBE_INTERVAL
+
+  healthProbeTimer = window.setTimeout(async () => {
+    if (!navigator.onLine) {
+      handleOffline()
+      scheduleNextProbe()
+      return
+    }
+
+    await systemStore.probeServer()
+    scheduleNextProbe()
+  }, nextInterval)
+}
+
 function startHealthProbe() {
   if (healthProbeTimer !== null) {
-    window.clearInterval(healthProbeTimer)
+    window.clearTimeout(healthProbeTimer)
   }
-  healthProbeTimer = window.setInterval(() => {
-    if (!systemStore.isServerReachable) {
-      void systemStore.probeServer()
-    }
-  }, 10000)
+  scheduleNextProbe()
 }
 
 function stopHealthProbe() {
   if (healthProbeTimer !== null) {
-    window.clearInterval(healthProbeTimer)
+    window.clearTimeout(healthProbeTimer)
     healthProbeTimer = null
   }
 }
@@ -51,13 +85,24 @@ function stopHealthProbe() {
 onMounted(() => {
   window.addEventListener('auth:unauthorized', handleUnauthorized)
   window.addEventListener('server:unreachable', handleServerUnreachable)
-  void systemStore.probeServer()
+  window.addEventListener('server:probe-health', triggerImmediateProbe)
+  window.addEventListener('offline', handleOffline)
+  window.addEventListener('online', handleOnline)
+  if (!navigator.onLine) {
+    handleOffline()
+  }
+  else {
+    triggerImmediateProbe()
+  }
   startHealthProbe()
 })
 
 onUnmounted(() => {
   window.removeEventListener('auth:unauthorized', handleUnauthorized)
   window.removeEventListener('server:unreachable', handleServerUnreachable)
+  window.removeEventListener('server:probe-health', triggerImmediateProbe)
+  window.removeEventListener('offline', handleOffline)
+  window.removeEventListener('online', handleOnline)
   stopHealthProbe()
 })
 </script>

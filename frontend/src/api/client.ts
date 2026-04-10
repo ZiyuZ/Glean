@@ -61,7 +61,9 @@ export const apiClient = ky.create({
             window.dispatchEvent(new CustomEvent('auth:unauthorized'))
           }
           else if (response.status >= 500) {
-            // 服务端异常时切换到全局不可用态，避免用户继续误操作
+            // 请求出错后立刻触发健康检查
+            window.dispatchEvent(new CustomEvent('server:probe-health'))
+            // 服务端异常时切换到全局不可用态
             window.dispatchEvent(new CustomEvent('server:unreachable', {
               detail: { reason: '服务器响应异常，请稍后重试' },
             }))
@@ -82,6 +84,8 @@ export const apiClient = ky.create({
           }
         }
         else {
+          // 网络层错误时立刻触发健康检查
+          window.dispatchEvent(new CustomEvent('server:probe-health'))
           window.dispatchEvent(new CustomEvent('server:unreachable', {
             detail: { reason: '无法连接服务器，请检查网络或服务状态' },
           }))

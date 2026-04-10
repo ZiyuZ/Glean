@@ -17,8 +17,9 @@ export async function login(password: string): Promise<LoginResponse> {
 }
 
 export async function checkSystemHealth(): Promise<HealthResponse> {
-  return apiClient.get('system/health', {
-    timeout: 5000,
+  return apiClient.get(`system/health?t=${Date.now()}`, {
+    cache: 'no-store',
+    timeout: 1500,
     retry: { limit: 0 },
   }).json<HealthResponse>()
 }
