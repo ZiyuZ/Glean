@@ -1,87 +1,76 @@
-import re
 from pathlib import Path
-from typing import TypedDict
 
 from loguru import logger
 
-from .cleaner import clean_content
-from .utils import detect_encoding
-from .validator import is_line_chapter_title
+from .models import LineRecord, ParsedChapter
+from .rule_engine import engine
+from .utils import clean_html, detect_encoding
 
 
-class ChapterDict(TypedDict):
-    title: str
-    order_index: int
-    content: list[str]
-
-
-def parse_chapters(file_path: Path) -> list[ChapterDict]:
-    """
-    基于行扫描的章节解析逻辑
-    """
-    # 1. 读取并清洗 (自动检测编码)
+def _read_file(file_path: Path) -> list[LineRecord]:
     encoding = detect_encoding(file_path)
     try:
         raw_content = file_path.read_text(encoding=encoding)
     except UnicodeDecodeError:
-        # Fallback to gb18030 if detection failed or was wrong
         logger.warning(f'Failed to read {file_path} with {encoding}, retrying with gb18030')
         raw_content = file_path.read_text(encoding='gb18030', errors='strict')
 
-    content = clean_content(raw_content)
+    content = clean_html(raw_content).replace('\r\n', '\n').replace('\r', '\n')
+    raw_lines = [content for line in content.split('\n') if (content := line.strip())]
+    return [LineRecord(line_no=idx, text=raw_line) for idx, raw_line in enumerate(raw_lines, start=1)]
 
-    # 2. 拆分为非空行
-    lines = [line.strip() for line in content.split('\n') if line.strip()]
 
-    if not lines:
-        raise ValueError(f'No content in file: {file_path}')
+def _build_chapters(
+    lines: list[LineRecord],
+    file_path: Path,
+    min_lines_for_real_chapter: int = 5,
+) -> dict[int, ParsedChapter]:
+    chapters: dict[int, ParsedChapter] = {-1: ParsedChapter(title=file_path.stem, body_lines=[])}
+    current_chapter_key = -1
 
-    # 3. 扫描章节
-    # 结构: [ {'title': str, 'content': str} ]
-    # 初始章节（前言/默认章节）
-    raw_chapters: list[ChapterDict] = [ChapterDict(title=file_path.stem, order_index=-1, content=[])]
-
-    for line in lines:
-        if is_line_chapter_title(line):
-            # 发现新章节
-            raw_chapters.append(
-                ChapterDict(
-                    # 将章节名里的 ASCII 符号转换为空格并去掉头尾空格
-                    title=re.sub(
-                        r'[^\u4e00-\u9fffA-Za-z0-9， ]',
-                        ' ',
-                        line,
-                    ).strip(),
-                    order_index=-1,
-                    content=[],
-                )
+    for i, line in enumerate(lines):
+        if line.is_title():
+            chapters[i] = ParsedChapter(
+                title=line.sanitized_chapter_title(),
+                body_lines=[],
             )
-        else:
-            # 是正文，归属到当前章节
-            if raw_chapters[-1]['content']:
-                raw_chapters[-1]['content'].append(line)
-            else:
-                raw_chapters[-1]['content'] = [line]
-
-    # 4. 后处理：合并空章节
-    merged_chapters: list[ChapterDict] = []
-
-    for i, chapter in enumerate(raw_chapters):
-        if i == 0:
-            merged_chapters.append(chapter)
+            current_chapter_key = i
             continue
 
-        # 检查当前章节是否为空（或者内容非常少，可能是误判的标题）
-        if len(chapter['content']) < 5:
-            # 短章节 -> 标题回退为正文
-            # 追加到 上一个章节(merged_chapters[-1]) 的末尾
-            merged_chapters[-1]['content'].append(chapter['title'])
-        else:
-            merged_chapters.append(chapter)
+        chapters[current_chapter_key].body_lines.append(line)
 
-    # 5. 计算 order_index
-    for i, chapter in enumerate(merged_chapters):
-        chapter['order_index'] = i
+    short_chapter_keys: list[int] = []
+    for i, chapter in chapters.items():
+        if i == -1:
+            continue
+        if len(chapter.body_lines) < min_lines_for_real_chapter:
+            short_chapter_keys.append(i)
 
-    logger.info(f'Parsed {len(merged_chapters)} chapters from {file_path}')
-    return merged_chapters
+    for chapter_key in short_chapter_keys:
+        merged_chapter = chapters.pop(chapter_key)
+        chapters[-1].body_lines.extend(merged_chapter.body_lines)
+
+    return chapters
+
+
+def parse_book(file_path: Path) -> dict[int, ParsedChapter]:
+    """
+    统一解析入口：
+    1) 读取与归一化
+    2) 行分类（标题/正文/空行）
+    3) 构建章节并修复异常短章节
+    """
+    lines = _read_file(file_path)
+    chapters = _build_chapters(lines, file_path)
+
+    logger.info(f'Parser summary | file={file_path.name} | lines={len(lines)}')
+    return chapters
+
+
+def sanitize_chapter_body(body: str) -> tuple[str, int]:
+    """Apply parser rules to chapter body."""
+    paragraphs = [segment.strip() for segment in body.split('\n\n') if segment.strip()]
+    lines = [LineRecord(line_no=idx, text=text) for idx, text in enumerate(paragraphs, start=1)]
+    chapters = {0: ParsedChapter(title='runtime', body_lines=lines)}
+    rule_hits = engine.apply(chapters)
+    return chapters[0].to_body(), rule_hits

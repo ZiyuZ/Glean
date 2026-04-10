@@ -2,6 +2,7 @@
 
 import asyncio
 
+from loguru import logger
 from pydantic import BaseModel
 from sqlmodel import Session, select
 from sqlmodel.sql.expression import col
@@ -130,6 +131,7 @@ async def scan_directory(session: Session, full_scan: bool = False) -> None:
                 # 记录错误但继续处理其他文件
                 error_msg = f'Error processing {file_path}: {str(e)}'
                 _scan_status.error = error_msg
+                logger.exception(error_msg)
                 # 继续处理下一个文件
                 continue
 
@@ -147,6 +149,7 @@ async def scan_directory(session: Session, full_scan: bool = False) -> None:
 
     except Exception as e:
         _scan_status.error = f'Scan error: {str(e)}'
+        logger.exception('Scan error')
     finally:
         _scan_status.is_running = False
         _scan_status.current_file = ''

@@ -14,7 +14,7 @@ import { useReaderStore } from '@/stores/reader'
 const route = useRoute()
 const router = useRouter()
 const readerStore = useReaderStore()
-const { fontSize, lineHeight, theme, brightness, paddingX, paddingY, margin, enableAnimation } = useReaderConfig()
+const { fontSize, lineHeight, theme, brightness, paddingX, paddingY, margin, enableAnimation, sanitizeContent } = useReaderConfig()
 
 // --- State ---
 // contentRef holds the text container
@@ -195,6 +195,7 @@ async function init() {
     return
   }
   try {
+    readerStore.setSanitizeEnabled(sanitizeContent.value)
     await readerStore.loadBook(bookId)
     await updateMetrics()
 
@@ -242,6 +243,15 @@ const debouncedSave = useDebounceFn(() => {
 
 watch(currentPage, () => {
   debouncedSave()
+})
+
+watch(sanitizeContent, async (enabled) => {
+  if (!readerStore.currentBook || readerStore.currentChapterIndex === null)
+    return
+  readerStore.setSanitizeEnabled(enabled)
+  await readerStore.loadChapter(readerStore.currentChapterIndex)
+  await updateMetrics()
+  currentPage.value = 0
 })
 
 // --- Interaction: 3x3 Grid ---

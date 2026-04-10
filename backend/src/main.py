@@ -1,17 +1,26 @@
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from loguru import logger
 
 from api import api_router
 from core.config import settings
 from core.database import init_db
 from core.log import setup_logging
 
-# 设置日志
-setup_logging()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # 在 uvicorn 完全启动后重新设置，确保不被覆盖
+    setup_logging()
+    logger.info('Application started')
+    yield
+    logger.info('Application shutting down')
+
 
 # 确保必要的目录存在
 settings.ensure_directories()
@@ -25,6 +34,7 @@ app = FastAPI(
     title='Glean (拾阅)',
     description='轻量级的、自托管的个人小说云阅工具',
     version=settings.app_version,
+    lifespan=lifespan,
 )
 
 # CORS 配置

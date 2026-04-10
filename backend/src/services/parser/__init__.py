@@ -1,15 +1,14 @@
-from .cleaner import clean_content, clean_html, clean_line_breaks
-from .core import ChapterDict, parse_chapters
+from .core import parse_book, sanitize_chapter_body
+from .models import LineRecord, ParsedChapter
 from .utils import calculate_file_hash, detect_encoding
 from .validator import is_line_chapter_title
 
 __all__ = [
-    'ChapterDict',
-    'parse_chapters',
+    'LineRecord',
+    'ParsedChapter',
+    'parse_book',
+    'sanitize_chapter_body',
     'calculate_file_hash',
     'detect_encoding',
     'is_line_chapter_title',
-    'clean_content',
-    'clean_html',
-    'clean_line_breaks',
 ]

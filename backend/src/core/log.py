@@ -24,7 +24,22 @@ def setup_logging():
     logger.add(
         sys.stdout,
         level='INFO',
-        enqueue=True,  # 多进程安全
+        enqueue=False,  # 开发模式下确保日志实时可见
         backtrace=True,
         diagnose=True,
     )
+
+    # 统一 logger, 注释掉可以区分 fastapi 和业务的日志
+    # 拦截所有相关 logger，包括 uvicorn 的
+    # logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
+
+    # # 必须显式接管这几个 uvicorn logger
+    # for name in (
+    #     'uvicorn',
+    #     'uvicorn.error',
+    #     'uvicorn.access',
+    #     'fastapi',
+    # ):
+    #     log = logging.getLogger(name)
+    #     log.handlers = [InterceptHandler()]
+    #     log.propagate = False

@@ -10,7 +10,8 @@ export const useReaderStore = defineStore('reader', () => {
   const currentChapterIndex = ref<number | null>(null)
   const currentContent = ref<string>('')
   const loading = ref(false)
-  const contentCache = ref<Map<number, string>>(new Map())
+  const sanitizeEnabled = ref(true)
+  const contentCache = ref<Map<string, string>>(new Map())
 
   // 当前章节
   const currentChapter = computed(() => {
@@ -34,6 +35,17 @@ export const useReaderStore = defineStore('reader', () => {
       return false
     return currentChapterIndex.value < chapters.value.length - 1
   })
+
+  function cacheKey(chapterIndex: number): string {
+    return `${chapterIndex}:${sanitizeEnabled.value ? '1' : '0'}`
+  }
+
+  function setSanitizeEnabled(enabled: boolean) {
+    if (sanitizeEnabled.value === enabled)
+      return
+    sanitizeEnabled.value = enabled
+    contentCache.value.clear()
+  }
 
   // 加载书籍和章节列表
   async function loadBook(bookId: number) {
@@ -72,9 +84,11 @@ export const useReaderStore = defineStore('reader', () => {
     if (!currentBook.value)
       return
 
+    const key = cacheKey(chapterIndex)
+
     // Check cache first
-    if (contentCache.value.has(chapterIndex)) {
-      currentContent.value = contentCache.value.get(chapterIndex)!
+    if (contentCache.value.has(key)) {
+      currentContent.value = contentCache.value.get(key)!
       currentChapterIndex.value = chapterIndex
       // Preload neighbors even if cache hit
       preloadNeighbors(chapterIndex)
@@ -86,9 +100,10 @@ export const useReaderStore = defineStore('reader', () => {
       const content = await api.getChapterContent(
         currentBook.value.id!,
         chapterIndex,
+        sanitizeEnabled.value,
       )
       currentContent.value = content
-      contentCache.value.set(chapterIndex, content)
+      contentCache.value.set(key, content)
       currentChapterIndex.value = chapterIndex
 
       // Preload neighbors
@@ -118,10 +133,11 @@ export const useReaderStore = defineStore('reader', () => {
       // Validate index range
       if (index >= 0 && index < chapters.value.length) {
         // If not in cache, fetch it
-        if (!contentCache.value.has(index)) {
-          api.getChapterContent(bookId, index)
+        const key = cacheKey(index)
+        if (!contentCache.value.has(key)) {
+          api.getChapterContent(bookId, index, sanitizeEnabled.value)
             .then((content) => {
-              contentCache.value.set(index, content)
+              contentCache.value.set(key, content)
             })
             .catch(() => {
               // Ignore preload errors
@@ -133,7 +149,8 @@ export const useReaderStore = defineStore('reader', () => {
     // Prune cache if it gets too big (> 20)
     if (contentCache.value.size > 20) {
       for (const key of contentCache.value.keys()) {
-        if (Math.abs(key - currentIndex) > 10) {
+        const index = Number.parseInt(key.split(':')[0] ?? '-1', 10)
+        if (!Number.isNaN(index) && Math.abs(index - currentIndex) > 10) {
           contentCache.value.delete(key)
         }
       }
@@ -194,11 +211,13 @@ export const useReaderStore = defineStore('reader', () => {
     currentChapterIndex,
     currentContent,
     loading,
+    sanitizeEnabled,
     currentChapter,
     hasPreviousChapter,
     hasNextChapter,
     loadBook,
     loadChapter,
+    setSanitizeEnabled,
     previousChapter,
     nextChapter,
     saveProgress,

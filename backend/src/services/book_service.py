@@ -7,7 +7,7 @@ from sqlmodel import Session, select
 
 from core.models import Book, Chapter
 
-from .parser import calculate_file_hash, parse_chapters
+from .parser import calculate_file_hash, parse_book, sanitize_chapter_body
 
 
 def create_or_update_book(
@@ -36,14 +36,14 @@ def create_or_update_book(
         # 如果文件不在 books_dir 内，使用绝对路径
         relative_path = Path(file_path)
 
-    # 检查书籍是否已存在（优先通过 path 查找，因为 path 更稳定）
-    existing_book = session.exec(select(Book).where(Book.path == str(relative_path))).first()
-
     # 获取文件元数据和哈希
     stat = file_path.stat()
     file_size = stat.st_size
     file_mtime = stat.st_mtime
     hash_id = calculate_file_hash(file_path)
+
+    # 检查书籍是否已存在（仅按 path 判定）
+    existing_book = session.exec(select(Book).where(Book.path == str(relative_path))).first()
 
     if existing_book:
         # 更新现有书籍
@@ -55,42 +55,48 @@ def create_or_update_book(
         # 2. 文件被修改（先检查 file_size, 再检查 hash_id 变化）
         needs_reparse = force_reparse or book.file_size != file_size or book.hash_id != hash_id
 
-        if needs_reparse:
-            # 需要重新解析
-            logger.info(f'Reparsing book: {relative_path}')
-            book.hash_id = hash_id
-            book.file_size = file_size
-            book.file_mtime = file_mtime
-            book.path = str(relative_path)
+        if not needs_reparse:
+            return book, is_new
 
-            # 删除旧章节
-            old_chapters = session.exec(select(Chapter).where(Chapter.book_id == book.id)).all()
-            for chapter in old_chapters:
-                session.delete(chapter)
+        # 需要重新解析
+        assert book.id is not None  # 确保 book 已经有 id
+        logger.info(f'Reparsing book: {relative_path}')
+        book.hash_id = hash_id
+        book.file_size = file_size
+        book.file_mtime = file_mtime
+        book.path = str(relative_path)
 
-            # 解析新章节
-            chapters_data = parse_chapters(file_path)
-            for chapter_data in chapters_data:
-                assert book.id is not None  # 确保 book 已经有 id
-                chapter = Chapter(
-                    book_id=book.id,
-                    title=chapter_data['title'],
-                    order_index=chapter_data['order_index'],
-                    content='\n\n'.join(chapter_data['content']),
-                )
-                session.add(chapter)
+        # 删除旧章节
+        old_chapters = session.exec(select(Chapter).where(Chapter.book_id == book.id)).all()
+        for chapter in old_chapters:
+            session.delete(chapter)
 
-            session.add(book)
-            session.commit()
-            session.refresh(book)
-            logger.info(f'Updated existing book: {relative_path}')
+        # 解析新章节
+        logger.debug(f'Parsing started: "{relative_path}"')
+        parse_result = parse_book(file_path)
+        for chapter_no, chapter_data in parse_result.items():
+            raw_body = chapter_data.to_body()
+            sanitized_body, _ = sanitize_chapter_body(raw_body)
+            chapter = Chapter(
+                book_id=book.id,
+                title=chapter_data.title,
+                order_index=chapter_no,
+                body=sanitized_body,
+                body_raw=raw_body,
+            )
+            session.add(chapter)
+
+        session.add(book)
+        session.commit()
+        session.refresh(book)
+        logger.info(f'Updated existing book: "{relative_path}"')
     else:
         # 创建新书籍
-        logger.info(f'Creating new book: {relative_path}')
+        logger.info(f'Creating new book: "{relative_path}"')
         is_new = True
 
         # 解析章节
-        chapters_data = parse_chapters(file_path)
+        parse_result = parse_book(file_path)
 
         # 提取书名（使用文件名，去掉扩展名）
         title = file_path.stem
@@ -107,19 +113,22 @@ def create_or_update_book(
         session.flush()  # 获取 book.id
 
         # 创建章节
-        for chapter_data in chapters_data:
+        for chapter_no, chapter_data in parse_result.items():
             assert book.id is not None  # 确保 book 已经有 id
+            raw_body = chapter_data.to_body()
+            sanitized_body, _ = sanitize_chapter_body(raw_body)
             chapter = Chapter(
                 book_id=book.id,
-                title=chapter_data['title'],
-                order_index=chapter_data['order_index'],
-                content='\n\n'.join(chapter_data['content']),
+                title=chapter_data.title,
+                order_index=chapter_no,
+                body=sanitized_body,
+                body_raw=raw_body,
             )
             session.add(chapter)
 
         session.commit()
         session.refresh(book)
-        logger.info(f'Created new book: {relative_path} with {len(chapters_data)} chapters')
+        logger.info(f'Created new book: "{relative_path}" with {len(parse_result)} chapters')
 
     return book, is_new
 

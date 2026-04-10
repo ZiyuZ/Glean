@@ -20,6 +20,9 @@ export async function listChapters(bookId: number): Promise<Chapter[]> {
 export async function getChapterContent(
   bookId: number,
   chapterIndex: number,
+  sanitize = true,
 ): Promise<string> {
-  return apiClient.get(`books/${bookId}/chapters/${chapterIndex}`).text()
+  return apiClient.get(`books/${bookId}/chapters/${chapterIndex}`, {
+    searchParams: { sanitize: String(sanitize) },
+  }).text()
 }

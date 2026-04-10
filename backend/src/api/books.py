@@ -47,7 +47,7 @@ def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
 
     # 如果当前章节是最后一章，检查偏移量
     if book.chapter_index == last_chapter_index:
-        chapter_size = len(last_chapter.content)  # 使用字符长度
+        chapter_size = len(last_chapter.body)  # 使用字符长度
         if book.chapter_offset is not None and chapter_size > 0:
             remaining = chapter_size - book.chapter_offset
             # 判断标准：剩余 < 5% 或 < 200字符（取较大值，适应不同屏幕）

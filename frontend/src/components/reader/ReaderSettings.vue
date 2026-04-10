@@ -12,7 +12,7 @@ const themeOptions: ThemeOption[] = [
   { value: 'night', label: '夜间' },
 ]
 
-const { fontSize, lineHeight, theme, brightness, paddingX, paddingY, margin, enableAnimation } = useReaderConfig()
+const { fontSize, lineHeight, theme, brightness, paddingX, paddingY, margin, enableAnimation, sanitizeContent } = useReaderConfig()
 
 function getThemeBg(t: string) {
   switch (t) {
@@ -150,6 +150,31 @@ const settingRanges = {
           翻页动画
         </p>
         <RadioGroup v-model="enableAnimation" class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          <RadioGroupOption v-slot="{ checked }" :value="true" class="flex-1 focus:outline-none">
+            <button
+              class="w-full py-1.5 text-xs font-medium rounded-md transition-all"
+              :class="checked ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'"
+            >
+              开启
+            </button>
+          </RadioGroupOption>
+          <RadioGroupOption v-slot="{ checked }" :value="false" class="flex-1 focus:outline-none">
+            <button
+              class="w-full py-1.5 text-xs font-medium rounded-md transition-all"
+              :class="checked ? 'bg-white dark:bg-gray-700 shadow text-gray-900 dark:text-gray-100' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-300'"
+            >
+              关闭
+            </button>
+          </RadioGroupOption>
+        </RadioGroup>
+      </div>
+
+      <!-- Sanitize Toggle -->
+      <div class="grid grid-cols-[100px,1fr] items-center gap-4 py-4">
+        <p class="text-sm font-medium text-gray-900 dark:text-gray-50">
+          文本净化
+        </p>
+        <RadioGroup v-model="sanitizeContent" class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
           <RadioGroupOption v-slot="{ checked }" :value="true" class="flex-1 focus:outline-none">
             <button
               class="w-full py-1.5 text-xs font-medium rounded-md transition-all"

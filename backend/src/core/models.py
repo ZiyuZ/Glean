@@ -1,11 +1,18 @@
 from sqlmodel import Field, Relationship, SQLModel
 
-__version__ = 'v1'
+__version__ = 'v2'
+
+
+class Meta(SQLModel, table=True):
+    __tablename__ = '__meta'
+
+    key: str = Field(primary_key=True)
+    value: str
 
 
 class Book(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    hash_id: str = Field(index=True, unique=True)  # 文件内容哈希
+    hash_id: str = Field(index=True)  # 文件内容哈希（不做唯一约束）
     title: str
     path: str  # 相对于 books_dir 的路径
     is_starred: bool = Field(default=False)
@@ -29,6 +36,7 @@ class Chapter(SQLModel, table=True):
     book_id: int = Field(foreign_key='book.id')
     title: str
     order_index: int  # 章节序号
-    content: str  # 章节内容（UTF-8 编码的文本，不包含章节标题，已清洗）
+    body: str  # 净化后的章节正文（默认阅读返回）
+    body_raw: str = ''  # 原始章节正文（净化前）
 
     book: Book = Relationship(back_populates='chapters')

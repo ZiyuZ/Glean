@@ -1,0 +1,349 @@
+{
+  "name": "广告净化",
+  "rules": [
+    {
+      "name": "书名净化",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "《仙木奇缘》|《最初进化》|《我有一卷鬼神图录》|《重生之搏浪大时代》|《第一氏族》|《极灵混沌决》|《修罗武神》|《控卫在此》|《一剑独尊》|《踏星》|《大明第一臣》|《这个明星很想退休》|《我的治愈系游戏》|《剑来》|《日月风华》|《天阿降临》|《逆天邪神》|《诸世大罗》|《种菜骷髅的异域开荒》|《武道长生从内丹术开始》|暴风后的大海|《大王请住手》|《我以熟练度苟长生》|玩家请上车",
+      "replacement": ""
+    },
+    {
+      "name": "作话去除感谢",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "感.*谢.*在(.|\\n)*非常感谢大家对我的支持，我会继续努力的！",
+      "replacement": " "
+    },
+    {
+      "name": "作话去除全部",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "作者有话说：(.|\\n)*",
+      "replacement": " "
+    },
+    {
+      "name": "作者有话",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(作者有话)[\\w\\W]+(.)",
+      "replacement": ""
+    },
+    {
+      "name": "感谢灌溉",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(感谢灌溉)[\\w\\W]+(.)",
+      "replacement": ""
+    },
+    {
+      "name": "网址净化",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "<[a-zA-Z=/_\\n*]>|[＃#\\.rR&;；nbspNBSP\\<\\>\\s+lt\\/]{2,8}(?=\\s\\n)|(?<=\\s\\n)[＃#\\.rR&;；nbspNBSPlt\\<\\>\\s+\\/]{2,8}|[记住百度搜索：地址本站域名网手机]{5,}.*[https://HTPS]*.*",
+      "replacement": ""
+    },
+    {
+      "name": "【笔趣阁 】",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "【笔趣阁 】",
+      "replacement": ""
+    },
+    {
+      "name": "【书趣阁 】",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "【书趣阁 】",
+      "replacement": " "
+    },
+    {
+      "name": "（谢谢支持，求支持。）",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "（谢谢支持，求支持。）",
+      "replacement": ""
+    },
+    {
+      "name": "（谢谢支持，谢谢。）",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": false,
+      "pattern": "（谢谢支持，谢谢。）",
+      "replacement": ""
+    },
+    {
+      "name": "删除分节阅读",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\s+分节阅读.*\\s+",
+      "replacement": ""
+    },
+    {
+      "name": "通用长垃圾集合",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": false,
+      "pattern": "(\\B\\W*)?([最更][快新优優]|天才|[找看]?本[站书](?![看籍])|如果您喜欢|[一1壹]秒记?|(第?[1壹一eE])?小说|(为了方便下次|欢迎)阅读|罩杯女|看\\W?小\\W?说|原创|以下是|章节(内容)?|[a-zA-Z]+\\.|手(打|机(阅读|用户))|2[kK]|为您提|(提供)?无弹窗|(高速)?首发|[纯全]文字|免费电|请用搜|(猎文|奇书)网|(武林|三七)中文|泰国最|(新书|月票)榜?).*(\\r\\n)?.*(((小[说說])?(在线)?(首发地?|(阅读|閱讀|用户)(體驗|体验|网|器)?))|复制|求?(订阅|推荐|票?支持)|访问|来发现|下载|广告|[章情]节|搜索|站哦?|赛吧?|用户独享|[网網地]址?|[mMgG]|[最更][快新])\\W*",
+      "replacement": ""
+    },
+    {
+      "name": "通用短垃圾集合",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(^\\W*)?(\\(未完待续|求(.{1,2}票|收藏|订阅).*|本文地址|欢迎阅读|.?顶\\W?点\\W?小\\W?说|请使用访问.*|请牢记.*|里面(小说)?.*破防盗|\\[搜索尽在.*\\]|尘.?缘.?文.?学.?网|《书.?香.?阁.*|.*免费更新|最\\s{0,3}新.{0,3}全.*)\\W*",
+      "replacement": ""
+    },
+    {
+      "name": "本段不计入本章字数：",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "本段不计入本章字数：[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "如题，",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "如题，[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "今日更新",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "今日更新[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "重要通知：",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "重要通知：[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "推本朋友的书：",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "推本朋友的书：[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "提前发一章，",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "提前发一章，[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "推荐一本朋友的书，",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "推荐一本朋友的书，[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "晚点可能还有一章，",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "晚点可能还有一章，[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "各位大大晚安，",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "各位大大晚安，[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "清理月票和打赏",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "[Pp\\u3000][Ss注][：\\:].*[月票|票票|投票].*|[：\\:]求.*[月票|票票|投票].*|.*打赏.*|\\u3000谢谢：.*(\\n.*)+|[^。！？”…～].*题外话.*",
+      "replacement": ""
+    },
+    {
+      "name": "ŴŴŴ.",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "ŴŴŴ.",
+      "replacement": ""
+    },
+    {
+      "name": "www",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "www",
+      "replacement": ""
+    },
+    {
+      "name": "阅读提示：",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "阅读提示：",
+      "replacement": ""
+    },
+    {
+      "name": "净化网址",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(。|？|！|”).*\\.(net|com|cn)",
+      "replacement": "$1"
+    },
+    {
+      "name": "404 Not Found",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*\\n.*(404 Not Found).*\\n.*(404 Not Found).*\\n.*(openresty)",
+      "replacement": ""
+    },
+    {
+      "name": "小说网",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*小说网",
+      "replacement": ""
+    },
+    {
+      "name": "作者留言：",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*(作者的话：|作者留言：|作者有话说：|最新内容|网页版章节内容)(.|\\n)*",
+      "replacement": ""
+    },
+    {
+      "name": "本章完",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "本章完",
+      "replacement": ""
+    },
+    {
+      "name": "向你推荐其他作品",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*?向你推荐.*?其他作品.*",
+      "replacement": ""
+    },
+    {
+      "name": "换源app",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*(换源app).*",
+      "replacement": ""
+    },
+    {
+      "name": "感谢",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "感谢.*盟主(.*\\s*)*",
+      "replacement": ""
+    },
+    {
+      "name": "ps",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[ \\s])[\\(\\（【]?ps[1-9]?[:：].*",
+      "replacement": ""
+    },
+    {
+      "name": "推荐",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*向你推荐他的其他作品[:：](\\s*\\S*)*",
+      "replacement": ""
+    },
+    {
+      "name": "有事",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\(.*有事|抱歉.*\\)",
+      "replacement": ""
+    },
+    {
+      "name": "感谢",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "感谢：.*币币打赏(.|\\n)*",
+      "replacement": ""
+    },
+    {
+      "name": "网站即将",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "##网站即将.*最新章节|下载最新.*广告免费",
+      "replacement": ""
+    },
+    {
+      "name": "爱阅app免费看最新内容。",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "##爱阅app免费看最新内容。.*[\\s\\S]*",
+      "replacement": ""
+    },
+    {
+      "name": "笔趣阁小说网",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": "第.{1,7}章.*?【.*?页】.+",
+      "replacement": ""
+    },
+    {
+      "name": "最快更新免费阅读",
+      "group": "广告净化",
+      "enabled": true,
+      "regex": true,
+      "pattern": ".*最快.*更新.+免费阅读",
+      "replacement": ""
+    },
+    {
+      "name": "去除正文广告",
+      "group": "广告",
+      "enabled": true,
+      "regex": true,
+      "pattern": "讲真.*|推荐下.*|认识十年.*|飞卢.*|.*最快.*更新.+免费阅读|##网站即将.*最新章节|下载最新.*广告免费|[\\s\\S]+求收藏.*",
+      "replacement": ""
+    }
+  ]
+}

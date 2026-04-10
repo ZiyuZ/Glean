@@ -1,5 +1,7 @@
 import hashlib
+from html.parser import HTMLParser
 from pathlib import Path
+from typing import override
 
 from chardet import detect
 from loguru import logger
@@ -42,3 +44,23 @@ def calculate_file_hash(file_path: Path) -> str:
         for chunk in iter(lambda: f.read(4096), b''):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
+
+
+def clean_html(content: str) -> str:
+    """去除 HTML 标签，提取纯文本（供读取与归一化使用）。"""
+
+    class HTMLTextExtractor(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.result: list[str] = []
+
+        @override
+        def handle_data(self, data: str):
+            self.result.append(data)
+
+        def get_text(self) -> str:
+            return ''.join(self.result)
+
+    parser = HTMLTextExtractor()
+    parser.feed(content)
+    return parser.get_text()

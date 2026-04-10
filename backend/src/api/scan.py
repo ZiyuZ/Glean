@@ -12,8 +12,11 @@ router = APIRouter()
 
 async def scan_task(full_scan: bool) -> None:
     """后台扫描任务"""
-    with get_session() as session:
-        await scan_directory(session, full_scan=full_scan)
+    try:
+        with get_session() as session:
+            await scan_directory(session, full_scan=full_scan)
+    except Exception as e:
+        logger.exception('Unhandled exception in background scan task: ', e)
 
 
 @router.post('')

@@ -1,0 +1,4349 @@
+{
+  "name": "替换",
+  "rules": [
+    {
+      "name": "赤**🔃赤裸裸",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "(?i)[赤⚹]⚹?(lu[ǒo]|果|祼|裸|⚹){2}",
+      "replacement": "赤裸裸"
+    },
+    {
+      "name": "氵显🔃湿",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "氵显",
+      "replacement": "湿"
+    },
+    {
+      "name": "jing/j/⚹🔃精",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])j[īi]ng(?![a-z, ])|(⚹|x|婧|哔……|j[īi]ng|(?<![a-z, ])j)(?=[斑水选制密炼关子液力神灵怪魄确魂气血锐准细腋彩病华致囊])|(?<=[射吞吃遗吸妖成鬼滑取阳浓白龙])(⚹|x|婧|j(?![a-z, ]))",
+      "replacement": "精"
+    },
+    {
+      "name": "gen/g🔃根",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])g[eē]n(?![a-z, ])|(?<=[耳脚腿整这那齐淫])(g[eē]n|g(?![a-z, ]))",
+      "replacement": "根"
+    },
+    {
+      "name": "chun🔃唇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[芳阴樱])chun(?![a-z, ])",
+      "replacement": "唇"
+    },
+    {
+      "name": "chu🔃粗",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])chu(?![a-z, ])",
+      "replacement": "粗"
+    },
+    {
+      "name": "yj🔃阴茎",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])yj(?![a-z, ])",
+      "replacement": "阴茎"
+    },
+    {
+      "name": "cha/c🔃插",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])ch[āa](?![a-z, ])|(?<![a-z, ])c(?=[槽头拔座队在柳进下入秧])|(?<=[下抽狂磨直拔强硬])c(?![a-z, ])|揷",
+      "replacement": "插"
+    },
+    {
+      "name": "gan",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])g[aāà]n(?![a-z, ])",
+      "replacement": "干"
+    },
+    {
+      "name": "jiao🔃娇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])jiao(?![a-z, ])|jiao(?=[羞艳嫩躯慵艳喘颜呼])",
+      "replacement": "娇"
+    },
+    {
+      "name": "zui🔃嘴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])zu[ǐi](?![a-z, ])",
+      "replacement": "嘴"
+    },
+    {
+      "name": "chuang🔃床",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])chu[áa]ng(?![a-z, ])",
+      "replacement": "床"
+    },
+    {
+      "name": "tiǎn🔃舔",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])ti[aǎ]n(?![a-z, ])",
+      "replacement": "舔"
+    },
+    {
+      "name": "bī🔃逼",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![铅钢a-z, ])b[iī](?![a-z, ])",
+      "replacement": "逼"
+    },
+    {
+      "name": "se🔃色",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])s[èe](?![a-z, ])",
+      "replacement": "色"
+    },
+    {
+      "name": "zhèng🔃正",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![参议当执宪a-z, ])zh[eè]ng(?![府治权法策a-z, ])|(?<=[真刚])zh[eè]ng",
+      "replacement": "正"
+    },
+    {
+      "name": "ru/r🔃乳",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])r[uǔ](?![a-z, ])|(?<=[母丰美酥椒淑嫩哺娇双左右粉玉])(r[uǔ]|r(?![a-z, ]))|(r[uǔ]|(?<![a-z, ])r)(?=[白头沟罩峰肉房晕球尖汁])",
+      "replacement": "乳"
+    },
+    {
+      "name": "nai/n🔃奶",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])n[aǎ]i(?![a-z, ])|(n[aǎ]i|(?<![a-z, ])n)(?=[子头奶妈瓶声茶粉罩滴])|(?<=[牛羊马豆白大揉硕晕])(n[aǎ]i|n(?![a-z, ]))",
+      "replacement": "奶"
+    },
+    {
+      "name": "ma🔃马",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])m[ǎa](?![a-z, ])|(?<=[种牛头人宝车龙飞])m[ǎa]",
+      "replacement": "马"
+    },
+    {
+      "name": "rou/r🔃肉",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])r[oò]u(?![a-z, ])|(r[oò]u|⚹|(?<![a-z, ])r)(?=[色偿乎感囊袋珠柱棍杵菇壶筋浪壁膜唇缝洞盾末棒体便穴眼])|(?<=[肌肥嫩血赘美软乳])(r[oò]u|r(?![a-z, ]))",
+      "replacement": "肉"
+    },
+    {
+      "name": "玛德",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "玛德",
+      "replacement": "妈的"
+    },
+    {
+      "name": "彷/仿",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "彷(?=[造佛效若宋照古行冒写学制品药])|(?<=[模摹效相])彷",
+      "replacement": "仿"
+    },
+    {
+      "name": "ChiLuo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "ChiLuo",
+      "replacement": "赤裸"
+    },
+    {
+      "name": "chā",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "chā",
+      "replacement": "插"
+    },
+    {
+      "name": "pò_chù",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "pò_chù",
+      "replacement": "破处"
+    },
+    {
+      "name": "*01 🌧️木仓",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "木仓",
+      "replacement": "枪"
+    },
+    {
+      "name": "🔃 八九 / **",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=十[有之])\\*\\*|\\*\\*(?=不离十|事件|动乱|[分秒天周月年岁个部辆台点厘米丈寸斤吨成折])",
+      "replacement": "八九"
+    },
+    {
+      "name": "🔃 婊 / biao",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])biao(?![a-z, ])",
+      "replacement": "婊"
+    },
+    {
+      "name": "🔃 赤裸 / **",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=全身)\\*{2}|\\*{2}(?=裸|着身)",
+      "replacement": "赤裸"
+    },
+    {
+      "name": "🔃 国军 / **",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "\\*\\*(?=队|舰|方|官|力)",
+      "replacement": "国军"
+    },
+    {
+      "name": "🔃 操 / cao",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "艹|(?i)(?<![a-z, ])cao(?![a-z, ])|X(?=淡)|(?<=我)X",
+      "replacement": "操"
+    },
+    {
+      "name": "🔃 裸 / luo",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])(luo){1,2}(?![a-z, ])",
+      "replacement": "裸"
+    },
+    {
+      "name": "🔃 骚 / sao",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])sao(?![a-z, ])",
+      "replacement": "骚"
+    },
+    {
+      "name": "🔃 欲 / yu",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])yu(?![a-z, ])",
+      "replacement": "欲"
+    },
+    {
+      "name": "🔃 诱 / you",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])you(?![a-z, ])",
+      "replacement": "诱"
+    },
+    {
+      "name": "🔃 性 / xing",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])xing(?![a-z, ])",
+      "replacement": "性"
+    },
+    {
+      "name": "🔃 弄 / nong",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z, ])nong(?![a-z, ])",
+      "replacement": "弄"
+    },
+    {
+      "name": "6/陆",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "6(?=[地总军])|(?<=[一大海])6",
+      "replacement": "陆"
+    },
+    {
+      "name": "qiāng/枪",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "qiāng",
+      "replacement": "枪"
+    },
+    {
+      "name": "qiáng/强",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "qiáng|qiang",
+      "replacement": "强"
+    },
+    {
+      "name": "jīng/精",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "jīng|jing",
+      "replacement": "精"
+    },
+    {
+      "name": "dàng/荡",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "dàng|dang",
+      "replacement": "荡"
+    },
+    {
+      "name": "gan/干",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "gan|gān|gàn",
+      "replacement": "干"
+    },
+    {
+      "name": "**/川普",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[四秦山冰])\\*{2,3}(?=[遍通及查])",
+      "replacement": "川普"
+    },
+    {
+      "name": "**/查尔斯",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*{2,3}斯",
+      "replacement": "查尔斯"
+    },
+    {
+      "name": " **/西藏",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=东躲)\\*\\*",
+      "replacement": "西藏"
+    },
+    {
+      "name": "色情",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "se情|seqing|seQing|SEQING|SeQing",
+      "replacement": "色情"
+    },
+    {
+      "name": "裸",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "luo",
+      "replacement": "裸"
+    },
+    {
+      "name": "插",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "cha",
+      "replacement": "插"
+    },
+    {
+      "name": "**/欲望",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[您I你I我I他I她I阴暗I良好]的)\\*\\*",
+      "replacement": "欲望"
+    },
+    {
+      "name": " **/穴内",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=洞|巢|虎|深|涌泉)\\*{2,3}",
+      "replacement": "穴内"
+    },
+    {
+      "name": "骚",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sao",
+      "replacement": "骚"
+    },
+    {
+      "name": "发情期",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*\\*期",
+      "replacement": "发情期"
+    },
+    {
+      "name": "Jing/精",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(Jīng|Jing|\\*)(?=[液力神灵怪魄确魂气血锐])",
+      "replacement": "精"
+    },
+    {
+      "name": "She/射",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[弹发暗影注喷反辐放])She|She(?=[精箭日击程手])",
+      "replacement": "射"
+    },
+    {
+      "name": "Bi/屄",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[小的肏浪，舔黑淫粉娘她大老说骚嫩…])Bi|Bi(?=[腔口痒事肏里内上缝])",
+      "replacement": "逼"
+    },
+    {
+      "name": "zuo/做",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "[Zz]u[oò](?=[爱])",
+      "replacement": "做"
+    },
+    {
+      "name": "di/蒂",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[阴])[Dd][iì]",
+      "replacement": "蒂"
+    },
+    {
+      "name": "chu/处",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "[Cc]h[uù](?=[女])",
+      "replacement": "处"
+    },
+    {
+      "name": "kou/口",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "[Kk]ou(?=[交])",
+      "replacement": "口"
+    },
+    {
+      "name": "bi/逼",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[傻])[Bb][iī]|[Bb][iī](?=[上死[我们]近])",
+      "replacement": "逼"
+    },
+    {
+      "name": "jian/贱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[人])ji[aà]n|ji[aà]n(?=[人货])",
+      "replacement": "贱"
+    },
+    {
+      "name": "cao/操",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[贞节体])[Cc][aā]o|[Cc][aā]o(?=[练心办着场字])",
+      "replacement": "操"
+    },
+    {
+      "name": "bào/暴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "bào|bao",
+      "replacement": "暴"
+    },
+    {
+      "name": "xiāo穴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "xiāo穴|xiao穴",
+      "replacement": "小穴"
+    },
+    {
+      "name": "壁角",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "壁角",
+      "replacement": "墙角"
+    },
+    {
+      "name": "nǎi子",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "nǎi子|nai子",
+      "replacement": "奶子"
+    },
+    {
+      "name": "yáng具",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "yáng具|yang具",
+      "replacement": "阳具"
+    },
+    {
+      "name": "ròu棒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "ròu棒|rou棒",
+      "replacement": "肉棒"
+    },
+    {
+      "name": "jīng液",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "jīng液|jing液|jin液",
+      "replacement": "精液"
+    },
+    {
+      "name": "guī头",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "guī头|gui头",
+      "replacement": "龟头"
+    },
+    {
+      "name": "yīn唇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "yīn唇|yin唇",
+      "replacement": "阴唇"
+    },
+    {
+      "name": "rǔ房",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "rǔ房|ru房",
+      "replacement": "乳房"
+    },
+    {
+      "name": "xiōng前",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "xiōng|xiong",
+      "replacement": "胸"
+    },
+    {
+      "name": "高氵朝",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "高氵朝",
+      "replacement": "高潮"
+    },
+    {
+      "name": "™",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "™",
+      "replacement": "他妈"
+    },
+    {
+      "name": "【lún】",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "【lún】",
+      "replacement": "伦"
+    },
+    {
+      "name": "【kǒu】",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "【kǒu】",
+      "replacement": "口"
+    },
+    {
+      "name": "【rì】",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "【rì】",
+      "replacement": "日"
+    },
+    {
+      "name": "媳fu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "媳fu",
+      "replacement": "媳妇"
+    },
+    {
+      "name": "xing命",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "xing命",
+      "replacement": "性命"
+    },
+    {
+      "name": "颜se",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "颜se",
+      "replacement": "颜色"
+    },
+    {
+      "name": "果照",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "果照",
+      "replacement": "裸照"
+    },
+    {
+      "name": "makelove",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "makelove",
+      "replacement": "做爱"
+    },
+    {
+      "name": "五颜六se",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "五颜六se",
+      "replacement": "五颜六色"
+    },
+    {
+      "name": "激dàng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "激dàng",
+      "replacement": "激荡"
+    },
+    {
+      "name": "rǔ头",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "rǔ头|ru头",
+      "replacement": "乳头"
+    },
+    {
+      "name": "yīn",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "yīn|yin|ying",
+      "replacement": "阴"
+    },
+    {
+      "name": "荡fu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "荡fu",
+      "replacement": "荡妇"
+    },
+    {
+      "name": "roufèng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "roufèng",
+      "replacement": "肉缝"
+    },
+    {
+      "name": "和谐：bao/暴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z\\s])b[aà]o(?![a-zA-Z\\s养])",
+      "replacement": "暴"
+    },
+    {
+      "name": "tiǎn",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "tiǎn",
+      "replacement": "舔"
+    },
+    {
+      "name": "nǎi",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "nǎi",
+      "replacement": "奶"
+    },
+    {
+      "name": "yǎng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "yǎng",
+      "replacement": "痒"
+    },
+    {
+      "name": "和谐：biao/婊",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[^a-zA-Z])bi[aǎ]o(?=[^a-zA-Z])",
+      "replacement": "婊"
+    },
+    {
+      "name": "chā",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "chā",
+      "replacement": "插"
+    },
+    {
+      "name": "gāocháo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "gāocháo",
+      "replacement": "高潮"
+    },
+    {
+      "name": "yè",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "yè",
+      "replacement": "液"
+    },
+    {
+      "name": "和谐：bi/逼",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[傻小的肏浪舔黑淫粉娘她大老说搔骚嫩抠扣的操曹干齐，…]|[扣抠操曹干]着)(b[īi]|碧)(?![绿游人画水云波霞晨色浪瑶翠潭a-zA-Z_])|(?<![f雪])(b[īi]|\\*{1,2})(?=[洞穴水我你近迫死腔口痒事肏里内上缝好])",
+      "replacement": "逼"
+    },
+    {
+      "name": "艹控",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "艹控|cao控",
+      "replacement": "操控"
+    },
+    {
+      "name": "shè",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "shè",
+      "replacement": "射"
+    },
+    {
+      "name": "dàng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "dàng",
+      "replacement": "荡"
+    },
+    {
+      "name": "jiāo情",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "jiāo情",
+      "replacement": "交情"
+    },
+    {
+      "name": "和谐：cao/操",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[曹我体贞节狠猛爆])(\\*\\*?|曹|c[aāà]o)|(\\*\\*?|曹|c[aāà]o)(?=[我你他场心蛋死得练纵弄舟持盘守办刀劳着淡碧屄着烂])|肏",
+      "replacement": "操"
+    },
+    {
+      "name": "duxing",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "duxing",
+      "replacement": "毒性"
+    },
+    {
+      "name": "sāo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sāo",
+      "replacement": "骚"
+    },
+    {
+      "name": "zhēn rén",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "zhēn rén",
+      "replacement": "真人"
+    },
+    {
+      "name": "duyào",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "duyào",
+      "replacement": "毒药"
+    },
+    {
+      "name": "jiāo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "jiāo",
+      "replacement": "交"
+    },
+    {
+      "name": "和谐：cha/插",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)揷(?=[槽头入拔座队送坏死])|(?<=[直拔抽强硬])揷|(?<![a-zA-Z\\s])ch[āa](?![a-zA-Z\\s])",
+      "replacement": "插"
+    },
+    {
+      "name": "qiāng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "qiāng",
+      "replacement": "枪"
+    },
+    {
+      "name": "【bī】",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "【bī】",
+      "replacement": "逼"
+    },
+    {
+      "name": "sī",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sī",
+      "replacement": "私"
+    },
+    {
+      "name": "1uan",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "1uan",
+      "replacement": "乱"
+    },
+    {
+      "name": "**裸",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "**裸",
+      "replacement": "赤裸裸"
+    },
+    {
+      "name": "jī_bā",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "jī_bā",
+      "replacement": "鸡巴"
+    },
+    {
+      "name": "JiaoXiao🔃拼音",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)JiaoXiao",
+      "replacement": "姣小"
+    },
+    {
+      "name": "和谐：chengren/成人",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=变)\\*{1,2}|ch[eé]ng\\s?r[eé]n|\\*{1,2}｛?=礼｝",
+      "replacement": "成人"
+    },
+    {
+      "name": "c-h-a",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "c-h-a",
+      "replacement": "插"
+    },
+    {
+      "name": "yù",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "yù",
+      "replacement": "欲"
+    },
+    {
+      "name": "làng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "làng",
+      "replacement": "浪"
+    },
+    {
+      "name": "和谐：chuang/床",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)chu[aáe]ng|[(（]床[)）]",
+      "replacement": "床"
+    },
+    {
+      "name": "cháo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "cháo",
+      "replacement": "潮"
+    },
+    {
+      "name": "ròu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "ròu",
+      "replacement": "肉"
+    },
+    {
+      "name": "gāo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "gāo",
+      "replacement": "高"
+    },
+    {
+      "name": "yīn",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "yīn",
+      "replacement": "阴"
+    },
+    {
+      "name": "máo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "máo",
+      "replacement": "毛"
+    },
+    {
+      "name": "Ch_ao",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "Ch_ao",
+      "replacement": "潮"
+    },
+    {
+      "name": "YeWai",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "YeWai",
+      "replacement": "野外"
+    },
+    {
+      "name": "lù",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "lù",
+      "replacement": "露"
+    },
+    {
+      "name": "rǔ",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "rǔ",
+      "replacement": "乳"
+    },
+    {
+      "name": "xiǎo",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "xiǎo",
+      "replacement": "小"
+    },
+    {
+      "name": "ròu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "ròu",
+      "replacement": "肉"
+    },
+    {
+      "name": "和谐：dong/动",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[震耸挺拔振摇摆抽]|ch[ōo]u)d[oò]ng|d[oò]ng(?=[荡摇作手心脑人画漫我你])",
+      "replacement": "动"
+    },
+    {
+      "name": "JingYan",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "JingYan",
+      "replacement": "惊艳"
+    },
+    {
+      "name": "huò",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "huò",
+      "replacement": "惑"
+    },
+    {
+      "name": "和谐：dong/洞",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[空漏帘涵个淫肉进虫挖打摸入])d[oò]ng(?![a-z])|d[oò]ng(?=[口主开里门眼察穴])",
+      "replacement": "洞"
+    },
+    {
+      "name": "bō",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "bō",
+      "replacement": "波"
+    },
+    {
+      "name": "xìng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "xìng",
+      "replacement": "性"
+    },
+    {
+      "name": "和谐：gan/干",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z\\s])g[aāà]n(?![a-zA-Z\\s])",
+      "replacement": "干"
+    },
+    {
+      "name": "chuáng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "chuáng",
+      "replacement": "床"
+    },
+    {
+      "name": "shì女",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "shì女",
+      "replacement": "仕女"
+    },
+    {
+      "name": "chōu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "chōu",
+      "replacement": "抽"
+    },
+    {
+      "name": "shè",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "shè",
+      "replacement": "射"
+    },
+    {
+      "name": "和谐：hua/花",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[心浪水菊开妹警羞绣娇天赏看浇飞校班系际鲜繁])hu[aā](?![a-z])|hu[aā](?=[心钱语枝鸟朵时间样式开椒招费蜜粉园芯蕊])",
+      "replacement": "花"
+    },
+    {
+      "name": "huā",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "huā",
+      "replacement": "花"
+    },
+    {
+      "name": "chūn",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "chūn",
+      "replacement": "春"
+    },
+    {
+      "name": "和谐：hun/魂",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[精灵回入勾安招移死迷还三鬼冤])h[uú]n(?![a-zA-Z_])|(?<![a-zA-Z_])h[uú]n(?=[魄力草香汤灵石街斗体])",
+      "replacement": "魂"
+    },
+    {
+      "name": "sè_mó",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sè_mó",
+      "replacement": "色魔"
+    },
+    {
+      "name": "mén",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "mén",
+      "replacement": "门"
+    },
+    {
+      "name": "和谐：huo/惑",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[迷困疑蛊所解媚言诱]|yo[uù])h[uù]o(?![a-z])",
+      "replacement": "惑"
+    },
+    {
+      "name": "sè",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sè",
+      "replacement": "色"
+    },
+    {
+      "name": "s,he",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "s,he",
+      "replacement": "射"
+    },
+    {
+      "name": "和谐：ji/激",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[感冲刺过])j[iī](?![a-zāǎáàōóǒòēéěèīíǐìūúǔùǖǘǚǜü滑])|j[iī](?=[动烈进昂战发怒增将化荡活情励光起])",
+      "replacement": "激"
+    },
+    {
+      "name": "sichu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sichu",
+      "replacement": "私处"
+    },
+    {
+      "name": "Ga0",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "Ga0",
+      "replacement": "搞"
+    },
+    {
+      "name": "sHE",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sHE",
+      "replacement": "射"
+    },
+    {
+      "name": "和谐：jian/奸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[先和轮汉抓捉迷强为老再合忠群骗偷通相汉])ji[āa]n(?![a-z])|ji[āa]n(?=[淫商情滑污细人贼臣诈笑杀了魔计后尸妇夫])",
+      "replacement": "奸"
+    },
+    {
+      "name": "mō",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "mō",
+      "replacement": "摸"
+    },
+    {
+      "name": "s-hi",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "s-hi",
+      "replacement": "湿"
+    },
+    {
+      "name": "tóu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "tóu",
+      "replacement": "头"
+    },
+    {
+      "name": "dòng",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "dòng",
+      "replacement": "洞"
+    },
+    {
+      "name": "jī",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "jī",
+      "replacement": "鸡"
+    },
+    {
+      "name": "和谐：jiao/交",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[口性群肛乱臀公足援尾乳杂兽自])(ji[aā]o|佼)(?![a-z])|(ji[aā]o|佼)(?=[流给待合火缠叉际通口错公粮出])|鸡[aā]o|(?<=r[uǔ]?|乳)j(i[aā]o)?",
+      "replacement": "交"
+    },
+    {
+      "name": "jiào",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "jiào",
+      "replacement": "叫"
+    },
+    {
+      "name": "pēn",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "pēn",
+      "replacement": "喷"
+    },
+    {
+      "name": "和谐：jing/警",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[出报示民刑武火干协])j[iǐ]ng(?![a-zA-Z_])|j[iǐ]ng(?=[花长服视政报员告示察官徽惕衔校部觉探])",
+      "replacement": "警"
+    },
+    {
+      "name": "nèi",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "nèi",
+      "replacement": "内"
+    },
+    {
+      "name": "**一刻值千金",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "**一刻值千金",
+      "replacement": "春宵一刻值千金"
+    },
+    {
+      "name": "luǒ",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "luǒ",
+      "replacement": "裸"
+    },
+    {
+      "name": "个人**",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "个人**",
+      "replacement": "个人隐私"
+    },
+    {
+      "name": "shuǐ",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "shuǐ",
+      "replacement": "水"
+    },
+    {
+      "name": "shǒu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "shǒu",
+      "replacement": "手"
+    },
+    {
+      "name": "⚹⚹上",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "⚹⚹上",
+      "replacement": "肉体上"
+    },
+    {
+      "name": "n_ai",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "n_ai",
+      "replacement": "奶"
+    },
+    {
+      "name": "和谐：luo/祼",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[赤裸])l[uǔ]o|l[uǔ]o(?=[贷退辞露睡体奔着机船男女照身的])",
+      "replacement": "祼"
+    },
+    {
+      "name": "lū",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "lū",
+      "replacement": "撸"
+    },
+    {
+      "name": "和谐：nai/奶",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[牛羊豆逗白大揉硕晕i])(n[aǎ]i|乃)(?!亚木是)|(?<![雪阳诗饭佳桐智由音容之])(n[aǎ]i|乃)(?=[子头奶瓶茶粉罩滴油n咖酪])",
+      "replacement": "奶"
+    },
+    {
+      "name": "Sh_e",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "Sh_e",
+      "replacement": "射"
+    },
+    {
+      "name": "和谐：nong/弄",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[捉玩摆挑])n[oò]ng(?![a-zA-Z_])|n[oò]ng(?=[虚手臣明点权得人脏死疼乱花草堂])",
+      "replacement": "弄"
+    },
+    {
+      "name": "taizu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "taizu",
+      "replacement": "太祖"
+    },
+    {
+      "name": "taizong",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "taizong",
+      "replacement": "太宗"
+    },
+    {
+      "name": "和谐：nv/女",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[一男儿淑美少处淫骚婢彼乙女])n[vǚ](?![a-z])|n[vǚ](?=[人孩子士白儿子官装性帝王奴体])",
+      "replacement": "女"
+    },
+    {
+      "name": "和谐：pi/屁",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[放个的狗臭响想马])p[iì]?(?![a-zA-Z\\s])",
+      "replacement": "屁"
+    },
+    {
+      "name": "和谐：tun/臀",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)t[uú]n(?![a-z])",
+      "replacement": "臀"
+    },
+    {
+      "name": "和谐：qing/情",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?!<[a-z])q[ií]ng(?![a-z])|(?<=发)晴",
+      "replacement": "情"
+    },
+    {
+      "name": "和谐：re/热",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z\\s])r[è](?![a-zA-Z\\s:：0])",
+      "replacement": "热"
+    },
+    {
+      "name": "和谐：rou/肉",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[嫩肌血赘美软乳])(\\*|r[oò]u])(?![女])|(\\*|r[oò]u])(?=[乎感囊袋珠柱棍杵菇壶筋浪壁膜唇缝洞盾末棒体便穴眼])|內|(?<![a-zA-Z_])r[oò]u(?![a-xzA-XZ_])",
+      "replacement": "肉"
+    },
+    {
+      "name": "和谐：sao/骚",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[好发牢风闷真淫卖]|这么|他妈的?)(s[aā]o|搔)(?![a-z])|(s[aā]o|搔)(?=[劲逼bB贱包男女碧穴动气乱扰气客话弄得年货叫心])",
+      "replacement": "骚"
+    },
+    {
+      "name": "nm",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "nm",
+      "replacement": "你妈"
+    },
+    {
+      "name": "和谐：se/色",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[脸颜菜财彩红橙神面天夜惭愧变着上出眼观援诡十七九补愤碧比波喜怒哀乐惧吸串忧愁滋俏翠墨一劫戒酒暮景目愠韫晕韵辞日基蜜米气琦转阴起齐异同橘桔涂图底滤湖护栗厉货活加款肤复浮物无五雾黄绿逊青古丽靛土金银铜淡深好蓝均正紫冷暖黑白灰性美春秀姿亮暗去增失急声食花之]|y[iī]n|ch[ūu]n|ch[áa]o)s[èe]|s[èe](?=[狼男女情彩号鬼差魔术图字戒诱文衰变书香盲迷素谱带系心胆花]|s[èe])",
+      "replacement": "色"
+    },
+    {
+      "name": "👇➖➖【词汇修复】➖➖👇",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?<=[王火独快成屁统呻诱调政领干吃法奶身肉怀胴交自赌和变春少暴赤裸尿诱卖鸡狗人])(?:(?=\\W)[^，、。！？：；“”（）【】《》])(?=[贷偿八拼立感长熟股一吟惑教府导死奶轮香孕身体合由杀博谐态药妇乱动裸尿人儿日皮])",
+      "replacement": ""
+    },
+    {
+      "name": "和谐：she/射",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[弹发暗颜影注喷反辐放散撸])涉|(?<![干木牵跋])涉(?=[完精婧箭日击程手向弓往回的在去哪那这手射给墙到了进出入])|(?<![a-z\\s])sh[eè](?![a-z\\s])",
+      "replacement": "射"
+    },
+    {
+      "name": "和谐：shenyin/呻吟",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(呻|sh[eē]n)\\s*(吟|y[ieí]n)",
+      "replacement": "呻吟"
+    },
+    {
+      "name": "和谐：shen/伸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)sh[eē]n(?=[助展手出开过舌缩长短])|(?<=[延拉])sh[eē]n(?![a-z])",
+      "replacement": "伸"
+    },
+    {
+      "name": "和谐：tao/套",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z\\s])t[aà]o(?![a-zA-Z\\s])",
+      "replacement": "套"
+    },
+    {
+      "name": "和谐：tui/腿",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[大小长短美好])tu[iǐ](?![a-zA-Z_])|tu[iǐ](?=[玩部上软])",
+      "replacement": "腿"
+    },
+    {
+      "name": "和谐：xiong/胸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[大小平抱玩揉捏舔蹭抓丰白心鸡摸袭护好丰这捂]|成竹在|昂首挺)(xi[oō]ng|詾|匈)|(xi[oō]ng|詾|匈)(?=[章罩前膛腔口脯部肌围大有针怀襟府闷腹膛腔贴甲毛推])|(?<![奥])匈(?![奴牙])",
+      "replacement": "胸"
+    },
+    {
+      "name": "和谐：xing/性",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z\\s])(x[iì]ng|xg)(?![a-xzA-XZ])|(?<=可能|象征|[知本记男女同异生]|扫了?)(姓|哔……)|(姓|哔……)(?=[器质格能癖别爱感子裕欲交奴]|幻想|骚扰)|(X|\\*{1,2})(?=[情器质格癖能别爱感子裕欲交奴]|幻想|骚扰|关系)",
+      "replacement": "性"
+    },
+    {
+      "name": "和谐：yin/淫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[奇手奸邪侵意宣下])(y[ií]n|婬)(?![a-zA-Z_])|(y[ií]n|婬)(?=[声水液腋辱呻浪靡糜猥亵叫邪媚荡乱秽穴女具僧魔妇贼娃搔骚贱威逸祠祀])",
+      "replacement": "淫"
+    },
+    {
+      "name": "和谐：yu/欲",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[情思私淫节肉贪几还正不色财权爱性姓纵兽]|求生|求知)(y[uù](?![a-z])|裕|\\*\\*?|慾)|(?<![美])(y[uù]|裕|\\*\\*?|慾)(?=[火情聋泣成生将要以心求说虑动发出演见成立废试望壑寡欲女仙色拒念海逃走骂夸夺占裂言行再焰生待罢滴起胜降辩辨绝]|w[aà]ng)",
+      "replacement": "欲"
+    },
+    {
+      "name": "和谐：wang/望",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=y[uù]|欲|野|厚|家)\\s?w[aà]ng|w[aà]ng(?=[族穿着眼光风])",
+      "replacement": "望"
+    },
+    {
+      "name": "和谐：yin/阴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[太光元女遮真下外内一])(y[iī]n|\\*|陰)|(y[iī]n|\\*|陰)(?=[唇核部森怨沉蒂道户穴阳精历霾暗干面凉影谋毒险翳湿天魂寒文晦冷骘唇毛世间风囊环茎云洞着公狗司曹人怒色处鸷林了]|s[èe])",
+      "replacement": "阴"
+    },
+    {
+      "name": "和谐：zheng/正",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![参议当执宪])zh[eè]ng(?![府治权法策a-zA-Z_])",
+      "replacement": "正"
+    },
+    {
+      "name": "和谐：zhu/助",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[求帮援佐])zh[ùu](?![a-z])|(?![a-zA-Z_])zh[ùu](?![a-zA-Z_])",
+      "replacement": "助"
+    },
+    {
+      "name": "和谐：ziyou/自由",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)z[ìi]\\s*y[óo]u",
+      "replacement": "自由"
+    },
+    {
+      "name": "和谐：zuo/做",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?!<[a-z])zu[oò](?![a-zA-Z_])",
+      "replacement": "做"
+    },
+    {
+      "name": "和谐：**/屁股",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=捏我的?|玩弄|揉|撅起了?)\\*{1,2}|(?<![a-zA-Z_])p[iì]\\s*g[uǔ](?![a-zA-Z_])",
+      "replacement": "屁股"
+    },
+    {
+      "name": "和谐：**/被操",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<![的是])\\*{1,2}(?=[纵控])",
+      "replacement": "被操"
+    },
+    {
+      "name": "和谐：**/国军",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?<=[帝王公党敌盟中华俄美英法德韩倭米他我本]|共和|联合|灯塔)\\*\\*(?=[队阵械旗舰方官人民需务神])|(?<=[帝俄法])\\*\\*|\\*\\*(?=[方队务需人])",
+      "replacement": "国军"
+    },
+    {
+      "name": "和谐：巨*/巨大",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "巨\\*{1,2}",
+      "replacement": "巨大"
+    },
+    {
+      "name": "和谐：**/他妈",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*{1,2}(?=的[^身])",
+      "replacement": "他妈"
+    },
+    {
+      "name": "和谐：**/大法",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=(吸星|解体|阴阳|血遁|击地|三星|索尼|华为|谷歌))\\*{1,2}|\\*{1,2}(?=[师官院会好器])",
+      "replacement": "大法"
+    },
+    {
+      "name": "和谐：笑**/笑盈盈",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=笑)\\*\\*(?=地)",
+      "replacement": "盈盈"
+    },
+    {
+      "name": "和谐：**/抚摸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*{1,2}(?=[\\u4E00-\\u9FA5]*(毛发|身体|肌肤))",
+      "replacement": "抚摸"
+    },
+    {
+      "name": "和谐：**/失身",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[大有])\\*{1,2}(?=份)",
+      "replacement": "失身"
+    },
+    {
+      "name": "和谐：**/自慰",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=聊以)\\*\\*|(?!<[a-zA-Z_])z[iì]\\s*we[iì](?![a-zA-Z_])",
+      "replacement": "自慰"
+    },
+    {
+      "name": "和谐：**/西藏",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=东躲)\\*\\*",
+      "replacement": "西藏"
+    },
+    {
+      "name": "和谐：**/鸡巴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=你个|瞎|懂|吃|舔|搓|含|假)\\*{1,2}|j[iī]?b[aā]?(?![a-z])",
+      "replacement": "鸡巴"
+    },
+    {
+      "name": "和谐：**/口交",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=门)\\*\\*",
+      "replacement": "口交"
+    },
+    {
+      "name": "和谐：**/群交",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=聊天)\\*｛1,2｝",
+      "replacement": "群交"
+    },
+    {
+      "name": "和谐：**/性交",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=试探)\\*{1,2}",
+      "replacement": "性交"
+    },
+    {
+      "name": "和谐：ren/入/人",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?<=[大家贱浑])入|入(?=[们民家])|(?<![a-zA-Z_])r[eé]n(?![a-zA-Z_])",
+      "replacement": "人"
+    },
+    {
+      "name": "和谐：嘲/潮",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[高狂吹])嘲|嘲(?=[红水吹])",
+      "replacement": "潮"
+    },
+    {
+      "name": "和谐：腋/液",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[尿精婧唾淫汁津丝爱体])腋|腋(?=[休体])",
+      "replacement": "液"
+    },
+    {
+      "name": "和谐：休/体",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?<=[下液腋])休",
+      "replacement": "体"
+    },
+    {
+      "name": "和谐：哽/硬",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[好刚])哽",
+      "replacement": "硬"
+    },
+    {
+      "name": "和谐：shi/湿/显",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?i)(?<![明英汉神李浅名若推贤大])(显|sh[iī])(?=[痕迹手热风透疹度答地漉衣鞋身意])|(?<=[沾溅风打淋弄全汗])(显|sh[iī])",
+      "replacement": "湿"
+    },
+    {
+      "name": "和谐：贩毒/贩du",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(泛读)|(贩d[úu])",
+      "replacement": "贩毒"
+    },
+    {
+      "name": "和谐：独/du",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "d[uú](?=[子立孤自])|(?<=[台港藏疆澳])d[uú]",
+      "replacement": "独"
+    },
+    {
+      "name": "和谐：毒/du",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "d[uú](?=[计药妇人奶死啊虫草品物])|(?<=[好蛇荼冰蛊制贩运藏有剧中消去祛排])d[uú](?![a-zA-Z_])",
+      "replacement": "毒"
+    },
+    {
+      "name": "和谐：long/龙",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)l[oó]ng(?=[凤根头王虾水舌宫子女一二])|(?<=[大长水火冰金化古巨魔真蛟有])l[oó]ng(?![a-zA-Z_])",
+      "replacement": "龙"
+    },
+    {
+      "name": "和谐：chong/宠",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)ch[oǒ]ng(?=[物妃坏爱你我他大她])|(?<=[爱新旧小萌要不])ch[oǒ]ng(?![a-zA-Z_])",
+      "replacement": "宠"
+    },
+    {
+      "name": "拆字：软/车欠",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "车\\s*欠",
+      "replacement": "软"
+    },
+    {
+      "name": "拆字：强/弓虽",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "弓\\s*虽",
+      "replacement": "强"
+    },
+    {
+      "name": "拆字：的/白勺",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(白\\s*勺)(?![花的])",
+      "replacement": "的"
+    },
+    {
+      "name": "拆字：奸/女干",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(女\\s*干)(?![部活这那员嘛啥了的什么吗工])",
+      "replacement": "奸"
+    },
+    {
+      "name": "拆字：揉/扌柔",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "扌\\s*柔",
+      "replacement": "揉"
+    },
+    {
+      "name": "拆字：口觜",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "口\\s*觜",
+      "replacement": "嘴"
+    },
+    {
+      "name": "拆字：氵票",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "氵\\s*票",
+      "replacement": "漂"
+    },
+    {
+      "name": "TN",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "TN",
+      "replacement": "他娘"
+    },
+    {
+      "name": "和谐：**/凸起",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=迷之|蜜汁|谜之)\\*\\*",
+      "replacement": "凸起"
+    },
+    {
+      "name": "和谐：tiye/体液",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)t\\s*[iǐ]\\s*y\\s*[èe]|体\\s*y\\s*[èe]|t\\s*[iǐ]\\s*液",
+      "replacement": "体液"
+    },
+    {
+      "name": "和谐：tou/偷",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)t\\[oō]u(?![a-zA-Z_])",
+      "replacement": "偷"
+    },
+    {
+      "name": "和谐：baoyang/包养",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)b\\s*[aā]\\s*o\\s*y\\s*[aǎ]\\s*n\\s*g|b\\s*[aā]\\s*o\\s*养|包\\s*y\\s*[aǎ]\\s*n\\s*g",
+      "replacement": "包养"
+    },
+    {
+      "name": "和谐：ting/挺",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z])t[iǐ]ng(?![a-zA-Z_])",
+      "replacement": "挺"
+    },
+    {
+      "name": "和谐：chou/抽",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?!<[a-zA-Z_])ch[oō]u(?![a-zA-Z_])",
+      "replacement": "抽"
+    },
+    {
+      "name": "和谐：zui/嘴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])zu[ǐi](?![a-zA-Z_])",
+      "replacement": "嘴"
+    },
+    {
+      "name": "和谐：mei/美",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])me[iǐ](?=[不味死金元好妻眉芽和色丽女男母妇人图景的]|s[eè])",
+      "replacement": "美"
+    },
+    {
+      "name": "和谐：gao/搞",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?!<[a-zA-Z_])ga[ǒo](?![a-zA-Z_])",
+      "replacement": "搞"
+    },
+    {
+      "name": "和谐：diao/屌",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=b[aá]|拔)(\\*|di[aǎ]o)|(\\*|di[aǎ]o)(?=[用爆样])",
+      "replacement": "屌"
+    },
+    {
+      "name": "和谐：YD/淫荡",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])[y淫][d荡](?![a-zA-Z_])",
+      "replacement": "淫荡"
+    },
+    {
+      "name": "和谐：chun/唇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])ch[uú]n(?![a-zA-Z_])",
+      "replacement": "唇"
+    },
+    {
+      "name": "和谐：máo/毛",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])m[aáe]o(?![a-zA-Z_])",
+      "replacement": "毛"
+    },
+    {
+      "name": "和谐：mo/摸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])m[oō](?![a-zA-Z_])",
+      "replacement": "摸"
+    },
+    {
+      "name": "和谐：féi/肥",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])f[ée]i(?![a-zA-Z_])",
+      "replacement": "肥"
+    },
+    {
+      "name": "和谐：美*女",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "美\\*女",
+      "replacement": "美少女"
+    },
+    {
+      "name": "和谐：ku/裤",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])k[uù](?![a-zA-Z_])",
+      "replacement": "裤"
+    },
+    {
+      "name": "和谐：tui/腿",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])tu[iǐ](?![a-zA-Z_])",
+      "replacement": "腿"
+    },
+    {
+      "name": "和谐：bāng/棒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])b[āa]ng(?![a-zA-Z_])",
+      "replacement": "棒"
+    },
+    {
+      "name": "和谐：làng/浪",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])l[aà]ng(?![a-zA-Z_])",
+      "replacement": "浪"
+    },
+    {
+      "name": "和谐：yàn/艳",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])y[aà]n(?![a-zA-Z_])",
+      "replacement": "艳"
+    },
+    {
+      "name": "和谐：mén/门",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])m[eé]n(?![a-zA-Z_])",
+      "replacement": "门"
+    },
+    {
+      "name": "和谐：tiǎn/舔",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])ti[aǎ]n(?![a-zA-Z_])",
+      "replacement": "舔"
+    },
+    {
+      "name": "和谐：lu/露",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])l[uù](?![a-zA-Z_])",
+      "replacement": "露"
+    },
+    {
+      "name": "和谐：fu/妇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])f[uù](?![a-zA-Z_])",
+      "replacement": "妇"
+    },
+    {
+      "name": "和谐：meng/蒙",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])m[eé]ng(?![a-zA-Z_])",
+      "replacement": "蒙"
+    },
+    {
+      "name": "和谐：wěn/吻",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])w[eě]n(?![a-zA-Z_])|稳(?=[戏我])|(?<=[初接索])稳",
+      "replacement": "吻"
+    },
+    {
+      "name": "和谐：luan/乱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])lu[aà]n(?![a-zA-Z_])",
+      "replacement": "乱"
+    },
+    {
+      "name": "和谐：cheo",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z_])ch[ae]o(?![a-zA-Z_])",
+      "replacement": "潮"
+    },
+    {
+      "name": "和谐：jiao/脚",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)ji[aǎ]?o(?![a-zA-Z_])",
+      "replacement": "脚"
+    },
+    {
+      "name": "和谐：zhongyang",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)zh[ōo]ng\\s*y[aā]ng",
+      "replacement": "中央"
+    },
+    {
+      "name": "和谐: chao/潮",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-z\\s])ch[áa]o(?![a-rt-z\\s])",
+      "replacement": "潮"
+    },
+    {
+      "name": "和谐：duli",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<![a-zA-Z\\s])d[uú]\\s*l[iì](?![a-zA-Z\\s])",
+      "replacement": "独立"
+    },
+    {
+      "name": "jǐng惕",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "jǐng惕",
+      "replacement": "警惕"
+    },
+    {
+      "name": "拆字：马叉虫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "马叉虫",
+      "replacement": "骚"
+    },
+    {
+      "name": "和谐：鬼畜",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "鬼【哔——】",
+      "replacement": "鬼畜"
+    },
+    {
+      "name": "和谐：吸毒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "吸【哔——】",
+      "replacement": "吸毒"
+    },
+    {
+      "name": "和谐：性侵",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "【哔——】侵",
+      "replacement": "性侵"
+    },
+    {
+      "name": "和谐：毒品",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "一批【哔——】",
+      "replacement": "一批毒品"
+    },
+    {
+      "name": "和谐：shao/少",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[美很多较更年])(sh[aàǎ]o|s)|(sh[aàǎ]o|s)(?=[妇女男年数爷奶先量])",
+      "replacement": "少"
+    },
+    {
+      "name": "和谐：zao/澡",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[洗泡冲个])(z[aǎ]o)|(z[aǎ]o)(?=[堂房])",
+      "replacement": "澡"
+    },
+    {
+      "name": "和谐：bu/不",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[绝决])(b[uù])|(b[uù])(?=[要去好行同坏想吃点亏苦])",
+      "replacement": ""
+    },
+    {
+      "name": "和谐：chi/耻",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[之雪无廉羞])(ch[iǐ])|(ch[iǐ])(?=[辱笑度骨与物])",
+      "replacement": "耻"
+    },
+    {
+      "name": "和谐：ru/辱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[耻羞侮凌受])(r[ǔu])|(r[uǔ])(?=[骂人你我华国门没身])",
+      "replacement": "辱"
+    },
+    {
+      "name": "和谐：ji/妓",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[狎嫖娼男女鸨艺])j[ìi]|j[ìi](?=[女院])",
+      "replacement": "妓"
+    },
+    {
+      "name": "拆字：胸",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "月匈",
+      "replacement": "胸"
+    },
+    {
+      "name": "拆字：奶",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[牛羊母喂断哺挤喝酸鲜纯豆揉摸抓捏按搓舔含吸咬挺托埋贴俯压靠抱蹭丰饱胀鼓软酥滑嫩雪玉巨大浑圆])女乃|女乃(?=[子头罩沟峰房嘴咪量茶粉水瓶酪昔香油白汁香软酥胀颤挺])",
+      "replacement": "奶"
+    },
+    {
+      "name": "拆字：群",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "君羊",
+      "replacement": "群"
+    },
+    {
+      "name": "拆字：硬",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "石更",
+      "replacement": "硬"
+    },
+    {
+      "name": "错字：昂/昴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=冲矢|[菜莱]月|近卫)昂|昂(?=宿|日)",
+      "replacement": "昴"
+    },
+    {
+      "name": "拆字：爬",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "爪巴",
+      "replacement": "爬"
+    },
+    {
+      "name": "错字：恒/垣",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=新)恒",
+      "replacement": "垣"
+    },
+    {
+      "name": "错字：末/未",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "园田海末|田园海未|田园海末",
+      "replacement": "园田海未"
+    },
+    {
+      "name": "错字：宛/苑",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=町田|紫)宛",
+      "replacement": "苑"
+    },
+    {
+      "name": "错字：掘/堀",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(掘|倔)(?=[北井])",
+      "replacement": "堀"
+    },
+    {
+      "name": "错字：莱/菜",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "莱(?=月[昴昂])",
+      "replacement": "菜"
+    },
+    {
+      "name": "和谐：日本代称",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<!日出)本子(?=国)|倭国|13区|泥轰|RB",
+      "replacement": "日本"
+    },
+    {
+      "name": "戈命",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "戈命",
+      "replacement": "革命"
+    },
+    {
+      "name": "和谐：美国代称",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "阿美瑞克|丑国|美利坚|老美|山姆大叔|阿美丽卡|阿美莉卡|米国",
+      "replacement": "美国"
+    },
+    {
+      "name": "py交易",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "py交易",
+      "replacement": "屁眼交易"
+    },
+    {
+      "name": "政z",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "政z",
+      "replacement": "政治"
+    },
+    {
+      "name": "扎钢厂",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "扎钢厂",
+      "replacement": "轧钢厂"
+    },
+    {
+      "name": "gm群众",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "gm群众",
+      "replacement": "革命群众"
+    },
+    {
+      "name": "传x",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "传x",
+      "replacement": "传销"
+    },
+    {
+      "name": "赤裸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "赤[\\s·･ꞏ\\./`、\\|=-]+裸",
+      "replacement": "赤裸"
+    },
+    {
+      "name": "欲望",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "欲[\\s·･ꞏ\\./`、\\|=-]+望",
+      "replacement": "欲望"
+    },
+    {
+      "name": "调教",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "调[\\s·･ꞏ\\./`、\\|=-]+教",
+      "replacement": "调教"
+    },
+    {
+      "name": "邪教",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "邪[\\s·･ꞏ\\./`、\\|=-]+教",
+      "replacement": "邪教"
+    },
+    {
+      "name": "**oss",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "**oss",
+      "replacement": "大Boss"
+    },
+    {
+      "name": "弹药",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "弹[\\s·･ꞏ\\./`、\\|=-]+药",
+      "replacement": "弹药"
+    },
+    {
+      "name": "弄得**",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "弄得**",
+      "replacement": "弄得湿透"
+    },
+    {
+      "name": "木仓",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "木仓",
+      "replacement": "枪"
+    },
+    {
+      "name": "婊子",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "婊[\\s·･ꞏ\\./`、\\|=-]+子",
+      "replacement": "婊子"
+    },
+    {
+      "name": "拳**夫",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "拳**夫",
+      "replacement": "拳法功夫"
+    },
+    {
+      "name": "春药",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "春[\\s·･ꞏ\\./`、\\|=-]+药",
+      "replacement": "春药"
+    },
+    {
+      "name": "嫖妓",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "嫖[\\s·･ꞏ\\./`、\\|=-]+妓",
+      "replacement": "嫖妓"
+    },
+    {
+      "name": "敏感",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "敏[\\s·･ꞏ\\./`、\\|=-]+感",
+      "replacement": "敏感"
+    },
+    {
+      "name": "邪神",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "邪[\\s·･ꞏ\\./`、\\|=-]+神",
+      "replacement": "邪神"
+    },
+    {
+      "name": "销魂",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "销[\\s·･ꞏ\\./`、\\|=-]+魂",
+      "replacement": "销魂"
+    },
+    {
+      "name": "高潮",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "高[\\s·･ꞏ\\./`、\\|=-]+潮",
+      "replacement": "高潮"
+    },
+    {
+      "name": "变态",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "变[\\s·･ꞏ\\./`、\\|=-]+态",
+      "replacement": "变态"
+    },
+    {
+      "name": "诱拐",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "诱[\\s·･ꞏ\\./`、\\|=-]+拐",
+      "replacement": "诱拐"
+    },
+    {
+      "name": "cao/操",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[贞节体我])c[aā]o|c[aā]o(?=[我你场心蛋死得])|(?<=[贞节我])\\*+|\\*+(?=我|你妈)",
+      "replacement": "操"
+    },
+    {
+      "name": "刺激",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "刺[\\s·･ꞏ\\./`、\\|=-]+激",
+      "replacement": "刺激"
+    },
+    {
+      "name": "虐杀",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "虐[\\s·･ꞏ\\./`、\\|=-]+杀",
+      "replacement": "虐杀"
+    },
+    {
+      "name": "自杀",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "自[\\s·･ꞏ\\./`、\\|=-]+杀",
+      "replacement": "自杀"
+    },
+    {
+      "name": "窒息",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "窒[\\s·･ꞏ\\./`、\\|=-]+息",
+      "replacement": "窒息"
+    },
+    {
+      "name": "杀手",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "杀[\\s·･ꞏ\\./`、\\|=-]+手",
+      "replacement": "杀手"
+    },
+    {
+      "name": "xiong/胸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)xiōng|xiong(?=[罩前膛腔口脯部肌围])",
+      "replacement": "胸"
+    },
+    {
+      "name": "发情",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "发[\\s·･ꞏ\\./`、\\|=-]+情",
+      "replacement": "发情"
+    },
+    {
+      "name": "gui/龟",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(guī|gui|\\*+)(?=[头孙])",
+      "replacement": "龟"
+    },
+    {
+      "name": "药物",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "药[\\s·･ꞏ\\./`、\\|=-]+物",
+      "replacement": "药物"
+    },
+    {
+      "name": "yin/淫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=白日宣|[奇手奸邪])y[ií]n|y[ií]n(?=[声水液辱呻浪靡糜猥亵叫邪媚荡乱秽穴具僧魔妇贼])",
+      "replacement": "淫"
+    },
+    {
+      "name": "性能",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+能",
+      "replacement": "性能"
+    },
+    {
+      "name": "yin/阴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[太光元女遮真下])(y[iī]n|\\*+)|(y[iī]n|\\*+)(?=[唇核部森沉蒂道户穴阳精历霾暗干面凉影谋毒险湿天魂寒文晦冷骘唇毛])",
+      "replacement": "阴"
+    },
+    {
+      "name": "避孕",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "避[\\s·･/`、\\|]+孕",
+      "replacement": "避孕"
+    },
+    {
+      "name": "yang/阳",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(y[áa]ng|\\*+)(?=[刚光具])",
+      "replacement": "阳"
+    },
+    {
+      "name": "结扎",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "结[\\s·･ꞏ\\./`、\\|=-]+扎",
+      "replacement": "结扎"
+    },
+    {
+      "name": "yīnjīng/阴茎",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)yīnjīng|yinjing",
+      "replacement": "阴茎"
+    },
+    {
+      "name": "公安",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "公[\\s·･ꞏ\\./`、\\|=-]+安",
+      "replacement": "公安"
+    },
+    {
+      "name": "nai/奶",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)n[aǎ]i(?=[子头奶瓶茶粉])|(?<=[牛羊马豆])n[aǎ]i",
+      "replacement": "奶"
+    },
+    {
+      "name": "机关",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "机[\\s·･ꞏ\\./`、\\|=-]+关",
+      "replacement": "机关"
+    },
+    {
+      "name": "rou/肉",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(ròu|rou|\\*+)(?=[洞盾末棒体便])",
+      "replacement": "肉"
+    },
+    {
+      "name": "政治",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "政[\\s·･ꞏ\\./`、\\|=-]+治",
+      "replacement": "政治"
+    },
+    {
+      "name": "zhù/助",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[求帮])zh[ùu]",
+      "replacement": "助"
+    },
+    {
+      "name": "zhèng/正",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[真])zh[eè]ng",
+      "replacement": "正"
+    },
+    {
+      "name": "政务",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "政[\\s·･ꞏ\\./`、\\|=-]+务",
+      "replacement": "政务"
+    },
+    {
+      "name": "旖旎",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "旖[\\s·･ꞏ\\./`、\\|=-]+旎",
+      "replacement": "旖旎"
+    },
+    {
+      "name": "ai/爱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[恋心])ai|ai(?=[情好惜心])",
+      "replacement": "爱"
+    },
+    {
+      "name": "炽烈",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "炽[\\s·･ꞏ\\./`、\\|=-]+烈",
+      "replacement": "炽烈"
+    },
+    {
+      "name": "bi/屄",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=[浪淫骚小])bi|bi(?=[洞穴水])",
+      "replacement": "屄"
+    },
+    {
+      "name": "暴露",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "暴[\\s·･ꞏ\\./`、\\|=-]+露",
+      "replacement": "暴露"
+    },
+    {
+      "name": "shen/伸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)shen(?=[展手])|(?<=[延])shen",
+      "replacement": "伸"
+    },
+    {
+      "name": "纵欲",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "纵[\\s·･ꞏ\\./`、\\|=-]+欲",
+      "replacement": "纵欲"
+    },
+    {
+      "name": "qun/群",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)qun(?=[体落居里])|(?<=[族超种人])qun",
+      "replacement": "群"
+    },
+    {
+      "name": "喘息",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "喘[\\s·･ꞏ\\./`、\\|=-]+息",
+      "replacement": "喘息"
+    },
+    {
+      "name": "shalu/杀戮",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)杀lu|sha戮|shalu",
+      "replacement": "杀戮"
+    },
+    {
+      "name": "黑手",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "黑[\\s·･ꞏ\\./`、\\|=-]+手",
+      "replacement": "黑手"
+    },
+    {
+      "name": "喀秋莎/jb",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "喀秋莎",
+      "replacement": "鸡巴"
+    },
+    {
+      "name": "性行为",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+行为",
+      "replacement": "性行为"
+    },
+    {
+      "name": "yuwang/欲望",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)yuwang|yu望|欲wang",
+      "replacement": "欲望"
+    },
+    {
+      "name": "下半身",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "下[\\s·･ꞏ\\./`、\\|=-]+半[\\s·･ꞏ\\./`、\\|=-]+身",
+      "replacement": "下半身"
+    },
+    {
+      "name": "**/八九",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[之九]|十有)\\*+|\\*+(?=[岁年月日周天个米丈里层成熟点]|不离十)",
+      "replacement": "八九"
+    },
+    {
+      "name": "性侵",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+侵",
+      "replacement": "性侵"
+    },
+    {
+      "name": "\\*\\*/鸡",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(?<=呆若木)(\\*+|ji)|(\\*+|ji)(?=巴)",
+      "replacement": "鸡"
+    },
+    {
+      "name": "屁股",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "屁[\\s·･ꞏ\\./`、\\|=-]+股",
+      "replacement": "屁股"
+    },
+    {
+      "name": "**/被操",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*+(?=[纵控])",
+      "replacement": "被操"
+    },
+    {
+      "name": "贱人",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "贱[\\s·･ꞏ\\./`、\\|=-]+人",
+      "replacement": "贱人"
+    },
+    {
+      "name": "**/国军",
+      "group": "替换",
+      "enabled": false,
+      "regex": true,
+      "pattern": "(?<=[帝俄中美德英法民各])\\*+|\\*+(?=[情队务需人阀事])",
+      "replacement": "国军"
+    },
+    {
+      "name": "火辣",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "火[\\s·･ꞏ\\./`、\\|=-]+辣",
+      "replacement": "火辣"
+    },
+    {
+      "name": "*/道",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(\\*+|dao)(?=[韵理纹])|(?<=[阴旱])(\\*+|dao)",
+      "replacement": "道"
+    },
+    {
+      "name": "天朝",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "天[\\s·･ꞏ\\./`、\\|=-]+朝",
+      "replacement": "天朝"
+    },
+    {
+      "name": "巨*/巨大",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "巨\\*+",
+      "replacement": "巨大"
+    },
+    {
+      "name": "拔出",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "拔[\\s·･ꞏ\\./`、\\|=-]+出",
+      "replacement": "拔出"
+    },
+    {
+      "name": "*轮/法轮",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*+轮",
+      "replacement": "法轮"
+    },
+    {
+      "name": "金瓶梅",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "金[\\s·･ꞏ\\./`、\\|=-]+瓶[\\s·･ꞏ\\./`、\\|=-]+梅",
+      "replacement": "金瓶梅"
+    },
+    {
+      "name": "**/赤裸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "\\*+(?=裸)",
+      "replacement": "赤裸"
+    },
+    {
+      "name": "性感",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+感",
+      "replacement": "性感"
+    },
+    {
+      "name": "***/草泥马",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?<=[头匹])\\*+",
+      "replacement": "草泥马"
+    },
+    {
+      "name": "裸奔",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "裸[\\s·･ꞏ\\./`、\\|=-]+奔",
+      "replacement": "裸奔"
+    },
+    {
+      "name": "蹂躏",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "蹂[\\s·･ꞏ\\./`、\\|=-]+躏",
+      "replacement": "蹂躏"
+    },
+    {
+      "name": "肉体",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "肉[\\s·･ꞏ\\./`、\\|=-]+(身|体)",
+      "replacement": "肉$1"
+    },
+    {
+      "name": "通奸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "通[\\s·･ꞏ\\./`、\\|=-]+奸",
+      "replacement": "通奸"
+    },
+    {
+      "name": "汰渍档",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "汰渍档",
+      "replacement": "太子党"
+    },
+    {
+      "name": "色诱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "色[\\s·･ꞏ\\./`、\\|=-]+诱",
+      "replacement": "色诱"
+    },
+    {
+      "name": "政斧",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "政斧",
+      "replacement": "政府"
+    },
+    {
+      "name": "下身",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "下[\\s·･ꞏ\\./`、\\|=-]+身",
+      "replacement": "下身"
+    },
+    {
+      "name": "艹",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "艹",
+      "replacement": "操"
+    },
+    {
+      "name": "强歼",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "强歼",
+      "replacement": "强奸"
+    },
+    {
+      "name": "性欲",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+欲",
+      "replacement": "性欲"
+    },
+    {
+      "name": "精虫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "精[\\s·･ꞏ\\./`、\\|=-]+虫",
+      "replacement": "精虫"
+    },
+    {
+      "name": "阻击枪",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "阻击枪",
+      "replacement": "狙击枪"
+    },
+    {
+      "name": "交|配",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "交[\\s·･ꞏ\\./`、\\|=-]+配",
+      "replacement": "交配"
+    },
+    {
+      "name": "嫖娼",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "嫖[\\s·･ꞏ\\./`、\\|=-]+娼",
+      "replacement": "嫖娼"
+    },
+    {
+      "name": "姓能",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "姓能",
+      "replacement": "性能"
+    },
+    {
+      "name": "吸|毒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "吸[\\s·･ꞏ\\./`、\\|=-]+毒",
+      "replacement": "吸毒"
+    },
+    {
+      "name": "**领导人",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "**领导人",
+      "replacement": "国家领导人"
+    },
+    {
+      "name": "分身",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "分[\\s·･ꞏ\\./`、\\|=-]+身",
+      "replacement": "分身"
+    },
+    {
+      "name": "Cover",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)Cover",
+      "replacement": ""
+    },
+    {
+      "name": "强|奸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "强[\\s·･ꞏ\\./`、\\|=-]+奸",
+      "replacement": "强奸"
+    },
+    {
+      "name": "Table Of ",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)Table Of ",
+      "replacement": ""
+    },
+    {
+      "name": "嫖|客",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "嫖[\\s·･ꞏ\\./`、\\|=-]+客",
+      "replacement": "嫖客"
+    },
+    {
+      "name": "Contents",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)Contents",
+      "replacement": ""
+    },
+    {
+      "name": "tun",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)tun",
+      "replacement": "臀"
+    },
+    {
+      "name": "枪|毙",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "枪[\\s·･ꞏ\\./`、\\|=-]+毙",
+      "replacement": "枪毙"
+    },
+    {
+      "name": "奸|杀",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "奸[\\s·･ꞏ\\./`、\\|=-]+杀",
+      "replacement": "奸杀"
+    },
+    {
+      "name": "rou",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)rou",
+      "replacement": "肉"
+    },
+    {
+      "name": "荡|妇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "荡[\\s·･ꞏ\\./`、\\|=-]+妇",
+      "replacement": "荡妇"
+    },
+    {
+      "name": "ye",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)ye",
+      "replacement": "液"
+    },
+    {
+      "name": "性|爱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+爱",
+      "replacement": "性爱"
+    },
+    {
+      "name": "shi",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)shi",
+      "replacement": "湿"
+    },
+    {
+      "name": "大|炮",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "大[\\s·･ꞏ\\./`、\\|=-]+炮",
+      "replacement": "大炮"
+    },
+    {
+      "name": "null",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "(?i)null",
+      "replacement": ""
+    },
+    {
+      "name": "戴|套",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "戴[\\s·･ꞏ\\./`、\\|=-]+套",
+      "replacement": "戴套"
+    },
+    {
+      "name": "性|教|育",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|=-]+教[\\s·･ꞏ\\./`、\\|=-]+育",
+      "replacement": "性教育"
+    },
+    {
+      "name": "灌迷魂汤",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "灌**汤",
+      "replacement": "灌迷魂汤"
+    },
+    {
+      "name": "侵|犯",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "侵[\\s·･ꞏ\\./`、\\|=-]+犯",
+      "replacement": "侵犯"
+    },
+    {
+      "name": "rén",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)rén",
+      "replacement": "人"
+    },
+    {
+      "name": "迷|奸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "迷[\\s·･ꞏ\\./`、\\|=-]+奸",
+      "replacement": "迷奸"
+    },
+    {
+      "name": "反政府武装",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "**武装",
+      "replacement": "反政府武装"
+    },
+    {
+      "name": "艳|照",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "艳[\\s·･ꞏ\\./`、\\|=-]+照",
+      "replacement": "艳照"
+    },
+    {
+      "name": "凌|辱",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "凌[\\s·･ꞏ\\./`、\\|=-]+辱",
+      "replacement": "凌辱"
+    },
+    {
+      "name": "NO.1",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(no)(\\d+)",
+      "replacement": "NO.$2"
+    },
+    {
+      "name": "裸|照",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "裸[\\s·･ꞏ\\./`、\\|=-]+照",
+      "replacement": "裸照"
+    },
+    {
+      "name": "操你**",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "操你**",
+      "replacement": "操你妈逼"
+    },
+    {
+      "name": "呻|吟",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "呻[\\s·･ꞏ\\./`、\\|=-]+吟",
+      "replacement": "呻吟"
+    },
+    {
+      "name": "睾碗",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "睾碗",
+      "replacement": "睾丸"
+    },
+    {
+      "name": "革|命",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "革[\\s·･ꞏ\\./`、\\|=-]+命",
+      "replacement": "革命"
+    },
+    {
+      "name": "硬茎",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "硬茎",
+      "replacement": "阴茎"
+    },
+    {
+      "name": "炸|药",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "炸[\\s·･ꞏ\\./`、\\|=-]+药",
+      "replacement": "炸药"
+    },
+    {
+      "name": "香|艳",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "香[\\s·･ꞏ\\./`、\\|=-]+艳",
+      "replacement": "香艳"
+    },
+    {
+      "name": "轮|奸",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "轮[\\s·･ꞏ\\./`、\\|=-]+奸",
+      "replacement": "轮奸"
+    },
+    {
+      "name": "监|禁",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "监[\\s·･ꞏ\\./`、\\|=-]+禁",
+      "replacement": "监禁"
+    },
+    {
+      "name": "辽宁",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)L省",
+      "replacement": "辽宁省"
+    },
+    {
+      "name": "氵显",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "氵显",
+      "replacement": "湿"
+    },
+    {
+      "name": "经/血",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "经[\\s·･ꞏ\\./`、\\|=-]+血",
+      "replacement": "经血"
+    },
+    {
+      "name": "黑龙江",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)(黑|h)省",
+      "replacement": "黑龙江省"
+    },
+    {
+      "name": "毒=药",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "毒[\\s·･ꞏ\\./`、\\|=-]+药",
+      "replacement": "毒药"
+    },
+    {
+      "name": "哈尔滨",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(?i)h市",
+      "replacement": "哈尔滨市"
+    },
+    {
+      "name": "骚･货",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "骚[\\s·･ꞏ\\./`、\\|=-]+货",
+      "replacement": "骚货"
+    },
+    {
+      "name": "shishen",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "shishen",
+      "replacement": "湿身"
+    },
+    {
+      "name": "jian人",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "jian人",
+      "replacement": "贱人"
+    },
+    {
+      "name": "骗|炮",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "骗|炮",
+      "replacement": "骗炮"
+    },
+    {
+      "name": "烂|裤|裆",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "烂|裤|裆",
+      "replacement": "烂裤裆"
+    },
+    {
+      "name": "阳|痿",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "阳[\\s·･ꞏ\\./`、\\|=-]+痿",
+      "replacement": "阳痿"
+    },
+    {
+      "name": "弓虽女干",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "弓虽女干",
+      "replacement": "强奸"
+    },
+    {
+      "name": "女支女",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "女支女",
+      "replacement": "妓女"
+    },
+    {
+      "name": "大/饥/荒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "大[\\s·･ꞏ\\./`、\\|=-]+饥[\\s·･ꞏ\\./`、\\|=-]+荒",
+      "replacement": "大饥荒"
+    },
+    {
+      "name": "报/销",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "报[\\s·･ꞏ\\./`、\\|=-]+销",
+      "replacement": "报销"
+    },
+    {
+      "name": "神/婆",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "神[\\s·･ꞏ\\./`、\\|=-]+婆",
+      "replacement": "神婆"
+    },
+    {
+      "name": "白/粉",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "白[\\s·･ꞏ\\./`、\\|=-]+粉",
+      "replacement": "白粉"
+    },
+    {
+      "name": "色/政/权",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "色[\\s·･ꞏ\\./`、\\|=-]+政[\\s·･ꞏ\\./`、\\|=-]+权",
+      "replacement": "色政权"
+    },
+    {
+      "name": "集中/营",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "集中[\\s·･ꞏ\\./`、\\|=-]+营",
+      "replacement": "集中营"
+    },
+    {
+      "name": "炸･弹",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "炸[\\s·･ꞏ\\./`、\\|=-]+弹",
+      "replacement": "炸弹"
+    },
+    {
+      "name": "强奸/犯",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "强奸[\\s·･ꞏ\\./`、\\|=-]+犯",
+      "replacement": "强奸犯"
+    },
+    {
+      "name": "赌/博",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "赌[\\s·･ꞏ\\./`、\\|=-]+博",
+      "replacement": "赌博"
+    },
+    {
+      "name": "导/弹",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "导[\\s·･ꞏ\\./`、\\|=-]+弹",
+      "replacement": "导弹"
+    },
+    {
+      "name": "夜/欢愉",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "夜[\\s·･ꞏ\\./`、\\|=-]+欢愉",
+      "replacement": "夜欢愉"
+    },
+    {
+      "name": "暧･昧",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "暧[\\s·･ꞏ\\./`、\\|=-]+昧",
+      "replacement": "暧昧"
+    },
+    {
+      "name": "双`飞",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "双[\\s·･ꞏ\\./`、\\|=-]+飞",
+      "replacement": "双飞"
+    },
+    {
+      "name": "信`用",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "信[\\s·･ꞏ\\./`、\\|=-]+用",
+      "replacement": "信用"
+    },
+    {
+      "name": "炮`友",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "炮[\\s·･ꞏ\\./`、\\|=-]+友",
+      "replacement": "炮友"
+    },
+    {
+      "name": "开`房",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "开[\\s·･ꞏ\\./`、\\|=-]+房",
+      "replacement": "开房"
+    },
+    {
+      "name": "情`人",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "情[\\s·･ꞏ\\./`、\\|=-]+人",
+      "replacement": "情人"
+    },
+    {
+      "name": "集`资",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "集[\\s·･ꞏ\\./`、\\|=-]+资",
+      "replacement": "集资"
+    },
+    {
+      "name": "嫖`过",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "嫖[\\s·･ꞏ\\./`、\\|=-]+过",
+      "replacement": "嫖过"
+    },
+    {
+      "name": "警/察",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "警[\\s·･ꞏ\\./`、\\|=-]+察",
+      "replacement": "警察"
+    },
+    {
+      "name": "警/方",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "警[\\s·･ꞏ\\./`、\\|=-]+方",
+      "replacement": "警方"
+    },
+    {
+      "name": "畜･牲",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "畜[\\s·･ꞏ\\./`、\\|=-]+牲",
+      "replacement": "畜牲"
+    },
+    {
+      "name": "畜･生",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "畜[\\s·･ꞏ\\./`、\\|=-]+生",
+      "replacement": "畜生"
+    },
+    {
+      "name": "露･骨",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "露[\\s·･ꞏ\\./`、\\|=-]+骨",
+      "replacement": "露骨"
+    },
+    {
+      "name": "女･宠",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "女[\\s·･ꞏ\\./`、\\|=-]+宠",
+      "replacement": "女宠"
+    },
+    {
+      "name": "情･欲",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "情[\\s·･ꞏ\\./`、\\|=-]+欲",
+      "replacement": "情欲"
+    },
+    {
+      "name": "意･淫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "意[\\s·･ꞏ\\./`、\\|=-]+淫",
+      "replacement": "意淫"
+    },
+    {
+      "name": "妓/女",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "妓[\\s·･ꞏ\\./`、\\|=-]+女",
+      "replacement": "妓女"
+    },
+    {
+      "name": "发///骚",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "发[\\s·･ꞏ\\./`、\\|=-]+骚",
+      "replacement": "发骚"
+    },
+    {
+      "name": "玩/////弄",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "玩[\\s·･ꞏ\\./`、\\|=-]+弄",
+      "replacement": "玩弄"
+    },
+    {
+      "name": "骚/////货",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "骚[\\s·･ꞏ\\./`、\\|=-]+货",
+      "replacement": "骚货"
+    },
+    {
+      "name": "混/蛋",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "混[\\s·･ꞏ\\./`、\\|=-]+蛋",
+      "replacement": "混蛋"
+    },
+    {
+      "name": "⚹⚹oss",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "⚹⚹oss",
+      "replacement": "大boss"
+    },
+    {
+      "name": "sao扰",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "sao扰",
+      "replacement": "骚扰"
+    },
+    {
+      "name": "囚･禁",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "囚[\\s·･ꞏ\\./`、\\|=-]+禁",
+      "replacement": "囚禁"
+    },
+    {
+      "name": "绿･帽",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "绿[\\s·･ꞏ\\./`、\\|=-]+帽",
+      "replacement": "绿帽"
+    },
+    {
+      "name": "奸･夫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "奸[\\s·･ꞏ\\./`、\\|=-]+夫",
+      "replacement": "奸夫"
+    },
+    {
+      "name": "du品 毒|品",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "du品|毒[\\s·･ꞏ\\./`、\\|=-]+品",
+      "replacement": "毒品"
+    },
+    {
+      "name": "手、枪",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(手|猎)[\\s·･ꞏ\\./`、\\|=-]+枪",
+      "replacement": "$1枪"
+    },
+    {
+      "name": "淫･妇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "淫[\\s·･ꞏ\\./`、\\|=-]+妇",
+      "replacement": "淫妇"
+    },
+    {
+      "name": "狙、击、枪",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "狙[\\s·･ꞏ\\./`、\\|=-]+击[\\s·･ꞏ\\./`、\\|=-]+枪",
+      "replacement": "狙击枪"
+    },
+    {
+      "name": "手、雷",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "手[\\s·･ꞏ\\./`、\\|=-]+雷",
+      "replacement": "手雷"
+    },
+    {
+      "name": "肛、门",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "肛[\\s·･ꞏ\\./`、\\|=-]+门",
+      "replacement": "肛门"
+    },
+    {
+      "name": "军、用、刺、刀",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "军[\\s·･ꞏ\\./`、\\|=-]+用[\\s·･ꞏ\\./`、\\|=-]+刺[\\s·･ꞏ\\./`、\\|=-]+刀",
+      "replacement": "军用刺刀"
+    },
+    {
+      "name": "弓单",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "弓单",
+      "replacement": "弹"
+    },
+    {
+      "name": "内|幕",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "内[\\s·･ꞏ\\./`、\\|=-]+幕",
+      "replacement": "内幕"
+    },
+    {
+      "name": "银|行|卡",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "银[\\s·･ꞏ\\./`、\\|=-]+行[\\s·･ꞏ\\./`、\\|=-]+卡",
+      "replacement": "银行卡"
+    },
+    {
+      "name": "投|毒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "投[\\s·･ꞏ\\./`、\\|=-]+毒",
+      "replacement": "投毒"
+    },
+    {
+      "name": "毒|物",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "毒[\\s·･ꞏ\\./`、\\|=-]+物",
+      "replacement": "毒物"
+    },
+    {
+      "name": "体|液",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "体[\\s·･ꞏ\\./`、\\|=-]+液",
+      "replacement": "体液"
+    },
+    {
+      "name": "裸|露",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "裸[\\s·･ꞏ\\./`、\\|=-]+露",
+      "replacement": "裸露"
+    },
+    {
+      "name": "饥|荒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "饥[\\s·･ꞏ\\./`、\\|=-]+荒",
+      "replacement": "饥荒"
+    },
+    {
+      "name": "银|行",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "银[\\s·･ꞏ\\./`、\\|=]+行",
+      "replacement": "银行"
+    },
+    {
+      "name": "支|付|宝",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "(支)[\\s·･ꞏ\\./`、\\|=-]+(付)([\\s·･ꞏ\\./`、\\|=-]+)?",
+      "replacement": "$1$2"
+    },
+    {
+      "name": "病|毒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "病[\\s·･ꞏ\\./`、\\|=-]+毒",
+      "replacement": "病毒"
+    },
+    {
+      "name": "身|份",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "身[\\s·･ꞏ\\./`、\\|=-]+份([\\s·･ꞏ\\./`、\\|=-]+)?",
+      "replacement": "身份"
+    },
+    {
+      "name": "地|下|",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "地[\\s·･ꞏ\\./`、\\|=-]+下([\\s·･ꞏ\\./`、\\|=-]+)?",
+      "replacement": "地下"
+    },
+    {
+      "name": "生|殖",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "生[\\s·･ꞏ\\./`、\\|=-]+殖",
+      "replacement": "生殖"
+    },
+    {
+      "name": "假|证",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "假[\\s·･ꞏ\\./`、\\|=-]+证",
+      "replacement": "假证"
+    },
+    {
+      "name": "贷|款",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "贷[\\s·･ꞏ\\./`、\\|=-]+款",
+      "replacement": "贷款"
+    },
+    {
+      "name": "高|利|贷",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "高[\\s·･ꞏ\\./`、\\|=-]+利[\\s·･ꞏ\\./`、\\|=-]+贷",
+      "replacement": "高利贷"
+    },
+    {
+      "name": "办|证",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "办[\\s·･ꞏ\\./`、\\|=-]+证",
+      "replacement": "办证"
+    },
+    {
+      "name": "删|帖",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "删[\\s·･ꞏ\\./`、\\|=-]+帖",
+      "replacement": "删帖"
+    },
+    {
+      "name": "下|流",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "下[\\s·･ꞏ\\./`、\\|=-]+流",
+      "replacement": "下流"
+    },
+    {
+      "name": "地-雷",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "地[\\s·･ꞏ\\./`、\\|=-]+雷",
+      "replacement": "地雷"
+    },
+    {
+      "name": "火-药",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "火[\\s·･ꞏ\\./`、\\|=-]+药",
+      "replacement": "火药"
+    },
+    {
+      "name": "插/入",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "插[\\s·･ꞏ\\./`、\\|=-]+入",
+      "replacement": "插入"
+    },
+    {
+      "name": "公/狗",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "公[\\s·･ꞏ\\./`、\\|=-]+狗",
+      "replacement": "公狗"
+    },
+    {
+      "name": "炉|鼎",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "炉[\\s·･ꞏ\\./`、\\|=-]+鼎",
+      "replacement": "炉鼎"
+    },
+    {
+      "name": "天|阉",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "天[\\s·･ꞏ\\./`、\\|=-]+阉",
+      "replacement": "天阉"
+    },
+    {
+      "name": "双xiu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "双xiu",
+      "replacement": "双修"
+    },
+    {
+      "name": "风liu",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "风liu",
+      "replacement": "风流"
+    },
+    {
+      "name": "qing动",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "qing动",
+      "replacement": "情动"
+    },
+    {
+      "name": "大|麻",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "大[\\s·･ꞏ\\./`、\\|=-]+麻",
+      "replacement": "大麻"
+    },
+    {
+      "name": "禁/书",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "禁[\\s·･ꞏ\\./`、\\|=-]+书",
+      "replacement": "禁书"
+    },
+    {
+      "name": "奸/淫",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "奸[\\s·･ꞏ\\./`、\\|=-]+淫",
+      "replacement": "奸淫"
+    },
+    {
+      "name": "人/妻",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "人[\\s·･ꞏ\\./`、\\|=-]+妻",
+      "replacement": "人妻"
+    },
+    {
+      "name": "淫/书",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "淫[\\s·･ꞏ\\./`、\\|=-]+书",
+      "replacement": "淫书"
+    },
+    {
+      "name": "衤果",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "衤果",
+      "replacement": "裸"
+    },
+    {
+      "name": "都□□翻",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "都□□翻",
+      "replacement": "都被推翻"
+    },
+    {
+      "name": "早|泄",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "早[\\s·･ꞏ\\./`、\\|丨=-卝]+泄",
+      "replacement": "早泄"
+    },
+    {
+      "name": "梅|毒",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "梅[\\s·･ꞏ\\./`、\\|丨=-卝]+毒",
+      "replacement": "梅毒"
+    },
+    {
+      "name": "性|教育",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|丨=-卝]+教育",
+      "replacement": "性教育"
+    },
+    {
+      "name": "杂|种",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "杂[\\s·･ꞏ\\./`、\\|丨=-卝]+种",
+      "replacement": "杂种"
+    },
+    {
+      "name": "猥|亵",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "猥[\\s·･ꞏ\\./`、\\|丨=-卝]+亵",
+      "replacement": "猥亵"
+    },
+    {
+      "name": "恋|童|癖",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "恋[\\s·･ꞏ\\./`、\\|丨=-卝]+童[\\s·･ꞏ\\./`、\\|丨=-卝]+癖",
+      "replacement": "恋童癖"
+    },
+    {
+      "name": "核//战",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "核[\\s·･ꞏ\\./`、\\|丨=-卝]+战",
+      "replacement": "核战"
+    },
+    {
+      "name": "乳|房",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "乳[\\s·･ꞏ\\./`、\\|丨=-卝]+房",
+      "replacement": "乳房"
+    },
+    {
+      "name": "白女票",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "白女票",
+      "replacement": "白嫖"
+    },
+    {
+      "name": "猎.奇",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "猎[\\s·･ꞏ\\./`、\\|丨=-卝]+奇",
+      "replacement": "猎奇"
+    },
+    {
+      "name": "性.奴",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "性[\\s·･ꞏ\\./`、\\|丨=-卝]+奴",
+      "replacement": "性奴"
+    },
+    {
+      "name": "贞.洁",
+      "group": "替换",
+      "enabled": true,
+      "regex": true,
+      "pattern": "贞[\\s·･ꞏ\\./`、\\|丨=-卝]+洁",
+      "replacement": "贞洁"
+    },
+    {
+      "name": "千度",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "千度",
+      "replacement": "百度"
+    },
+    {
+      "name": "米青",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "米青",
+      "replacement": "精"
+    },
+    {
+      "name": "狗曰",
+      "group": "替换",
+      "enabled": true,
+      "regex": false,
+      "pattern": "狗曰",
+      "replacement": "狗日"
+    }
+  ]
+}

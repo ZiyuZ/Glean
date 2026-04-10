@@ -27,9 +27,8 @@ backend/
     │   └── database.py      # 数据库连接和会话
     └── services/            # 业务逻辑层
         ├── parser/          # 章节解析模块包
-        │   ├── core.py      # 核心解析
+        │   ├── core.py      # 解析入口与读取归一化
         │   ├── validator.py # 校验逻辑
-        │   ├── cleaner.py   # 清洗逻辑
         │   └── utils.py     # 工具函数
         ├── book_service.py  # 书籍服务（创建/更新书籍）
         └── scanner.py       # 扫描服务（目录扫描）
@@ -111,9 +110,8 @@ backend/
 
 **模块结构**
 
-- `core.py`: 核心解析逻辑 (`parse_chapters`)
+- `core.py`: 核心解析逻辑 (`parse_book`)
 - `validator.py`: 校验逻辑 (`is_line_chapter_title`)
-- `cleaner.py`: 清洗逻辑 (`clean_content`)
 - `utils.py`: 工具函数 (`detect_encoding`, `calculate_file_hash`)
 
 **编码检测** (`utils.detect_encoding`)
@@ -122,16 +120,10 @@ backend/
 - 读取前 1024 字节进行检测（高效）
 - 支持 GB18030、GBK、UTF-8 等常见编码
 
-**内容清洗** (`cleaner.clean_content`)
-
-- 去除 HTML 标签
-- 全角转半角（数字、字母、引号）
-- 繁体转简体（使用 opencc）
-- 清理多余换行（统一换行符、合并连续换行、恢复被拆分的句子）
-
-**章节解析** (`core.parse_chapters`)
+**章节解析** (`core.parse_book`)
 
 - **自动编码处理**：自动检测编码并读取文件，支持 fallback 机制
+- **读取与归一化**：去除 HTML 标签、统一换行、行级 NFKC 与全角半角转换、繁体转简体（opencc）
 - **基于行扫描**：
   - 遍历每一行，使用正则和校验逻辑判断是否为章节标题
   - 自动合并空章节（处理标题误判）
