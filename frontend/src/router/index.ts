@@ -43,7 +43,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach(async (to, _from, next) => {
+router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
   // 确保 Auth 状态已初始化
@@ -53,19 +53,16 @@ router.beforeEach(async (to, _from, next) => {
 
   // 如果需要验证且未登录
   if (to.name !== 'login' && authStore.isAuthEnabled && !authStore.isAuthenticated) {
-    next({ name: 'login', query: { redirect: to.fullPath } })
-    return
+    return { name: 'login', query: { redirect: to.fullPath } }
   }
 
   // 如果已登录但访问登录页
   if (to.name === 'login' && authStore.isAuthenticated) {
     const redirect = to.query.redirect as string
-    next(redirect || '/')
-    return
+    return redirect || '/'
   }
 
   document.title = to.meta.title ? `${to.meta.title} - Glean` : 'Glean'
-  next()
 })
 
 export default router

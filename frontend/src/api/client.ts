@@ -15,7 +15,7 @@ import { toast } from 'vue-sonner'
  * - 错误处理：统一处理 HTTP 错误
  */
 export const apiClient = ky.create({
-  prefixUrl: '/api',
+  baseUrl: '/api/',
   timeout: 30000,
   retry: {
     limit: 2,
@@ -24,7 +24,7 @@ export const apiClient = ky.create({
   },
   hooks: {
     beforeRequest: [
-      (request) => {
+      ({ request }) => {
         const token = localStorage.getItem('access_token')
         if (token) {
           request.headers.set('Authorization', `Bearer ${token}`)
@@ -32,7 +32,7 @@ export const apiClient = ky.create({
       },
     ],
     afterResponse: [
-      async (request, _options, response) => {
+      async ({ request, response }) => {
         if (response.ok && request.method !== 'GET') {
           try {
             const data = await response.clone().json()
@@ -48,18 +48,24 @@ export const apiClient = ky.create({
       },
     ],
     beforeError: [
-      async (error) => {
-        const { response } = error
+      async ({ error }) => {
+        const response = (error as Error & { response?: Response }).response
         if (response) {
           if (response.status === 401) {
             // 派发未授权事件，由 App.vue 或 main.ts 统一处理跳转
             // 避免在非组件环境直接操作路由或强制刷新
             window.dispatchEvent(new CustomEvent('auth:unauthorized'))
           }
+          else if (response.status >= 500) {
+            // 服务端异常时切换到全局不可用态，避免用户继续误操作
+            window.dispatchEvent(new CustomEvent('server:unreachable', {
+              detail: { reason: '服务器响应异常，请稍后重试' },
+            }))
+          }
 
           if (response.body) {
             try {
-              const body = await response.json<{ detail: string }>()
+              const body = await response.json() as { detail?: string }
               // FastAPI 错误响应格式：{"detail": "error message"}
               if (body.detail) {
                 error.message = body.detail
@@ -70,6 +76,11 @@ export const apiClient = ky.create({
               // 如果解析失败，使用默认错误消息
             }
           }
+        }
+        else {
+          window.dispatchEvent(new CustomEvent('server:unreachable', {
+            detail: { reason: '无法连接服务器，请检查网络或服务状态' },
+          }))
         }
         return error
       },
