@@ -71,6 +71,7 @@ def create_or_update_book(
             # 解析新章节
             chapters_data = parse_chapters(file_path)
             for chapter_data in chapters_data:
+                assert book.id is not None  # 确保 book 已经有 id
                 chapter = Chapter(
                     book_id=book.id,
                     title=chapter_data['title'],
@@ -107,6 +108,7 @@ def create_or_update_book(
 
         # 创建章节
         for chapter_data in chapters_data:
+            assert book.id is not None  # 确保 book 已经有 id
             chapter = Chapter(
                 book_id=book.id,
                 title=chapter_data['title'],

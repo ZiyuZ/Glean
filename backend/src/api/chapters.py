@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
-from sqlmodel import Session, select
+from sqlmodel import Session, col, select
 
 from core.database import get_db_session
 from core.models import Book, Chapter
@@ -24,7 +24,7 @@ async def list_chapters(
     if not book:
         raise HTTPException(status_code=404, detail='Book not found')
 
-    statement = select(Chapter).where(Chapter.book_id == book_id).order_by(Chapter.order_index)
+    statement = select(Chapter).where(Chapter.book_id == book_id).order_by(col(Chapter.order_index))
     chapters = session.exec(statement).all()
     return [
         ChapterMetadata(

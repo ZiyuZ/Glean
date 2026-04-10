@@ -1,7 +1,6 @@
 import secrets
 import tomllib
 from pathlib import Path
-from typing import Any
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -97,8 +96,8 @@ class Settings(BaseSettings):
         description='JWT 签名密钥。如果未设置，则每次启动随机生成密钥，重启后所有旧 Token 失效（强制下线）。',
     )
 
-    def __init__(self, **kwargs: dict[str, Any]):
-        super().__init__(**kwargs)
+    def __init__(self):
+        super().__init__()
         # 确保路径是绝对路径
         # 如果 data_dir 是相对路径，则相对于项目根目录
         if not self.data_dir.is_absolute():

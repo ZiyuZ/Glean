@@ -188,7 +188,7 @@ async def update_progress(
     book.last_read_time = time.time()
 
     # 加载章节数据并检查完成状态
-    chapters_stmt = select(Chapter).where(Chapter.book_id == book.id).order_by(Chapter.order_index)
+    chapters_stmt = select(Chapter).where(Chapter.book_id == book.id).order_by(col(Chapter.order_index))
     chapters = list(session.exec(chapters_stmt).all())
     book.is_finished = check_book_finished(book, chapters)
 
