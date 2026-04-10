@@ -56,6 +56,8 @@ export const useBooksStore = defineStore('books', () => {
       })
     }
     catch (err) {
+      // 请求失败时清空旧列表，避免离线状态下回填陈旧数据造成“看起来可用”
+      books.value = []
       error.value = err instanceof Error ? err.message : '获取书籍列表失败'
       console.error('Failed to fetch books:', err)
     }

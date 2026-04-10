@@ -16,15 +16,17 @@ import { toast } from 'vue-sonner'
  */
 export const apiClient = ky.create({
   baseUrl: '/api/',
-  timeout: 30000,
-  retry: {
-    limit: 2,
-    methods: ['get'],
-    statusCodes: [408, 413, 429, 500, 502, 503, 504],
-  },
+  timeout: 6000,
+  retry: { limit: 0 },
   hooks: {
     beforeRequest: [
       ({ request }) => {
+        if (typeof navigator !== 'undefined' && !navigator.onLine) {
+          window.dispatchEvent(new CustomEvent('server:unreachable', {
+            detail: { reason: '网络已断开，无法连接服务器' },
+          }))
+          throw new Error('网络已断开')
+        }
         const token = localStorage.getItem('access_token')
         if (token) {
           request.headers.set('Authorization', `Bearer ${token}`)

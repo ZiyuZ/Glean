@@ -17,7 +17,7 @@ const showNav = computed(() => !route.meta.hideNav && systemStore.isServerReacha
 let healthProbeTimer: number | null = null
 let lastProbeAt = 0
 const HEALTHY_PROBE_INTERVAL = 30000
-const UNHEALTHY_PROBE_INTERVAL = 3000
+const UNHEALTHY_PROBE_INTERVAL = 1500
 
 function handleUnauthorized() {
   authStore.logout()
@@ -34,6 +34,10 @@ function retryConnection() {
 }
 
 function triggerImmediateProbe() {
+  if (!navigator.onLine) {
+    handleOffline()
+    return
+  }
   const now = Date.now()
   // 避免多个并发失败请求导致重复探活
   if (now - lastProbeAt < 1000) {

@@ -16,7 +16,10 @@ import { apiClient, toSearchParams } from './client'
  */
 export async function listBooks(params?: ListBooksParams): Promise<Book[]> {
   const searchParams = params ? toSearchParams(params) : undefined
-  return apiClient.get('books', { searchParams }).json<Book[]>()
+  return apiClient.get('books', {
+    searchParams,
+    cache: 'no-store',
+  }).json<Book[]>()
 }
 
 /**
@@ -26,7 +29,10 @@ export async function getRandomBooks(
   params?: RandomBooksParams,
 ): Promise<Book[]> {
   const searchParams = params ? toSearchParams(params) : undefined
-  return apiClient.get('books/random', { searchParams }).json<Book[]>()
+  return apiClient.get('books/random', {
+    searchParams,
+    cache: 'no-store',
+  }).json<Book[]>()
 }
 
 /**
