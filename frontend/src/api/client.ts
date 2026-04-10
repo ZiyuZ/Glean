@@ -32,11 +32,15 @@ export const apiClient = ky.create({
       },
     ],
     afterResponse: [
-      async ({ request, response }) => {
+      async ({ request, options, response }) => {
+        const silentSuccessToast = Boolean(
+          (options.context as Record<string, unknown>)?.silentSuccessToast,
+        )
+
         if (response.ok && request.method !== 'GET') {
           try {
             const data = await response.clone().json()
-            if (data && typeof data.message === 'string') {
+            if (!silentSuccessToast && data && typeof data.message === 'string') {
               toast.success(data.message)
             }
           }

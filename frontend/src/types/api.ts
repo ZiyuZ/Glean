@@ -87,6 +87,13 @@ export interface MessageResponse {
   message: string
 }
 
+export interface BatchDeleteBooksResponse {
+  message: string
+  success_count: number
+  failed_count: number
+  failed_book_ids: number[]
+}
+
 /**
  * 随机书籍查询参数
  */

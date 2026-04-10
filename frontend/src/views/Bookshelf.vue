@@ -138,22 +138,16 @@ async function doBatchDelete() {
 
   isBatchDeleting.value = true
   try {
-    let failedCount = 0
-    for (const book of booksToDelete) {
-      try {
-        await booksStore.deleteBook(book.id!, true)
-      }
-      catch (e) {
-        console.error(`Failed to delete book ${book.id}:`, e)
-        failedCount++
-      }
-    }
-    const successCount = booksToDelete.length - failedCount
-    if (failedCount === 0) {
-      toast.success(`已删除 ${successCount} 本书`)
+    const result = await booksStore.batchDeleteBooks(
+      booksToDelete.map(book => book.id!).filter((id): id is number => id !== undefined),
+      true,
+    )
+
+    if (result.failed_count === 0) {
+      toast.success(`成功删除 ${result.success_count} 本书`)
     }
     else {
-      toast.error(`删除完成，成功 ${successCount} 本，失败 ${failedCount} 本`)
+      toast.error(`成功删除 ${result.success_count} 本，失败 ${result.failed_count} 本`)
     }
   }
   catch (e) {

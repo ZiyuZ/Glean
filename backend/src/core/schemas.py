@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MessageResponse(BaseModel):
@@ -17,6 +17,18 @@ class ToggleStarRequest(BaseModel):
 
 class MarkFinishedRequest(BaseModel):
     finished: bool
+
+
+class BatchDeleteBooksRequest(BaseModel):
+    book_ids: list[int]
+    physical: bool = True
+
+
+class BatchDeleteBooksResponse(BaseModel):
+    message: str
+    success_count: int
+    failed_count: int
+    failed_book_ids: list[int] = Field(default_factory=list)
 
 
 # Chapters

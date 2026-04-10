@@ -3,6 +3,7 @@
  */
 
 import type {
+  BatchDeleteBooksResponse,
   Book,
   ListBooksParams,
   RandomBooksParams,
@@ -93,4 +94,22 @@ export async function deleteBook(bookId: number, physical = false): Promise<{ me
   return apiClient.delete(`books/${bookId}`, {
     searchParams: { physical },
   }).json<{ message: string }>()
+}
+
+/**
+ * 批量删除书籍
+ */
+export async function batchDeleteBooks(
+  bookIds: number[],
+  physical = true,
+): Promise<BatchDeleteBooksResponse> {
+  return apiClient.post('books/batch-delete', {
+    context: {
+      silentSuccessToast: true,
+    },
+    json: {
+      book_ids: bookIds,
+      physical,
+    },
+  }).json<BatchDeleteBooksResponse>()
 }

@@ -129,6 +129,25 @@ export const useBooksStore = defineStore('books', () => {
     }
   }
 
+  async function batchDeleteBooks(bookIds: number[], physical = true) {
+    try {
+      const result = await api.batchDeleteBooks(bookIds, physical)
+      const failedSet = new Set(result.failed_book_ids)
+      books.value = books.value.filter((book) => {
+        const id = book.id
+        if (id === undefined || !bookIds.includes(id)) {
+          return true
+        }
+        return failedSet.has(id)
+      })
+      return result
+    }
+    catch (err) {
+      console.error('Failed to batch delete books:', err)
+      throw err
+    }
+  }
+
   return {
     books,
     loading,
@@ -143,5 +162,6 @@ export const useBooksStore = defineStore('books', () => {
     updateProgress,
     toggleStar,
     deleteBook,
+    batchDeleteBooks,
   }
 })

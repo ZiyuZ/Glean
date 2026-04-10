@@ -8,7 +8,14 @@ from sqlmodel.sql.expression import col
 from core.config import settings
 from core.database import get_db_session
 from core.models import Book, Chapter
-from core.schemas import MarkFinishedRequest, MessageResponse, ToggleStarRequest, UpdateProgressRequest
+from core.schemas import (
+    BatchDeleteBooksRequest,
+    BatchDeleteBooksResponse,
+    MarkFinishedRequest,
+    MessageResponse,
+    ToggleStarRequest,
+    UpdateProgressRequest,
+)
 from services.book_service import reparse_book as reparse_book_service
 
 router = APIRouter()
@@ -51,6 +58,47 @@ def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
 
     book.is_finished = False
     return False
+
+
+def delete_book_by_id(session: Session, book_id: int, physical: bool = True) -> str:
+    book = session.get(Book, book_id)
+    if not book:
+        raise ValueError('书籍未找到')
+
+    if not physical:
+        # 逻辑删除：仅重置阅读进度（移出书架）
+        book.chapter_index = None
+        book.chapter_offset = None
+        book.is_finished = False
+        book.last_read_time = None
+        session.add(book)
+        session.commit()
+        session.refresh(book)
+        return '已移出书架'
+
+    # 物理删除：删除文件 + 数据库记录
+    # 1. 删除物理文件
+    file_path = Path(book.path)
+    # 如果是相对路径，尝试拼接
+    if not file_path.is_absolute():
+        file_path = settings.books_dir / file_path
+
+    if file_path.exists():
+        try:
+            file_path.unlink()
+        except OSError as e:
+            # 文件删除失败（如被占用），此时不删除数据库记录
+            raise RuntimeError(f'Error deleting file {file_path}: {e}') from e
+
+    # 2. 删除关联章节 (避免 IntegrityError)
+    chapters = session.exec(select(Chapter).where(Chapter.book_id == book.id)).all()
+    for chapter in chapters:
+        session.delete(chapter)
+
+    # 3. 删除书籍记录
+    session.delete(book)
+    session.commit()
+    return '书籍已彻底删除'
 
 
 @router.get('')
@@ -230,41 +278,45 @@ async def delete_book(
     - physical=False: 逻辑删除，仅重置书籍的阅读进度（chapter_index, chapter_offset,
       is_finished, last_read_time），使其从“已开始阅读”状态中移除，但保留书籍记录和文件。
     """
-    book = session.get(Book, book_id)
-    if not book:
-        raise HTTPException(status_code=404, detail='书籍未找到')
+    try:
+        message = delete_book_by_id(session, book_id, physical)
+        return MessageResponse(message=message)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-    if not physical:
-        # 逻辑删除：仅重置阅读进度（移出书架）
-        book.chapter_index = None
-        book.chapter_offset = None
-        book.is_finished = False
-        book.last_read_time = None
-        session.add(book)
-        session.commit()
-        session.refresh(book)
-        return MessageResponse(message='已移出书架')
 
-    # 物理删除：删除文件 + 数据库记录
-    # 1. 删除物理文件
-    file_path = Path(book.path)
-    # 如果是相对路径，尝试拼接
-    if not file_path.is_absolute():
-        file_path = settings.books_dir / file_path
+@router.post('/batch-delete')
+async def batch_delete_books(
+    request: BatchDeleteBooksRequest,
+    session: Session = Depends(get_db_session),
+) -> BatchDeleteBooksResponse:
+    """
+    批量删除书籍
 
-    if file_path.exists():
+    - physical=True: 同时删除数据库记录和物理文件
+    - physical=False: 仅重置阅读进度，从书架移除
+    """
+    success_count = 0
+    failed_book_ids: list[int] = []
+
+    for book_id in request.book_ids:
         try:
-            file_path.unlink()
-        except OSError as e:
-            # 文件删除失败（如被占用），此时不删除数据库记录
-            raise HTTPException(status_code=500, detail=f'Error deleting file {file_path}: {e}')
+            delete_book_by_id(session, book_id, request.physical)
+            success_count += 1
+        except Exception:
+            failed_book_ids.append(book_id)
 
-    # 2. 删除关联章节 (避免 IntegrityError)
-    chapters = session.exec(select(Chapter).where(Chapter.book_id == book.id)).all()
-    for chapter in chapters:
-        session.delete(chapter)
+    failed_count = len(failed_book_ids)
+    if failed_count == 0:
+        message = f'已删除 {success_count} 本书'
+    else:
+        message = f'删除完成，成功 {success_count} 本，失败 {failed_count} 本'
 
-    # 3. 删除书籍记录
-    session.delete(book)
-    session.commit()
-    return MessageResponse(message='书籍已彻底删除')
+    return BatchDeleteBooksResponse(
+        message=message,
+        success_count=success_count,
+        failed_count=failed_count,
+        failed_book_ids=failed_book_ids,
+    )
