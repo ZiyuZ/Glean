@@ -305,7 +305,7 @@ onUnmounted(() => {
 
           <div
             class="rounded-lg border border-gray-200 dark:border-gray-700 text-[11px] text-gray-600 dark:text-gray-300">
-            <button
+            <div
               class="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
               @click="showSwInfo = !showSwInfo">
               <span class="font-medium">Service Worker</span>
@@ -316,7 +316,7 @@ onUnmounted(() => {
                 {{ swUpdating ? '更新中...' : '强制检查并更新' }}
               </button>
               <span class="text-xs text-gray-400">{{ showSwInfo ? '▾' : '▸' }}</span>
-            </button>
+            </div>
             <div v-if="showSwInfo" class="px-3 pb-2 space-y-1">
               <div class="space-y-0.5">
                 <p>状态: {{ swInfo.supported ? '支持' : '不支持' }}</p>
