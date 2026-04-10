@@ -282,52 +282,41 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
 </script>
 
 <template>
-  <div
-    class="reader-app relative w-full h-screen overflow-hidden select-none transition-colors duration-300"
-    :style="containerStyle"
-  >
+  <div class="reader-app relative w-full h-screen overflow-hidden select-none transition-colors duration-300"
+    :style="containerStyle">
     <!-- 3x3 Interaction Grid Overlay -->
-    <div
-      v-if="!isMenuOpen && !showSettings && !showTOC"
-      class="absolute inset-0 z-40 grid grid-cols-3 grid-rows-3"
-    >
-      <div
-        v-for="i in 9"
-        :key="i"
-        class="cursor-pointer"
-        @click.stop="handleGridClick(i)"
-      />
+    <div v-if="!isMenuOpen && !showSettings && !showTOC" class="absolute inset-0 z-40 grid grid-cols-3 grid-rows-3">
+      <div v-for="i in 9" :key="i" class="cursor-pointer" @click.stop="handleGridClick(i)" />
     </div>
 
     <!-- Mask to close menu when clicking outside (if menu is open) -->
-    <div
-      v-else
-      class="absolute inset-0 z-40"
-      @click="isMenuOpen = false; showSettings = false; showTOC = false"
-    />
+    <div v-else class="absolute inset-0 z-40" @click="isMenuOpen = false; showSettings = false; showTOC = false" />
 
     <!-- Header -->
-    <transition
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="-translate-y-full opacity-0"
-      enter-to-class="translate-y-0 opacity-100"
-      leave-active-class="transition duration-200 ease-in"
-      leave-from-class="translate-y-0 opacity-100"
-      leave-to-class="-translate-y-full opacity-0"
-    >
-      <div v-if="isMenuOpen" class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pt-[env(safe-area-inset-top)]" @click.stop>
+    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="-translate-y-full opacity-0"
+      enter-to-class="translate-y-0 opacity-100" leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-y-0 opacity-100" leave-to-class="-translate-y-full opacity-0">
+      <div v-if="isMenuOpen"
+        class="absolute top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pt-[env(safe-area-inset-top)]"
+        @click.stop>
         <div class="p-3 flex justify-between items-center h-14">
           <div class="flex items-center gap-3 text-gray-700 dark:text-gray-200 overflow-hidden">
-            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all" @click="router.back()">
+            <button
+              class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all"
+              @click="router.back()">
               <ArrowLeftIcon class="w-6 h-6" />
             </button>
             <span class="font-medium truncate flex-1">{{ readerStore.currentBook?.title }}</span>
           </div>
           <div class="flex gap-1 flex-shrink-0">
-            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all" @click="showTOC = true; isMenuOpen = false">
+            <button
+              class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all"
+              @click="showTOC = true; isMenuOpen = false">
               <ListBulletIcon class="w-6 h-6" />
             </button>
-            <button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all" @click="showSettings = true; isMenuOpen = false">
+            <button
+              class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20 active:scale-95 transition-all"
+              @click="showSettings = true; isMenuOpen = false">
               <Cog6ToothIcon class="w-6 h-6" />
             </button>
           </div>
@@ -336,52 +325,43 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
     </transition>
 
     <!-- Footer -->
-    <transition
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="translate-y-full opacity-0"
-      enter-to-class="translate-y-0 opacity-100"
-      leave-active-class="transition duration-200 ease-in"
-      leave-from-class="translate-y-0 opacity-100"
-      leave-to-class="translate-y-full opacity-0"
-    >
-      <div v-if="isMenuOpen" class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)]" @click.stop>
+    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="translate-y-full opacity-0"
+      enter-to-class="translate-y-0 opacity-100" leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-y-0 opacity-100" leave-to-class="translate-y-full opacity-0">
+      <div v-if="isMenuOpen"
+        class="absolute bottom-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-sm pb-[env(safe-area-inset-bottom)]"
+        @click.stop>
         <div class="px-2 py-2">
           <div class="flex items-center gap-1">
             <!-- Prev Chapter Button -->
             <button
               class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0"
               :class="{ 'opacity-30 cursor-not-allowed': !readerStore.hasPreviousChapter }"
-              :disabled="!readerStore.hasPreviousChapter"
-              @click="prevChapter"
-            >
+              :disabled="!readerStore.hasPreviousChapter" @click="prevChapter">
               <ChevronDoubleLeftIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
 
             <!-- Prev Page Button -->
-            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0" @click="prevPage">
+            <button
+              class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0"
+              @click="prevPage">
               <ChevronLeftIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
 
-            <span class="text-xs text-gray-500 font-medium tabular-nums min-w-[1.5rem] text-right">{{ currentPage + 1 }}</span>
+            <span class="text-xs text-gray-500 font-medium tabular-nums min-w-[1.5rem] text-right">{{ currentPage + 1
+            }}</span>
 
-            <input
-              v-model.number="currentPage"
-              type="range"
-              min="0"
-              :max="totalPages - 1"
-              step="1"
-              dir="ltr"
+            <input v-model.number="currentPage" type="range" min="0" :max="totalPages - 1" step="1" dir="ltr"
               class="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mx-2 accent-blue-600 dark:bg-gray-700 focus:outline-none"
-              @mousedown="isDragging = true"
-              @touchstart="isDragging = true"
-              @mouseup="isDragging = false"
-              @touchend="isDragging = false"
-            >
+              @mousedown="isDragging = true" @touchstart="isDragging = true" @mouseup="isDragging = false"
+              @touchend="isDragging = false">
 
             <span class="text-xs text-gray-500 font-medium tabular-nums min-w-[1.5rem]">{{ totalPages }}</span>
 
             <!-- Next Page Button -->
-            <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0" @click="nextPage">
+            <button
+              class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0"
+              @click="nextPage">
               <ChevronRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
 
@@ -389,9 +369,7 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
             <button
               class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 dark:active:bg-gray-700 active:scale-95 transition-all shrink-0"
               :class="{ 'opacity-30 cursor-not-allowed': !readerStore.hasNextChapter }"
-              :disabled="!readerStore.hasNextChapter"
-              @click="nextChapter"
-            >
+              :disabled="!readerStore.hasNextChapter" @click="nextChapter">
               <ChevronDoubleRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </button>
           </div>
@@ -402,11 +380,8 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
     <!-- Content Area: Paging Mode -->
     <!-- Important: overflow-hidden on container, content moves via transform -->
     <div class="absolute inset-0 z-0 overflow-hidden">
-      <div
-        ref="contentRef"
-        class="column-content h-screen w-screen [column-width:90vw] [column-fill:auto]"
-        :style="contentTextStyle"
-      >
+      <div ref="contentRef" class="column-content h-screen w-screen [column-width:90vw] [column-fill:auto]"
+        :style="contentTextStyle">
         <div v-if="readerStore.loading" class="h-full w-full flex items-center justify-center">
           <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-current opacity-50" />
         </div>
@@ -428,37 +403,23 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
     <!-- TOC Drawer -->
     <TransitionRoot as="template" :show="showTOC">
       <Dialog as="div" class="relative z-50" @close="showTOC = false">
-        <TransitionChild
-          as="template"
-          enter="ease-out duration-300"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="ease-in duration-200"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-        >
+        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
+          leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-black/50 transition-opacity" />
         </TransitionChild>
 
         <div class="fixed inset-0 overflow-hidden z-10">
           <div class="absolute inset-0 overflow-hidden">
             <div class="pointer-events-none fixed inset-x-0 bottom-0 flex max-h-[85vh]">
-              <TransitionChild
-                as="template"
-                enter="transform transition ease-in-out duration-300"
-                enter-from="translate-y-full"
-                enter-to="translate-y-0"
-                leave="transform transition ease-in-out duration-300"
-                leave-from="translate-y-0"
-                leave-to="translate-y-full"
-              >
-                <DialogPanel class="pointer-events-auto w-full bg-white dark:bg-gray-900 rounded-t-xl shadow-xl flex flex-col">
-                  <ReaderTOC
-                    :chapters="readerStore.chapters"
-                    :current-chapter-index="readerStore.currentChapterIndex"
+              <TransitionChild as="template" enter="transform transition ease-in-out duration-300"
+                enter-from="translate-y-full" enter-to="translate-y-0"
+                leave="transform transition ease-in-out duration-300" leave-from="translate-y-0"
+                leave-to="translate-y-full">
+                <DialogPanel
+                  class="pointer-events-auto w-full bg-white dark:bg-gray-900 rounded-t-xl shadow-xl flex flex-col">
+                  <ReaderTOC :chapters="readerStore.chapters" :current-chapter-index="readerStore.currentChapterIndex"
                     :has-book="!!readerStore.currentBook"
-                    @jump-to-chapter="(i) => { loadChapter(i); showTOC = false }"
-                  />
+                    @jump-to-chapter="(i) => { loadChapter(i); showTOC = false }" />
                 </DialogPanel>
               </TransitionChild>
             </div>
@@ -470,30 +431,18 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
     <!-- Settings Drawer -->
     <TransitionRoot as="template" :show="showSettings">
       <Dialog as="div" class="relative z-50" @close="showSettings = false">
-        <TransitionChild
-          as="template"
-          enter="ease-out duration-300"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="ease-in duration-200"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-        >
+        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
+          leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-black/25 transition-opacity" />
         </TransitionChild>
 
         <div class="fixed inset-0 overflow-hidden z-10">
           <div class="absolute inset-0 overflow-hidden">
             <div class="pointer-events-none fixed inset-x-0 bottom-0 flex max-h-[75vh]">
-              <TransitionChild
-                as="template"
-                enter="transform transition ease-in-out duration-300"
-                enter-from="translate-y-full"
-                enter-to="translate-y-0"
-                leave="transform transition ease-in-out duration-300"
-                leave-from="translate-y-0"
-                leave-to="translate-y-full"
-              >
+              <TransitionChild as="template" enter="transform transition ease-in-out duration-300"
+                enter-from="translate-y-full" enter-to="translate-y-0"
+                leave="transform transition ease-in-out duration-300" leave-from="translate-y-0"
+                leave-to="translate-y-full">
                 <DialogPanel class="pointer-events-auto w-full bg-white dark:bg-gray-800 rounded-t-xl shadow-xl">
                   <ReaderSettings />
                 </DialogPanel>
@@ -510,7 +459,10 @@ watch([fontSize, lineHeight, paddingX, paddingY, margin], updateMetrics)
 .reader-paragraph {
   text-indent: 2em;
   text-align: justify;
-  break-inside: auto; /* Allow breaking */
+  /* Allow breaking */
+  break-inside: auto;
+  /* Handle long words */
+  overflow-wrap: break-word;
 }
 
 .fade-enter-active,

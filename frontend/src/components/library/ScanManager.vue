@@ -322,7 +322,9 @@ onUnmounted(() => {
                 <p>状态: {{ swInfo.supported ? '支持' : '不支持' }}</p>
                 <p>控制页面: {{ swInfo.controlled ? '是' : '否' }}</p>
                 <p>active: {{ swInfo.activeState }}, waiting: {{ swInfo.waitingState }}</p>
-                <p v-if="swInfo.fingerprint">指纹: {{ swInfo.fingerprint }}</p>
+                <p v-if="swInfo.fingerprint">
+                  指纹: {{ swInfo.fingerprint }}
+                </p>
               </div>
             </div>
           </div>
