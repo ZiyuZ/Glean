@@ -52,8 +52,8 @@
 
 2. **添加书本**
    - 将书本放在 `data/books` 目录下
+     - 或者将 compose.yml 中的自定义挂载书籍目录取消注释并修改
    - 书本必须是 txt 格式
-   - 或者将 compose.yml 中的自定义挂载书籍目录取消注释并修改
 
 3. **启动服务**
    - 如果没有 apps 这个 network，请在 compose.yml 中删除 networks 部分，否则启动会报错
@@ -122,20 +122,20 @@
 
 ### 后端 (Python)
 
+- **Package Manager**: [uv](https://github.com/astral-sh/uv) - Python 包管理
 - **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + [PyDantic](https://pydantic.dev/) - 异步高性能 API
 - **Database**: [SQLite](https://www.sqlite.org/) + [SQLModel](https://sqlmodel.tiangolo.com/) - 轻量级存储元数据与进度
 - **Parser**: 基于正则表达式与字符偏移量的流式解析器
-- **Package Manager**: `uv` - Python 包管理
 
 ### 前端 (Vue)
 
+- **Package Manager**: [bun](https://bun.com/) - 快速 JavaScript 运行时和包管理器
 - **Framework**: [Vue 3 (Vite)](https://cn.vuejs.org/) - 组合式 API，响应式系统
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) - 实用优先的 CSS 框架
 - **State Management**: [Pinia](https://pinia.vuejs.org/) - Vue 官方状态管理
 - **Router**: [Vue Router](https://router.vuejs.org/) - 官方路由管理器
 - **Icons**: [Heroicons](https://heroicons.com/) - Tailwind CSS 官方图标库
 - **Utilities**: [VueUse](https://vueuse.org/) - Vue 组合式工具集
-- **Package Manager**: [bun](https://bun.com/) - 快速 JavaScript 运行时和包管理器
 - **PWA**: 支持离线阅读已加载章节
 
 ## 📂 项目结构
