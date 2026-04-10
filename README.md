@@ -3,7 +3,7 @@
   <!-- <img src="docs/assets/logo.png" alt="Glean Logo" width="120" height="120"> -->
   <h1>Glean (拾阅)</h1>
   <p><strong>轻量级的、自托管的个人小说云阅工具</strong></p>
-  
+
   [![GitHub stars](https://img.shields.io/github/stars/ZiyuZ/Glean?style=for-the-badge)](https://github.com/ZiyuZ/Glean)
   [![GitHub forks](https://img.shields.io/github/forks/ZiyuZ/Glean?style=for-the-badge)](https://github.com/ZiyuZ/Glean)
 </div>
@@ -56,7 +56,7 @@
    - 或者将 compose.yml 中的自定义挂载书籍目录取消注释并修改
 
 3. **启动服务**
-    - 如果没有 apps 这个 network，请在 compose.yml 中删除 networks 部分，否则启动会报错
+   - 如果没有 apps 这个 network，请在 compose.yml 中删除 networks 部分，否则启动会报错
 
    ```sh
    docker compose up -d
@@ -135,8 +135,8 @@
 - **Router**: [Vue Router](https://router.vuejs.org/) - 官方路由管理器
 - **Icons**: [Heroicons](https://heroicons.com/) - Tailwind CSS 官方图标库
 - **Utilities**: [VueUse](https://vueuse.org/) - Vue 组合式工具集
+- **Package Manager**: [bun](https://bun.com/) - 快速 JavaScript 运行时和包管理器
 - **PWA**: 支持离线阅读已加载章节
-- **Package Manager**: `bun` - 快速 JavaScript 运行时和包管理器
 
 ## 📂 项目结构
 

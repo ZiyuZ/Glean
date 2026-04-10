@@ -15,13 +15,13 @@
 ```sh
 frontend/
 ├── src/
-│   ├── api/                  # API 客户端 (axios 实例及请求函数)
+│   ├── api/                  # API 客户端 (Ky 实例及请求函数)
 │   ├── components/           # 组件
-│   │   ├── reader/           # 阅读器专有组件 (Header, Settings, etc.)
-│   │   ├── BookItem.vue      # 书架书籍条目
-│   │   ├── BottomNav.vue     # 底部导航栏
-│   │   ├── FileTree.vue      # 文件系统浏览器
-│   │   └── ScanManager.vue   # 扫描任务管理
+│   │   ├── book/             # 书籍相关组件
+│   │   ├── layout/           # 布局组件
+│   │   ├── library/          # 书库相关组件
+│   │   ├── reader/           # 阅读器专有组件
+│   │   └── ui/               # 通用 UI 组件
 │   ├── views/                # 页面视图
 │   │   ├── Bookshelf.vue     # 书架首页
 │   │   ├── Discovery.vue     # 发现页 (随机推荐)
@@ -32,7 +32,7 @@ frontend/
 │   ├── types/                # TypeScript 类型定义
 │   ├── App.vue               # 根组件
 │   ├── main.ts               # 入口文件
-│   └── sw.ts                 # Service Worker (PWA)
+│   └── router/               # 路由配置
 ├── public/                   # 静态资源 (图标、Manifest)
 ├── vite.config.ts            # Vite 配置
 └── package.json              # 依赖配置
@@ -127,52 +127,21 @@ export default defineConfig({
 - **背景主题**：明亮、护眼、纸张、深色
 - **进度跳转**：`input range` 滑块，对应章节的百分比
 
-## API 集成
+## API 约定
 
-### 书籍列表
+前端统一通过 `src/api/` 下的请求函数访问后端，并默认使用 `/api` 前缀。
 
-```typescript
-// GET /api/books?starred=true&search=关键词&finished=false
-interface Book {
-  id: number
-  title: string
-  chapter_index: number | null
-  chapter_offset: number | null
-  is_finished: boolean
-  is_starred: boolean
-  last_read_time: number | null
-  // ... 其他字段
-}
-```
+### 接口分组
 
-### 章节内容
+- 书籍：列表、详情、进度同步、标星、单本删除、批量删除
+- 章节：章节目录、章节正文
+- 扫描：启动扫描、查询状态、停止扫描
+- 系统：登录、鉴权状态、健康检查、版本信息
 
-```typescript
-// GET /api/chapters/books/{id}/content/{chapter_index}
-// 返回：Plain Text Response
-```
+### 接口文档
 
-### 进度同步
-
-```typescript
-// PATCH /api/books/{id}/progress
-// 参数：{ chapter_index: number, chapter_offset: number }
-```
-
-### 扫描状态
-
-```typescript
-// GET /api/scan/status
-interface ScanStatus {
-  is_running: boolean
-  files_scanned: number
-  files_added: number
-  files_updated: number
-  total_files: number
-  current_file: string
-  error: string | null
-}
-```
+- 运行后端后访问 `/docs`（Swagger / OpenAPI）获取最新参数与响应定义
+- 代码中的调用示例可参考 `src/api/*.ts`
 
 ## 开发指南
 

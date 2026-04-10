@@ -86,6 +86,9 @@ backend/
 - `PATCH /api/books/{id}/star` - 标星/取消标星
 - `POST /api/books/{id}/reparse` - 重新解析指定书籍
 - `DELETE /api/books/{id}` - 从物理磁盘删除文件
+- `POST /api/books/batch-delete` - 批量删除书籍
+  - 请求体：`{ book_ids: number[], physical: boolean }`
+  - 返回：`message`, `success_count`, `failed_count`, `failed_book_ids`
 - `POST /api/scan/clear` - 清空数据库（不删除文件，仅重置元数据）
 
 ### 章节 API (`/api/books/{book_id}/chapters`)
