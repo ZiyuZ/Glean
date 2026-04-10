@@ -110,3 +110,8 @@ export interface LoginResponse {
 export interface AuthStatusResponse {
   enabled: boolean
 }
+
+export interface HealthResponse {
+  status: string
+  version: string
+}

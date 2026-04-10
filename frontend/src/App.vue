@@ -3,25 +3,62 @@ import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Toaster } from 'vue-sonner'
 import BottomNav from '@/components/layout/BottomNav.vue'
+import ServiceUnavailableOverlay from '@/components/layout/ServiceUnavailableOverlay.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useSystemStore } from '@/stores/system'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const systemStore = useSystemStore()
 
-const showNav = computed(() => !route.meta.hideNav)
+const showNav = computed(() => !route.meta.hideNav && systemStore.isServerReachable)
+
+let healthProbeTimer: number | null = null
 
 function handleUnauthorized() {
   authStore.logout()
   router.push('/login')
 }
 
+function handleServerUnreachable(event: Event) {
+  const detail = (event as CustomEvent<{ reason?: string }>).detail
+  systemStore.markServerUnreachable(detail?.reason || '服务器暂时不可用')
+}
+
+function retryConnection() {
+  void systemStore.probeServer()
+}
+
+function startHealthProbe() {
+  if (healthProbeTimer !== null) {
+    window.clearInterval(healthProbeTimer)
+  }
+  healthProbeTimer = window.setInterval(() => {
+    if (!systemStore.isServerReachable) {
+      void systemStore.probeServer()
+    }
+  }, 10000)
+}
+
+function stopHealthProbe() {
+  if (healthProbeTimer !== null) {
+    window.clearInterval(healthProbeTimer)
+    healthProbeTimer = null
+  }
+}
+
 onMounted(() => {
   window.addEventListener('auth:unauthorized', handleUnauthorized)
+  window.addEventListener('server:unreachable', handleServerUnreachable)
+  void systemStore.probeServer()
+  startHealthProbe()
 })
 
 onUnmounted(() => {
   window.removeEventListener('auth:unauthorized', handleUnauthorized)
+  window.removeEventListener('server:unreachable', handleServerUnreachable)
+  stopHealthProbe()
 })
 </script>
 
@@ -34,6 +71,12 @@ onUnmounted(() => {
       <router-view />
     </div>
     <BottomNav v-if="showNav" class="flex-shrink-0" />
+    <ServiceUnavailableOverlay
+      v-if="!systemStore.isServerReachable"
+      :checking="systemStore.isHealthChecking"
+      :reason="systemStore.unavailableReason"
+      @retry="retryConnection"
+    />
   </div>
 </template>
 

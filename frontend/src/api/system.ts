@@ -1,4 +1,4 @@
-import type { AuthStatusResponse, LoginResponse, SystemVersionResponse } from '../types/api'
+import type { AuthStatusResponse, HealthResponse, LoginResponse, SystemVersionResponse } from '../types/api'
 import { apiClient } from './client'
 
 /**
@@ -14,4 +14,11 @@ export async function checkAuthStatus(): Promise<AuthStatusResponse> {
 
 export async function login(password: string): Promise<LoginResponse> {
   return apiClient.post('system/login', { json: { password } }).json<LoginResponse>()
+}
+
+export async function checkSystemHealth(): Promise<HealthResponse> {
+  return apiClient.get('system/health', {
+    timeout: 5000,
+    retry: { limit: 0 },
+  }).json<HealthResponse>()
 }
