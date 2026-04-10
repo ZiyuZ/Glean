@@ -122,20 +122,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Toaster position="top-center" />
+  <Toaster position="bottom-center" />
   <div
-    class="fixed inset-0 w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-  >
+    class="fixed inset-0 w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="flex-1 min-h-0 w-full relative">
       <router-view />
     </div>
     <BottomNav v-if="showNav" class="flex-shrink-0" />
-    <ServiceUnavailableOverlay
-      v-if="!systemStore.isServerReachable"
-      :checking="systemStore.isHealthChecking"
-      :reason="systemStore.unavailableReason"
-      @retry="retryConnection"
-    />
+    <ServiceUnavailableOverlay v-if="!systemStore.isServerReachable" :checking="systemStore.isHealthChecking"
+      :reason="systemStore.unavailableReason" @retry="retryConnection" />
   </div>
 </template>
 
@@ -144,6 +139,7 @@ onUnmounted(() => {
 * {
   box-sizing: border-box;
 }
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
