@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Toaster } from 'vue-sonner'
 import BottomNav from '@/components/layout/BottomNav.vue'
@@ -85,6 +85,16 @@ function stopHealthProbe() {
     healthProbeTimer = null
   }
 }
+
+watch(
+  () => systemStore.isServerReachable,
+  (reachable, previous) => {
+    // 服务从不可用恢复时主动刷新页面，避免列表页停留在失败后的空状态
+    if (reachable && previous === false) {
+      window.location.reload()
+    }
+  },
+)
 
 onMounted(() => {
   window.addEventListener('auth:unauthorized', handleUnauthorized)
