@@ -14,28 +14,60 @@
 
 ```sh
 frontend/
-├── src/
-│   ├── api/                  # API 客户端 (Ky 实例及请求函数)
-│   ├── components/           # 组件
-│   │   ├── book/             # 书籍相关组件
-│   │   ├── layout/           # 布局组件
-│   │   ├── library/          # 书库相关组件
-│   │   ├── reader/           # 阅读器专有组件
-│   │   └── ui/               # 通用 UI 组件
-│   ├── views/                # 页面视图
-│   │   ├── Bookshelf.vue     # 书架首页
-│   │   ├── Discovery.vue     # 发现页 (随机推荐)
-│   │   ├── Library.vue       # 库页 (文件系统扫描)
-│   │   └── Reader.vue        # 阅读器核心页
-│   ├── stores/               # Pinia 状态管理
-│   ├── composables/          # 组合式函数 (逻辑复用)
-│   ├── types/                # TypeScript 类型定义
-│   ├── App.vue               # 根组件
-│   ├── main.ts               # 入口文件
-│   └── router/               # 路由配置
-├── public/                   # 静态资源 (图标、Manifest)
-├── vite.config.ts            # Vite 配置
-└── package.json              # 依赖配置
+├── package.json              # 依赖与脚本
+├── vite.config.ts            # Vite / PWA 等构建配置
+├── public/                   # 静态资源（图标、Manifest 等，不经打包处理）
+└── src/
+    ├── main.ts               # 应用入口
+    ├── App.vue               # 根组件
+    ├── style.css             # 全局样式
+    ├── vite-env.d.ts         # Vite 类型声明
+    ├── api/                  # API 封装（基于 Ky 的 client 与各域请求）
+    │   ├── client.ts         # HTTP 客户端实例与通用逻辑
+    │   ├── index.ts          # 统一导出
+    │   ├── books.ts
+    │   ├── chapters.ts
+    │   ├── scan.ts
+    │   └── system.ts
+    ├── assets/               # 随构建处理的静态资源
+    │   └── vue.svg
+    ├── components/
+    │   ├── book/
+    │   │   └── BookItem.vue  # 书架列表项
+    │   ├── layout/           # 顶栏、底栏、PWA、服务不可用遮罩等
+    │   │   ├── AppHeader.vue
+    │   │   ├── BottomNav.vue
+    │   │   ├── PWABadge.vue
+    │   │   └── ServiceUnavailableOverlay.vue
+    │   ├── library/          # 书库扫描与文件树
+    │   │   ├── FileTree.vue
+    │   │   ├── ScanManager.vue
+    │   │   └── TreeItem.vue
+    │   ├── reader/           # 阅读器设置与目录
+    │   │   ├── ReaderSettings.vue
+    │   │   └── ReaderTOC.vue
+    │   └── ui/               # 通用弹窗、空态、骨架屏等
+    │       ├── BaseModal.vue
+    │       ├── ConfirmModal.vue
+    │       ├── EmptyState.vue
+    │       └── SkeletonLoader.vue
+    ├── composables/
+    │   └── useReader.ts      # 阅读器相关组合式逻辑
+    ├── router/
+    │   └── index.ts          # 路由表
+    ├── stores/               # Pinia：鉴权、书架、阅读器、系统状态
+    │   ├── auth.ts
+    │   ├── books.ts
+    │   ├── reader.ts
+    │   └── system.ts
+    ├── types/
+    │   └── api.ts            # 与后端契约相关的 TS 类型
+    └── views/                # 页面级视图
+        ├── Bookshelf.vue     # 书架首页
+        ├── Discovery.vue     # 发现 / 随机推荐
+        ├── Library.vue       # 书库与扫描管理
+        ├── Login.vue         # 登录（后端开启密码时）
+        └── Reader.vue        # 阅读页
 ```
 
 ## 核心架构

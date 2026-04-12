@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD036 -->
+<!-- markdownlint-disable MD013 MD036 -->
 # Glean 后端文档
 
 ## 技术栈
@@ -14,25 +14,33 @@
 
 ```sh
 backend/
-├── main.py                  # FastAPI 应用入口
 ├── pyproject.toml           # 项目配置和依赖
 └── src/
-    ├── api/                 # API 路由模块
+    ├── main.py              # FastAPI 应用入口
+    ├── api/                 # API 路由与依赖
     │   ├── books.py         # 书籍相关 API
     │   ├── chapters.py      # 章节相关 API
-    │   └── scan.py          # 扫描相关 API
-    ├── core/                # 核心模块
-    │   ├── models.py        # 数据库模型
+    │   ├── deps.py          # 路由依赖（鉴权等）
+    │   ├── scan.py          # 扫描相关 API
+    │   └── system.py        # 系统相关 API
+    ├── core/                # 配置、数据层与横切能力
     │   ├── config.py        # 配置管理
-    │   └── database.py      # 数据库连接和会话
+    │   ├── database.py      # 数据库连接和会话
+    │   ├── log.py           # 日志配置
+    │   ├── models.py        # 数据库模型
+    │   ├── schemas.py       # API / 业务层 Pydantic 模型
+    │   └── security.py      # JWT 与密码校验
     └── services/            # 业务逻辑层
-        ├── parser/          # 章节解析模块包
+        ├── parser/          # 章节解析子包
         │   ├── core.py      # 解析入口与读取归一化
-        │   ├── validator.py # 校验逻辑
-        │   └── utils.py     # 工具函数
-        ├── book_service.py  # 书籍服务（创建/更新书籍）
-        └── scanner.py       # 扫描服务（目录扫描）
+        │   ├── models.py    # 解析过程用的数据结构
+        │   ├── utils.py     # 编码检测、哈希等工具
+        │   └── validator.py # 章节标题校验
+        ├── book_service.py  # 书籍服务（创建/更新/重解析）
+        └── scanner.py       # 扫描服务（目录扫描与进度）
 ```
+
+（未列出各目录下的 `__init__.py` 等包初始化文件。）
 
 ## 数据库模型
 
@@ -57,7 +65,7 @@ backend/
 - `book_id`: 所属书籍 ID（外键）
 - `title`: 章节标题
 - `order_index`: 章节序号（从 0 开始）
-- `content`: 章节内容（UTF-8 编码的文本，不包含章节标题，已清洗）
+- `body`: 章节内容（UTF-8 编码的章节内容文本，不包含章节标题）
 - `book`: 关联的书籍（多对一关系）
 
 ## API 文档
@@ -192,7 +200,7 @@ uv sync
 ### 运行开发服务器
 
 ```sh
-uv run fastapi dev main.py
+uv run fastapi dev src/main.py
 # 或使用 just
 just dev-be
 ```
@@ -208,7 +216,7 @@ just lint
 
 ### 数据库初始化
 
-数据库会在应用启动时自动初始化（`main.py` 中调用 `init_db()`）。
+数据库会在应用启动时自动初始化（`src/main.py` 中调用 `init_db()`）。
 
 ## 核心设计要点
 
@@ -235,6 +243,5 @@ just lint
 
 ### 章节内容存储
 
-- 章节内容直接存储在数据库中（已清洗的文本）
+- 章节内容直接存储在数据库中
 - 读取时无需文件 I/O，性能更好
-- 支持复杂的编码和清洗逻辑，无需担心文件损坏
