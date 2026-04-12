@@ -1,6 +1,6 @@
 from sqlmodel import Field, Relationship, SQLModel
 
-__version__ = 'v2'
+__version__ = 'v4'
 
 
 class Meta(SQLModel, table=True):
@@ -35,8 +35,7 @@ class Chapter(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     book_id: int = Field(foreign_key='book.id')
     title: str
-    order_index: int  # 章节序号
-    body: str  # 净化后的章节正文（默认阅读返回）
-    body_raw: str = ''  # 原始章节正文（净化前）
+    order_index: int  # 阅读顺序章节编号，从 0 起连续（与解析器内部行键无关）
+    body: str  # 解析入库的正文（批量替换规则请用外部工具如 retree 预处理）
 
     book: Book = Relationship(back_populates='chapters')

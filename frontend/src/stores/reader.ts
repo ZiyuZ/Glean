@@ -10,7 +10,6 @@ export const useReaderStore = defineStore('reader', () => {
   const currentChapterIndex = ref<number | null>(null)
   const currentContent = ref<string>('')
   const loading = ref(false)
-  const sanitizeEnabled = ref(true)
   const contentCache = ref<Map<string, string>>(new Map())
 
   // 当前章节
@@ -37,14 +36,7 @@ export const useReaderStore = defineStore('reader', () => {
   })
 
   function cacheKey(chapterIndex: number): string {
-    return `${chapterIndex}:${sanitizeEnabled.value ? '1' : '0'}`
-  }
-
-  function setSanitizeEnabled(enabled: boolean) {
-    if (sanitizeEnabled.value === enabled)
-      return
-    sanitizeEnabled.value = enabled
-    contentCache.value.clear()
+    return String(chapterIndex)
   }
 
   // 加载书籍和章节列表
@@ -100,7 +92,6 @@ export const useReaderStore = defineStore('reader', () => {
       const content = await api.getChapterContent(
         currentBook.value.id!,
         chapterIndex,
-        sanitizeEnabled.value,
       )
       currentContent.value = content
       contentCache.value.set(key, content)
@@ -135,7 +126,7 @@ export const useReaderStore = defineStore('reader', () => {
         // If not in cache, fetch it
         const key = cacheKey(index)
         if (!contentCache.value.has(key)) {
-          api.getChapterContent(bookId, index, sanitizeEnabled.value)
+          api.getChapterContent(bookId, index)
             .then((content) => {
               contentCache.value.set(key, content)
             })
@@ -149,7 +140,7 @@ export const useReaderStore = defineStore('reader', () => {
     // Prune cache if it gets too big (> 20)
     if (contentCache.value.size > 20) {
       for (const key of contentCache.value.keys()) {
-        const index = Number.parseInt(key.split(':')[0] ?? '-1', 10)
+        const index = Number.parseInt(key, 10)
         if (!Number.isNaN(index) && Math.abs(index - currentIndex) > 10) {
           contentCache.value.delete(key)
         }
@@ -211,13 +202,11 @@ export const useReaderStore = defineStore('reader', () => {
     currentChapterIndex,
     currentContent,
     loading,
-    sanitizeEnabled,
     currentChapter,
     hasPreviousChapter,
     hasNextChapter,
     loadBook,
     loadChapter,
-    setSanitizeEnabled,
     previousChapter,
     nextChapter,
     saveProgress,

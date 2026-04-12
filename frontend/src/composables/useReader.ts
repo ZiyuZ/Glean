@@ -13,7 +13,6 @@ export interface ReaderConfig {
   paddingY: number // 垂直边距
   margin: number // 段落间距（px）
   enableAnimation: boolean // 是否开启翻页动画
-  sanitizeContent: boolean // 是否启用净化内容
 }
 
 const defaultConfig: ReaderConfig = {
@@ -25,7 +24,6 @@ const defaultConfig: ReaderConfig = {
   paddingY: 10,
   margin: 16, // 段落间距
   enableAnimation: true,
-  sanitizeContent: true,
 }
 
 /**
@@ -83,11 +81,6 @@ export function useReaderConfig() {
     set: v => config.value.margin = v,
   })
 
-  const sanitizeContent = computed({
-    get: () => config.value.sanitizeContent ?? true,
-    set: v => config.value.sanitizeContent = v,
-  })
-
   return {
     config,
     fontSize,
@@ -98,6 +91,5 @@ export function useReaderConfig() {
     paddingY,
     margin,
     enableAnimation,
-    sanitizeContent,
   }
 }

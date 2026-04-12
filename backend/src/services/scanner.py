@@ -1,6 +1,7 @@
 """扫描服务：目录扫描和文件处理"""
 
 import asyncio
+from pathlib import Path
 
 from loguru import logger
 from pydantic import BaseModel
@@ -8,9 +9,20 @@ from sqlmodel import Session, select
 from sqlmodel.sql.expression import col
 
 from core.config import settings
+from core.database import engine
 from core.models import Book
 
 from .book_service import create_or_update_book
+
+
+def _ingest_one_file(file_path: Path, books_dir: Path, force_reparse: bool) -> tuple[str, bool]:
+    """
+    在线程池中执行：每个文件使用独立 Session，避免与异步主线程共享 Session（非线程安全），
+    并减少对 API 请求所用连接的锁竞争。
+    """
+    with Session(engine) as session:
+        book, is_new = create_or_update_book(session, file_path, books_dir, force_reparse)
+        return book.hash_id, is_new
 
 
 # 全局扫描状态
@@ -106,19 +118,17 @@ async def scan_directory(session: Session, full_scan: bool = False) -> None:
                             _scan_status.files_scanned += 1
                             continue
 
-                # 处理文件（在后台线程中执行，因为涉及文件 I/O）
-                # 全量扫描时强制重新解析
-                loop = asyncio.get_event_loop()
-                book, is_new = await loop.run_in_executor(
+                # 解析与写库在线程池执行；每文件独立 Session，避免跨线程复用 Session 与长时间锁表
+                loop = asyncio.get_running_loop()
+                hash_id, is_new = await loop.run_in_executor(
                     None,
-                    create_or_update_book,
-                    session,
+                    _ingest_one_file,
                     file_path,
                     books_dir,
-                    full_scan,  # 全量扫描时强制重新解析
+                    full_scan,
                 )
 
-                found_hash_ids.add(book.hash_id)
+                found_hash_ids.add(hash_id)
 
                 if is_new:
                     _scan_status.files_added += 1

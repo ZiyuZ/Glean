@@ -38,22 +38,21 @@ def test_pipeline_chapter_detection_and_repair(tmp_path: Path):
     )
 
     result = parse_book(book_path)
-    # Keys: preamble (-1), 第一章 (line index 0), 第三章 (line index 9); 第二章 误判 因正文过短被并入 preamble
+    # 第二章误判过短，正文并入上一章（第一章），卷前保持空
     assert len(result) == 3
     assert set(result.keys()) == {-1, 0, 9}
     assert result[0].title == '第一章 开场'
-    assert result[0].body_lines[-1].text == 'a5'
-    assert [line.text for line in result[-1].body_lines] == ['短1', '短2']
+    assert [line.text for line in result[0].body_lines] == ['a1', 'a2', 'a3', 'a4', 'a5', '短1', '短2']
+    assert result[-1].body_lines == []
     assert result[9].title == '第三章 正文'
 
 
-def test_pipeline_idempotent_same_input(tmp_path: Path, monkeypatch):
+def test_pipeline_idempotent_same_input(tmp_path: Path):
     book_path = _write_book(
         tmp_path,
         'stable.txt',
         '\n'.join(['第一章', '正文1', '正文2', '正文3', '正文4', '正文5']),
     )
-    monkeypatch.setenv('PARSER_RULES_ENABLED', '0')
     first = parse_book(book_path)
     second = parse_book(book_path)
 

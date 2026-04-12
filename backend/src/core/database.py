@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 from typing import Generator
 
+from sqlalchemy import event
 from sqlmodel import Session, SQLModel, select
 from sqlmodel import create_engine as create_sqlmodel_engine
 
@@ -9,13 +10,31 @@ from .models import Meta
 from .models import __version__ as MODEL_SCHEMA_VERSION
 
 # 创建数据库引擎
-# SQLite 需要 check_same_thread=False 以支持多线程
-# 使用 connect_args 配置 SQLite 连接参数
+# SQLite: check_same_thread=False 允许多线程各自持有 Session；timeout 为忙等秒数（缓解 database is locked）
+_sqlite_connect_args = (
+    {'check_same_thread': False, 'timeout': 30.0}
+    if 'sqlite' in settings.database_url
+    else {}
+)
+
 engine = create_sqlmodel_engine(
     settings.database_url,
-    connect_args={'check_same_thread': False} if 'sqlite' in settings.database_url else {},
+    connect_args=_sqlite_connect_args,
     echo=False,  # 设置为 True 可以打印 SQL 语句（调试用）
 )
+
+
+@event.listens_for(engine, 'connect')
+def _sqlite_wal_on_connect(dbapi_connection, _connection_record) -> None:
+    """WAL 提升读写并发；busy_timeout 与 connect timeout 叠加，降低锁冲突概率。"""
+    if engine.dialect.name != 'sqlite':
+        return
+    cursor = dbapi_connection.cursor()
+    cursor.execute('PRAGMA journal_mode=WAL')
+    cursor.execute('PRAGMA synchronous=NORMAL')
+    cursor.execute('PRAGMA foreign_keys=ON')
+    cursor.execute('PRAGMA busy_timeout=30000')
+    cursor.close()
 
 
 def init_db() -> None:

@@ -7,7 +7,7 @@ from sqlmodel import Session, select
 
 from core.models import Book, Chapter
 
-from .parser import calculate_file_hash, parse_book, sanitize_chapter_body
+from .parser import calculate_file_hash, parse_book
 
 
 def create_or_update_book(
@@ -74,17 +74,15 @@ def create_or_update_book(
         # 解析新章节
         logger.debug(f'Parsing started: "{relative_path}"')
         parse_result = parse_book(file_path)
-        for chapter_no, chapter_data in parse_result.items():
-            raw_body = chapter_data.to_body()
-            sanitized_body, _ = sanitize_chapter_body(raw_body)
-            chapter = Chapter(
-                book_id=book.id,
-                title=chapter_data.title,
-                order_index=chapter_no,
-                body=sanitized_body,
-                body_raw=raw_body,
+        for seq, chapter_data in enumerate(parse_result.values()):
+            session.add(
+                Chapter(
+                    book_id=book.id,
+                    title=chapter_data.title,
+                    order_index=seq,
+                    body=chapter_data.to_body(),
+                ),
             )
-            session.add(chapter)
 
         session.add(book)
         session.commit()
@@ -112,19 +110,17 @@ def create_or_update_book(
         session.add(book)
         session.flush()  # 获取 book.id
 
-        # 创建章节
-        for chapter_no, chapter_data in parse_result.items():
-            assert book.id is not None  # 确保 book 已经有 id
-            raw_body = chapter_data.to_body()
-            sanitized_body, _ = sanitize_chapter_body(raw_body)
-            chapter = Chapter(
-                book_id=book.id,
-                title=chapter_data.title,
-                order_index=chapter_no,
-                body=sanitized_body,
-                body_raw=raw_body,
+        # 创建章节（order_index 为 0..n-1）
+        assert book.id is not None
+        for seq, chapter_data in enumerate(parse_result.values()):
+            session.add(
+                Chapter(
+                    book_id=book.id,
+                    title=chapter_data.title,
+                    order_index=seq,
+                    body=chapter_data.to_body(),
+                ),
             )
-            session.add(chapter)
 
         session.commit()
         session.refresh(book)

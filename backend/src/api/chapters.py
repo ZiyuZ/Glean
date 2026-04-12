@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import PlainTextResponse
 from sqlmodel import Session, col, select
 
@@ -41,14 +41,10 @@ async def list_chapters(
 async def get_chapter_content(
     book_id: int,
     chapter_index: int,
-    sanitize: bool = Query(True, description='是否启用文本净化'),
     session: Session = Depends(get_db_session),
 ) -> PlainTextResponse:
     """
-    获取特定章节的纯文本内容
-
-    直接从数据库读取章节内容
-    返回纯文本格式，前端负责渲染
+    获取特定章节的纯文本内容。
     """
     book = session.get(Book, book_id)
     if not book:
@@ -65,4 +61,4 @@ async def get_chapter_content(
             status_code=404, detail=f'Chapter not found: book_id={book_id}, chapter_index={chapter_index}'
         )
 
-    return PlainTextResponse(chapter.body if sanitize else chapter.body_raw)
+    return PlainTextResponse(chapter.body)

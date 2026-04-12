@@ -47,7 +47,7 @@ def check_book_finished(book: Book, chapters: list[Chapter]) -> bool:
 
     # 如果当前章节是最后一章，检查偏移量
     if book.chapter_index == last_chapter_index:
-        chapter_size = len(last_chapter.body)  # 使用字符长度
+        chapter_size = len(last_chapter.body)
         if book.chapter_offset is not None and chapter_size > 0:
             remaining = chapter_size - book.chapter_offset
             # 判断标准：剩余 < 5% 或 < 200字符（取较大值，适应不同屏幕）
@@ -183,13 +183,14 @@ async def update_progress(
     if not book:
         raise HTTPException(status_code=404, detail='Book not found')
 
+    # 先读出章节再改 book，避免 autoflush 在 SELECT 前抢写锁（SQLite 下易与扫描写入冲突）
+    chapters_stmt = select(Chapter).where(Chapter.book_id == book.id).order_by(col(Chapter.order_index))
+    with session.no_autoflush:
+        chapters = list(session.exec(chapters_stmt).all())
+
     book.chapter_index = request.chapter_index
     book.chapter_offset = request.chapter_offset
     book.last_read_time = time.time()
-
-    # 加载章节数据并检查完成状态
-    chapters_stmt = select(Chapter).where(Chapter.book_id == book.id).order_by(col(Chapter.order_index))
-    chapters = list(session.exec(chapters_stmt).all())
     book.is_finished = check_book_finished(book, chapters)
 
     session.add(book)

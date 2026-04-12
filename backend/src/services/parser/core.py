@@ -3,7 +3,6 @@ from pathlib import Path
 from loguru import logger
 
 from .models import LineRecord, ParsedChapter
-from .rule_engine import engine
 from .utils import clean_html, detect_encoding
 
 
@@ -16,7 +15,7 @@ def _read_file(file_path: Path) -> list[LineRecord]:
         raw_content = file_path.read_text(encoding='gb18030', errors='strict')
 
     content = clean_html(raw_content).replace('\r\n', '\n').replace('\r', '\n')
-    raw_lines = [content for line in content.split('\n') if (content := line.strip())]
+    raw_lines = [c for line in content.split('\n') if (c := line.strip())]
     return [LineRecord(line_no=idx, text=raw_line) for idx, raw_line in enumerate(raw_lines, start=1)]
 
 
@@ -31,7 +30,7 @@ def _build_chapters(
     for i, line in enumerate(lines):
         if line.is_title():
             chapters[i] = ParsedChapter(
-                title=line.sanitized_chapter_title(),
+                title=line.normalized_chapter_title(),
                 body_lines=[],
             )
             current_chapter_key = i
@@ -39,16 +38,20 @@ def _build_chapters(
 
         chapters[current_chapter_key].body_lines.append(line)
 
-    short_chapter_keys: list[int] = []
-    for i, chapter in chapters.items():
-        if i == -1:
+    # 短章并进「上一章」：沿标题行下标走一遍，用 last_anchor 记住上一段非短章（初始为卷前 -1）
+    last_anchor = -1
+    to_remove: list[int] = []
+    for k in sorted(chapters.keys()):
+        if k == -1:
             continue
-        if len(chapter.body_lines) < min_lines_for_real_chapter:
-            short_chapter_keys.append(i)
-
-    for chapter_key in short_chapter_keys:
-        merged_chapter = chapters.pop(chapter_key)
-        chapters[-1].body_lines.extend(merged_chapter.body_lines)
+        ch = chapters[k]
+        if len(ch.body_lines) < min_lines_for_real_chapter:
+            chapters[last_anchor].body_lines.extend(ch.body_lines)
+            to_remove.append(k)
+        else:
+            last_anchor = k
+    for k in to_remove:
+        del chapters[k]
 
     return chapters
 
@@ -68,12 +71,3 @@ def parse_book(file_path: Path) -> dict[int, ParsedChapter]:
 
     logger.info(f'Parser summary | file={file_path.name} | lines={len(lines)}')
     return chapters
-
-
-def sanitize_chapter_body(body: str) -> tuple[str, int]:
-    """Apply parser rules to chapter body."""
-    paragraphs = [segment.strip() for segment in body.split('\n\n') if segment.strip()]
-    lines = [LineRecord(line_no=idx, text=text) for idx, text in enumerate(paragraphs, start=1)]
-    chapters = {0: ParsedChapter(title='runtime', body_lines=lines)}
-    rule_hits = engine.apply(chapters)
-    return chapters[0].to_body(), rule_hits
