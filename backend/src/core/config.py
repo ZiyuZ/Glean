@@ -25,9 +25,9 @@ def _get_version() -> str:
     """获取项目版本"""
     try:
         root = _get_project_root()
-        pyproject_path = root / 'backend' / 'pyproject.toml'  # 开发环境
+        pyproject_path = root / 'pyproject.toml'  # 容器内
         if not pyproject_path.exists():
-            pyproject_path = root / 'pyproject.toml'  # 容器内
+            pyproject_path = root / 'backend' / 'pyproject.toml'  # 开发环境
             if not pyproject_path.exists():
                 raise FileNotFoundError('Cannot find pyproject.toml')
         data = tomllib.loads(pyproject_path.read_text())
