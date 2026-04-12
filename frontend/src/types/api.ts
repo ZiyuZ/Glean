@@ -53,6 +53,8 @@ export interface ScanStatusResponse {
   total_files: number
   current_file: string
   error: string | null
+  is_clearing: boolean
+  clear_error: string | null
 }
 
 /**

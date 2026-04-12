@@ -38,13 +38,14 @@ def test_pipeline_chapter_detection_and_repair(tmp_path: Path):
     )
 
     result = parse_book(book_path)
-    # 第二章误判过短，正文并入上一章（第一章），卷前保持空
+    # 第二章过短，正文并入上一章（第一章），卷前保持空
     assert len(result) == 3
-    assert set(result.keys()) == {-1, 0, 9}
-    assert result[0].title == '第一章 开场'
-    assert [line.text for line in result[0].body_lines] == ['a1', 'a2', 'a3', 'a4', 'a5', '短1', '短2']
-    assert result[-1].body_lines == []
-    assert result[9].title == '第三章 正文'
+    assert result[0].title == 'pipeline'
+    assert result[0].body_lines == []
+    assert result[1].title == '第一章 开场'
+    assert result[1].to_body() == 'a1a2a3a4a5短1短2'
+    assert result[2].title == '第三章 正文'
+    assert result[2].to_body() == 'b1b2b3b4b5'
 
 
 def test_pipeline_idempotent_same_input(tmp_path: Path):
@@ -56,7 +57,7 @@ def test_pipeline_idempotent_same_input(tmp_path: Path):
     first = parse_book(book_path)
     second = parse_book(book_path)
 
-    first_text = {k: [line.text for line in ch.body_lines] for k, ch in first.items()}
-    second_text = {k: [line.text for line in ch.body_lines] for k, ch in second.items()}
-    assert [ch.title for ch in first.values()] == [ch.title for ch in second.values()]
+    first_text = [ch.to_body() for ch in first]
+    second_text = [ch.to_body() for ch in second]
+    assert [ch.title for ch in first] == [ch.title for ch in second]
     assert first_text == second_text

@@ -5,7 +5,14 @@ from sqlmodel import delete
 from core.database import get_session
 from core.models import Book, Chapter
 from core.schemas import MessageResponse, ScanResponse
-from services.scanner import ScanStatus, get_scan_status, scan_directory, stop_scan
+from services.scanner import (
+    ScanStatus,
+    begin_clear_database,
+    end_clear_database,
+    get_scan_status,
+    scan_directory,
+    stop_scan,
+)
 
 router = APIRouter()
 
@@ -17,6 +24,19 @@ async def scan_task(full_scan: bool) -> None:
             await scan_directory(session, full_scan=full_scan)
     except Exception as e:
         logger.exception('Unhandled exception in background scan task: ', e)
+
+
+def clear_database_job() -> None:
+    """后台线程中执行清空（避免长时间阻塞 HTTP 请求）"""
+    try:
+        with get_session() as session:
+            session.exec(delete(Chapter))
+            session.exec(delete(Book))
+    except Exception as e:
+        logger.exception('Clear database failed')
+        end_clear_database(error=str(e))
+    else:
+        end_clear_database()
 
 
 @router.post('')
@@ -38,6 +58,8 @@ async def trigger_scan(
     注意：扫描在后台异步执行，可通过 GET /api/scan/status 查询进度
     """
     status = get_scan_status()
+    if status.is_clearing:
+        raise HTTPException(status_code=409, detail='正在清空数据库，请稍候再扫描')
     if status.is_running:
         raise HTTPException(status_code=409, detail='扫描任务已在运行中')
     logger.info('Starting scan...')
@@ -72,20 +94,20 @@ async def stop_scanning() -> MessageResponse:
 
 
 @router.post('/clear')
-async def clear_database() -> MessageResponse:
+async def clear_database(background_tasks: BackgroundTasks) -> MessageResponse:
     """
-    清空数据库
+    清空数据库（后台执行，立即返回；通过 GET /api/scan/status 的 is_clearing 轮询进度）
 
     警告：这将删除所有书籍、章节和阅读进度！
     """
-    logger.warning('Clearing database...')
     status = get_scan_status()
     if status.is_running:
         raise HTTPException(status_code=409, detail='扫描正在运行中，无法清空数据库')
+    if status.is_clearing:
+        raise HTTPException(status_code=409, detail='清空任务正在进行中')
 
-    with get_session() as session:
-        session.exec(delete(Chapter))
-        session.exec(delete(Book))
-        session.commit()
+    logger.warning('Scheduling database clear in background...')
+    begin_clear_database()
+    background_tasks.add_task(clear_database_job)
 
-    return MessageResponse(message='数据库已清空')
+    return MessageResponse(message='清空任务已启动，正在后台执行')

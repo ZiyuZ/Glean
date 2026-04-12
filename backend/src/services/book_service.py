@@ -74,7 +74,7 @@ def create_or_update_book(
         # 解析新章节
         logger.debug(f'Parsing started: "{relative_path}"')
         parse_result = parse_book(file_path)
-        for seq, chapter_data in enumerate(parse_result.values()):
+        for seq, chapter_data in enumerate(parse_result):
             session.add(
                 Chapter(
                     book_id=book.id,
@@ -112,7 +112,7 @@ def create_or_update_book(
 
         # 创建章节（order_index 为 0..n-1）
         assert book.id is not None
-        for seq, chapter_data in enumerate(parse_result.values()):
+        for seq, chapter_data in enumerate(parse_result):
             session.add(
                 Chapter(
                     book_id=book.id,

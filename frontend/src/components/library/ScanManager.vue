@@ -16,6 +16,7 @@ const emit = defineEmits<{
 
 const scanStatus = ref<any>(null)
 const scanning = ref(false)
+const clearing = ref(false)
 const isClearModalOpen = ref(false)
 const systemVersion = ref<{ app_version: string, database_version: string } | null>(null)
 const swInfo = ref<{
@@ -181,16 +182,45 @@ async function stopScan() {
   }
 }
 
+async function waitClearUntilFinished() {
+  while (clearing.value) {
+    try {
+      scanStatus.value = await api.getScanStatus()
+    }
+    catch (err) {
+      console.error('Failed to poll clear status:', err)
+      await new Promise(resolve => setTimeout(resolve, 500))
+      continue
+    }
+    if (!scanStatus.value?.is_clearing) {
+      if (scanStatus.value?.clear_error) {
+        toast.error(`清空失败：${scanStatus.value.clear_error}`)
+      }
+      else {
+        toast.success('数据库已清空')
+        emit('scanFinished')
+      }
+      clearing.value = false
+      break
+    }
+    await new Promise(resolve => setTimeout(resolve, 500))
+  }
+}
+
 async function clearDatabase() {
   isClearModalOpen.value = false
   try {
     await api.clearDatabase()
-    await checkScanStatus()
-    emit('scanFinished')
+    clearing.value = true
+    toast.info('正在清空数据库，请稍候…')
+    await waitClearUntilFinished()
   }
   catch (err) {
     console.error('Failed to clear database:', err)
     toast.error('清空数据库失败')
+  }
+  finally {
+    clearing.value = false
   }
 }
 
@@ -232,13 +262,13 @@ onUnmounted(() => {
     <div class="space-y-4">
       <!-- Scan Controls -->
       <div class="space-y-3">
-        <button :disabled="scanning || scanStatus?.is_running"
+        <button :disabled="scanning || clearing || scanStatus?.is_running || scanStatus?.is_clearing"
           class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
           @click="triggerScan(false)">
           {{ scanStatus?.is_running ? '扫描中...' : '增量扫描' }}
         </button>
 
-        <button v-if="!scanStatus?.is_running" :disabled="scanning"
+        <button v-if="!scanStatus?.is_running" :disabled="scanning || clearing || scanStatus?.is_clearing"
           class="w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-xl font-medium transition-colors"
           @click="triggerScan(true)">
           全量扫描
@@ -253,6 +283,10 @@ onUnmounted(() => {
         <!-- Status -->
         <div v-if="scanStatus"
           class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-3 text-sm text-gray-600 dark:text-gray-400 space-y-1">
+          <div v-if="scanStatus.is_clearing"
+            class="text-amber-600 dark:text-amber-400 font-medium pb-2 border-b border-amber-200/60 dark:border-amber-900/40">
+            正在清空数据库…
+          </div>
           <div class="flex justify-between">
             <span>已扫描:</span>
             <span class="font-medium text-gray-900 dark:text-gray-200">{{ scanStatus.files_scanned }}</span>
@@ -275,10 +309,10 @@ onUnmounted(() => {
 
         <!-- Danger Zone -->
         <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <button :disabled="scanning || scanStatus?.is_running"
+          <button :disabled="scanning || clearing || scanStatus?.is_running || scanStatus?.is_clearing"
             class="w-full py-3 px-4 bg-red-50 hover:bg-red-100 dark:bg-red-900/10 dark:hover:bg-red-900/20 disabled:opacity-50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 rounded-xl font-medium transition-colors"
             @click="isClearModalOpen = true">
-            清空数据库
+            {{ scanStatus?.is_clearing ? '清空中…' : '清空数据库' }}
           </button>
           <p class="text-xs text-gray-500 mt-2 text-center">
             这将删除所有书籍和更读进度，但不会删除物理文件。

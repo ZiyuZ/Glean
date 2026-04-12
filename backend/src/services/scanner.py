@@ -34,6 +34,8 @@ class ScanStatus(BaseModel):
     total_files: int
     current_file: str
     error: str | None
+    is_clearing: bool = False
+    clear_error: str | None = None
 
 
 _scan_status = ScanStatus(
@@ -44,12 +46,24 @@ _scan_status = ScanStatus(
     total_files=0,
     current_file='',
     error=None,
+    is_clearing=False,
+    clear_error=None,
 )
 
 
 def get_scan_status() -> ScanStatus:
     """获取当前扫描状态"""
     return _scan_status
+
+
+def begin_clear_database() -> None:
+    _scan_status.is_clearing = True
+    _scan_status.clear_error = None
+
+
+def end_clear_database(error: str | None = None) -> None:
+    _scan_status.clear_error = error
+    _scan_status.is_clearing = False
 
 
 def reset_scan_status() -> None:
