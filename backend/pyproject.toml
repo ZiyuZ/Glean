@@ -1,49 +1,35 @@
 [project]
 name = "glean"
-version = "1.0.0"
+version = "1.0.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "ahocorasick-rs>=1.0.3",
-    "chardet>=5.2.0",
-    "fastapi[standard-no-fastapi-cloud-cli]>=0.128.0",
-    "loguru>=0.7.3",
-    "opencc-purepy>=1.1.0",
-    "pydantic-settings>=2.0.0",
-    "pyjwt>=2.10.1",
-    "regex>=2026.4.4",
-    "sqlmodel>=0.0.31",
+  "chardet>=5.2.0",
+  "fastapi[standard-no-fastapi-cloud-cli]>=0.128.0",
+  "loguru>=0.7.3",
+  "opencc-purepy>=1.1.0",
+  "pyahocorasick>=2.3.0",
+  "pydantic-settings>=2.0.0",
+  "pyjwt>=2.10.1",
+  "regex>=2026.4.4",
+  "sqlmodel>=0.0.31",
 ]
 
-[tool.ruff]
-src = ["src", 'app.py']
-line-length = 110
-exclude = ['.venv', 'ui']
-
-[tool.ruff.lint]
-select = ['E', 'F', 'W', 'A', 'PLC', 'PLE', 'PLW', 'I']
-
-[tool.ruff.lint.per-file-ignores]
-'__init__.py' = ['E402']
-'**/{tests,docs,tools}/*' = ['E402']
-'**/*.ipynb' = ['F401']
-
-[tool.ruff.format]
-quote-style = 'single'
-
+[dependency-groups]
+dev = ["pytest>=9.0.2"]
 
 [tool.basedpyright]
-include = ['src/**/*.py']
+include = ["src/**/*.py"]
 exclude = [
-    '**/node_modules',
-    '**/__pycache__',
-    'src/experimental',
-    'src/typestubs',
+  "**/node_modules",
+  "**/__pycache__",
+  "src/experimental",
+  "src/typestubs",
 ]
-ignore = ['.venv/', 'typings/', 'archive/']
+ignore = [".venv/", "typings/", "archive/"]
 defineConstant = { DEBUG = true }
-stubPath = 'typings/'
+stubPath = "typings/"
 
 reportCallIssue = false
 reportExplicitAny = false
@@ -60,5 +46,18 @@ reportUnknownArgumentType = false
 reportPrivateImportUsage = false
 reportUnusedImport = false
 
-[dependency-groups]
-dev = ["pytest>=9.0.2"]
+[tool.ruff]
+src = ["src", "app.py"]
+line-length = 110
+exclude = [".venv", "ui"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "A", "PLC", "PLE", "PLW", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+'__init__.py' = ["E402"]
+'**/{tests,docs,tools}/*' = ["E402"]
+'**/*.ipynb' = ["F401"]
+
+[tool.ruff.format]
+quote-style = "single"

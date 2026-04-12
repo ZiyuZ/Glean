@@ -3,24 +3,6 @@ revision = 3
 requires-python = ">=3.14"
 
 [[package]]
-name = "ahocorasick-rs"
-version = "1.0.3"
-source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/a5/40/691cb92a7053a01f5bd3fb1242a6bf876252cd05630eb3abddedec68e898/ahocorasick_rs-1.0.3.tar.gz", hash = "sha256:579d37070a7c21da9cd9988b9fb471297273b60cb4126586d6dcd99faafc5ca5", size = 103231, upload-time = "2025-10-08T15:39:30.049Z" }
-wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/03/ce/2d1c577eef3b9b5c2829fa23cd60649b9141c6fe59f1e038df754073fa14/ahocorasick_rs-1.0.3-cp314-cp314-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:06046d2aa4e0b15fb7aaefd7e26246d819c72ca7418ec3a6f98239f6a09ef462", size = 703263, upload-time = "2025-10-08T15:39:15.325Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/53/16/1115465e857c5dde793915b16de8e4ff96e64e09c8feec297033930edf23/ahocorasick_rs-1.0.3-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:071bf6929795a22454aeffbf6261076e0dd4a8f449e2fafe1faa19846056d3e7", size = 380789, upload-time = "2025-10-08T15:39:16.594Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/67/1a/2dd77a49fdd0af17606a0746c77ad3bed6b62735d6334a18f17800b510e3/ahocorasick_rs-1.0.3-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9ea87a5daef701586fcb20835a001659240f5bff637408209db5d9d09378b6f6", size = 359764, upload-time = "2025-10-08T15:39:17.908Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/f4/ae/7831249077e953e6daffb1c032281550d30de62e537b7e25db2e1645c181/ahocorasick_rs-1.0.3-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9c7b53e81c875551ae491206ece0f11b8c1bc7a1f45975c9674e0e216d35e4cf", size = 396496, upload-time = "2025-10-08T15:39:19.658Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/55/54/de5c3ceffb9977550db263ee1058dde94efb09ba416db1b3c8294c2d0f04/ahocorasick_rs-1.0.3-cp314-cp314-win_amd64.whl", hash = "sha256:8c5266fbc53efb9672e58ec5605faa1e13439a8d7f66333f92621b8a89739871", size = 269623, upload-time = "2025-10-08T15:39:21.697Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/bb/68/776d3eff744033af867d799876f1ec1abad8f388f011bc20c0aaed422a32/ahocorasick_rs-1.0.3-cp314-cp314t-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:bc8267a6dd67f10dfa30f0d87ec161b4b319383b6c0ddb0b56395160d6d8ec09", size = 701959, upload-time = "2025-10-08T15:39:23.123Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/46/9d/809ac0764db44e57e8cf32fb386588defed374c909c426a0fac5c875cb16/ahocorasick_rs-1.0.3-cp314-cp314t-macosx_10_12_x86_64.whl", hash = "sha256:ea296b40a730d85b13d20cf59a59eefcfdbf0a3b921743bba6578127dba68903", size = 380365, upload-time = "2025-10-08T15:39:24.614Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/78/86/259c861dc6d8d3d80a6a57828a71d2184cbf3ffcc9f8a8aee0e5d3695d12/ahocorasick_rs-1.0.3-cp314-cp314t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a9f5b78d608098ff51a567941c8bf3c0d511643bf102c72ef9b1aad88679817d", size = 358726, upload-time = "2025-10-08T15:39:25.895Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c8/16/35e85fec4c08c1af374469ab878208417a60feb904161e77544bd19a46cf/ahocorasick_rs-1.0.3-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b995ab3426f4835a9afc2145990e8234ec93e09d81557c1525bd33d55891665b", size = 396144, upload-time = "2025-10-08T15:39:27.246Z" },
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/2d/df/6d1e865db65e928ebb525f728e062e53bcdd8b8ebde64ce17f6c3db7ebfd/ahocorasick_rs-1.0.3-cp314-cp314t-win_amd64.whl", hash = "sha256:c1ba1ade1e260c5b6772f7f3857dabaf78bd44813c71923cbb4b00b82e50b7a1", size = 268606, upload-time = "2025-10-08T15:39:28.583Z" },
-]
-
-[[package]]
 name = "annotated-doc"
 version = "0.0.4"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -166,14 +148,14 @@ standard-no-fastapi-cloud-cli = [
 
 [[package]]
 name = "glean"
-version = "1.0.0"
+version = "1.0.1"
 source = { virtual = "." }
 dependencies = [
-    { name = "ahocorasick-rs" },
     { name = "chardet" },
     { name = "fastapi", extra = ["standard-no-fastapi-cloud-cli"] },
     { name = "loguru" },
     { name = "opencc-purepy" },
+    { name = "pyahocorasick" },
     { name = "pydantic-settings" },
     { name = "pyjwt" },
     { name = "regex" },
@@ -187,11 +169,11 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "ahocorasick-rs", specifier = ">=1.0.3" },
     { name = "chardet", specifier = ">=5.2.0" },
     { name = "fastapi", extras = ["standard-no-fastapi-cloud-cli"], specifier = ">=0.128.0" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "opencc-purepy", specifier = ">=1.1.0" },
+    { name = "pyahocorasick", specifier = ">=2.3.0" },
     { name = "pydantic-settings", specifier = ">=2.0.0" },
     { name = "pyjwt", specifier = ">=2.10.1" },
     { name = "regex", specifier = ">=2026.4.4" },
@@ -398,6 +380,19 @@ wheels = [
 ]
 
 [[package]]
+name = "pyahocorasick"
+version = "2.3.0"
+source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/ad/eb/6bf175a745bdb3b247c0f8bff784745f0b30fdfafb5760d635b45d91c607/pyahocorasick-2.3.0.tar.gz", hash = "sha256:2960f5838bbcca4d7765c40478ec56f938e3f161946ff84f00c06d2b3a0ba9dd", size = 104589, upload-time = "2025-12-17T13:02:28.951Z" }
+wheels = [
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/bf/d9/8b4dbe51c0225122eb367a7e0b042111dbc02092abf6fd644ba42e632973/pyahocorasick-2.3.0-cp314-cp314-macosx_10_15_universal2.whl", hash = "sha256:d4cca977f05a18c926a1d0dca05916825dd8923100e47e44d0735d8a949cc9d4", size = 60048, upload-time = "2025-12-17T13:02:21.795Z" },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/0d/d1/e9ec411993665eca477d4228e6e4a3a1f9737f971814911a2f149fd3778f/pyahocorasick-2.3.0-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:cc53e4fe83fae539ceae2252e289fe0875db6aec12d07444368903e4dd074291", size = 34114, upload-time = "2025-12-17T13:02:23.232Z" },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/3b/27/fc534a12b7bf7f383e3f03442e02a3364b94cacedd8ef18ca1d86c829bbd/pyahocorasick-2.3.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:f0326076ee2049822ca434529baf2c0b0d31886892d4ebfcfa5f0f64d307c6f0", size = 114567, upload-time = "2025-12-17T13:02:25.036Z" },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/d6/02/1ab239ebaa20027ccc5be7e56a815c35a944dfd9b27758eb825ba060ec4a/pyahocorasick-2.3.0-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:9dee08a895eaa39712b65d2efe88b8aa642e07c1bd621a8f9056beb7001f1539", size = 117867, upload-time = "2025-12-17T13:02:26.452Z" },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/6a/fc/81b8a915762bdbd6e1d4582e186ec4bdb7fa60998f83d3a81bff3a5d9e89/pyahocorasick-2.3.0-cp314-cp314-win_amd64.whl", hash = "sha256:0c6d9379ddf58cad4abd661795b4b975ba9b542227e78de6ded80757c3ac599d", size = 35985, upload-time = "2025-12-17T13:02:27.84Z" },
+]
+
+[[package]]
 name = "pydantic"
 version = "2.12.5"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
@@ -598,15 +593,15 @@ wheels = [
 
 [[package]]
 name = "rich"
-version = "14.3.3"
+version = "15.0.0"
 source = { registry = "https://pypi.tuna.tsinghua.edu.cn/simple" }
 dependencies = [
     { name = "markdown-it-py" },
     { name = "pygments" },
 ]
-sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/b3/c6/f3b320c27991c46f43ee9d856302c70dc2d0fb2dba4842ff739d5f46b393/rich-14.3.3.tar.gz", hash = "sha256:b8daa0b9e4eef54dd8cf7c86c03713f53241884e814f4e2f5fb342fe520f639b", size = 230582, upload-time = "2026-02-19T17:23:12.474Z" }
+sdist = { url = "https://pypi.tuna.tsinghua.edu.cn/packages/c0/8f/0722ca900cc807c13a6a0c696dacf35430f72e0ec571c4275d2371fca3e9/rich-15.0.0.tar.gz", hash = "sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36", size = 230680, upload-time = "2026-04-12T08:24:00.75Z" }
 wheels = [
-    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/14/25/b208c5683343959b670dc001595f2f3737e051da617f66c31f7c4fa93abc/rich-14.3.3-py3-none-any.whl", hash = "sha256:793431c1f8619afa7d3b52b2cdec859562b950ea0d4b6b505397612db8d5362d", size = 310458, upload-time = "2026-02-19T17:23:13.732Z" },
+    { url = "https://pypi.tuna.tsinghua.edu.cn/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl", hash = "sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb", size = 310654, upload-time = "2026-04-12T08:24:02.83Z" },
 ]
 
 [[package]]

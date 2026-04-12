@@ -61,6 +61,9 @@ def parse_book(file_path: Path) -> dict[int, ParsedChapter]:
     3) 构建章节并修复异常短章节
     """
     lines = _read_file(file_path)
+    if not lines:
+        raise ValueError('No content in file')
+
     chapters = _build_chapters(lines, file_path)
 
     logger.info(f'Parser summary | file={file_path.name} | lines={len(lines)}')

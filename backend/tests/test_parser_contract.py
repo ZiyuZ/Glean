@@ -22,9 +22,17 @@ def test_parse_book_returns_parse_result(tmp_path: Path):
     )
     result = parse_book(book_path)
 
-    assert result.chapters
-    assert result.stats.total_lines > 0
-    assert any(chapter.title == '第一章 开始' for chapter in result.chapters)
+    assert isinstance(result, dict)
+    assert result
+    assert 0 in result
+    assert result[0].title == '第一章 开始'
+    assert [line.text for line in result[0].body_lines] == [
+        '正文1',
+        '正文2',
+        '正文3',
+        '正文4',
+        '正文5',
+    ]
 
 
 def test_parse_book_empty_file_raises(tmp_path: Path):

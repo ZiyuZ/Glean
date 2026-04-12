@@ -3,10 +3,10 @@ from pathlib import Path
 from typing import Protocol, cast
 
 import regex
-from ahocorasick_rs import AhoCorasick
 from loguru import logger
 from pydantic import BaseModel, Field, field_validator
 
+from .aho_corasick import AhoCorasick
 from .models import LineRecord, ParsedChapter
 
 
@@ -78,15 +78,18 @@ class RuleFile(BaseModel):
 
 
 class LiteralPatternMatcher:
-    """Wrapper over ahocorasick_rs for literal (non-regex) rules."""
+    """Literal (non-regex) rules via in-tree Aho–Corasick."""
 
     def __init__(self, rules: list[RuleDefinition], debug: bool = False):
         self.debug = debug
         self._rules = rules
-        self._automaton = AhoCorasick([rule.pattern for rule in rules if rule.pattern])
+        literal_patterns = [rule.pattern for rule in rules if rule.pattern]
+        self._matcher = AhoCorasick(literal_patterns) if literal_patterns else None
 
     def matched_patterns(self, text: str) -> set[str]:
-        return set(self._automaton.find_matches_as_strings(text))
+        if self._matcher is None:
+            return set()
+        return self._matcher.find_matches_as_strings(text)
 
     def apply_rules(self, line: LineRecord) -> tuple[str, int]:
         hits = 0
