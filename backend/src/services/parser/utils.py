@@ -3,7 +3,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import override
 
-from chardet import detect
+from charset_normalizer import from_path
 from loguru import logger
 
 
@@ -13,23 +13,12 @@ def detect_encoding(file_path: Path) -> str:
 
     使用 chardet 检测文件编码
     返回编码名称（如 'utf-8', 'gb18030'）
-
-    注意：charset-normalizer 在某些文件上可能返回 None，因此使用 chardet
     """
-    # 读取前 1024 字节进行检测（对于大文件更高效）
-    with open(file_path, 'rb') as f:
-        sample = f.read(1024)
-
-    result = detect(sample)
-    encoding = result.get('encoding', None)
-    # 如果检测失败，默认使用 gb18030（常见的中文编码）
-    if not encoding:
+    result = from_path(file_path).best()
+    if result is None:
         logger.warning(f'Failed to detect encoding for {file_path}, using default encoding gb18030')
-        encoding = 'gb18030'
-    # 统一处理 GB2312 -> GB18030
-    if encoding.lower() == 'gb2312':
-        encoding = 'gb18030'
-    return encoding.lower()
+        return 'gb18030'
+    return result.encoding
 
 
 def calculate_file_hash(file_path: Path) -> str:
