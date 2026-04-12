@@ -122,7 +122,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Toaster position="bottom-center" />
+  <Toaster
+    position="bottom-center"
+    :offset="{ bottom: 'calc(4rem + env(safe-area-inset-bottom, 0px) + 12px)' }"
+    :mobile-offset="{ bottom: 'calc(4rem + 12px)' }"
+  />
   <div
     class="fixed inset-0 w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="flex-1 min-h-0 w-full relative">
