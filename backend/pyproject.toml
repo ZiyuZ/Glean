@@ -53,9 +53,9 @@ exclude = [".venv", "ui"]
 select = ["E", "F", "W", "A", "PLC", "PLE", "PLW", "I"]
 
 [tool.ruff.lint.per-file-ignores]
-'__init__.py' = ["E402"]
-'**/{tests,docs,tools}/*' = ["E402"]
-'**/*.ipynb' = ["F401"]
+"__init__.py" = ["E402"]
+"**/{tests,docs,tools}/*" = ["E402"]
+"**/*.ipynb" = ["F401"]
 
 [tool.ruff.format]
 quote-style = "single"
